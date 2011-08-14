@@ -15,10 +15,10 @@ Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Prog
 Falls nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
-public class VirtualWarehouseManagement
+public class VirtualProcessManagement
 {
 
-	public VirtualWarehouseManagement()
+	public VirtualProcessManagement()
 	{
 		System.out.println("CPU-Cores: "+ Runtime.getRuntime().availableProcessors() );
 		
@@ -30,7 +30,7 @@ public class VirtualWarehouseManagement
 	 */
 	public static void main(String[] args)
 	{	
-		new VirtualWarehouseManagement();
+		new VirtualProcessManagement();
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.virtualprocessmanagement.server;
+package de.virtualprocessmanagement.visu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.server.Server;
 
 /**
  * The Server ist based on the Webserver coded by "Jon Berg"
@@ -36,23 +37,23 @@ import de.virtualprocessmanagement.interfaces.Message;
 
 //file: webserver_starter.java
 //declare a class wich inherit JFrame
-public class WebserverGui extends JFrame implements WindowListener, Message, ActionListener {
+public class VisualisationGui extends JFrame implements WindowListener, Message, ActionListener {
 	
 	static Integer listen_port = null;
 
-	private HTTPServer server = null;
+//	private HTTPServer server = null;
 	
-	private ServerClientConnectionLayer simulationController = null;
+//	private ServerClientConnectionLayer serverClientConnector = null;
 
 	   //declare some panel, scrollpanel, textarea for gui
-	JPanel jPanel1 = new JPanel();
-	JScrollPane jScrollPane1 = new JScrollPane();
-	JTextArea jTextArea2 = new JTextArea();
+	private JPanel jPanel1 = new JPanel();
+	private JScrollPane jScrollPane1 = new JScrollPane();
+	private JTextArea jTextArea2 = new JTextArea();
+	
+	private ReadServerData readServerData = null;
 	
 	//basic class constructor
-	public WebserverGui(ServerClientConnectionLayer simulationController) {
-	  
-		this.simulationController = simulationController;
+	public VisualisationGui() {
 		
 		listen_port = new Integer(80);
 
@@ -65,10 +66,8 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 	}
   
 	//basic class constructor
-	public WebserverGui(String arg, ServerClientConnectionLayer simulationController) {
+	public VisualisationGui(String arg) {
 	  
-		this.simulationController = simulationController;
-		
 		try {
 			listen_port = new Integer(arg);
 			//catch parse error
@@ -88,6 +87,8 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 	//set up the user interface
 	private void jbInit() throws Exception {
 	  
+		readServerData = new ReadServerData(this);
+		
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
 		//oh the pretty colors
@@ -98,7 +99,7 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		jTextArea2.setEditable(false);
 
 		//change this to impress your friends
-		this.setTitle("Server");
+		this.setTitle("Visualisation");
 
 		this.addWindowListener(this);
 
@@ -116,11 +117,6 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		
 		//make sure it is drawn
 		this.validate();
-		
-		//create the actual serverstuff,
-		//all that is implemented in another class
-		server = new Server(listen_port.intValue(), this);
-		server.setSimulationController(simulationController);
 	}
 
 	//this is a method to get messages from the actual
@@ -130,19 +126,16 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
 	}
 	
-	public HTTPServer getServer() {
-		return server;
+	public ReadServerData getReadServerData() {
+		return readServerData;
 	}
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
 		  
-//		  System.out.println("Server beenden!");
+		  System.out.println("Visu-Client beenden!");
 		  
-		  try { server.getServersocket().close(); }
-		  catch (IOException e) { e.printStackTrace(); }
-		  
-		  server.interrupt();
+		  readServerData.setRunMode(false);
 	}
 	
 	@Override
@@ -164,12 +157,12 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		jTextArea2.setText("<VirtualProcessManagement-Server>\n<Type http://localhost/test.txt in browser to test>\n\n");
+		jTextArea2.setText("<VirtualProcessManagement-Client>\n<Type http://localhost/test.txt in browser to test>\n\n");
 	}
 	
-	public void setSimulationController( ServerClientConnectionLayer simulationController) {
-		this.simulationController = simulationController;
-	}
+//	public void setSimulationController( ServerClientConnectionLayer simulationController) {
+//		this.serverClientConnector = simulationController;
+//	}
 	
 	//the JavaAPI entry point
 	//where it starts this class if run
@@ -184,7 +177,7 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 			listen_port = new Integer(80);
 		}
 		//create an instance of this class
-		WebserverGui webserver = new WebserverGui(new ServerClientConnectionLayer());
+		VisualisationGui visu = new VisualisationGui();
 	}
 
 

@@ -65,7 +65,6 @@ public class ClientConnector extends Thread implements HTTPClient {
 		this.sleepTime = sleepTime;
 	}
 
-
 	/**
 	 * Setzt den Text fuer die naechste Serveranfrage 
 	 */

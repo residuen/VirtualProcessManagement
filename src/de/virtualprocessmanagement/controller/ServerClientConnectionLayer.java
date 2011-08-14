@@ -24,7 +24,10 @@ public class ServerClientConnectionLayer {
 		
 		System.out.println("ServerClientConnectionLayer: Request from Client:"+text);
 		
-		client.dataRequestEvent(text);
+		if(text.contains("visu?getobjects"))
+			server.sendResponseText("Grafische Informationen ueber Prozessobjekte\n", output);
+		else
+			client.dataRequestEvent(text);
 	}
 
 	public void clientResponse(String text) {

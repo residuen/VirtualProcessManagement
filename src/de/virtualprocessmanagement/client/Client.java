@@ -8,7 +8,7 @@ import de.virtualprocessmanagement.connection.ClientConnector;
  *
  */
 public class Client extends ClientConnector {
-	
+
 	@Override
 	public void dataRequestEvent(String data) {
 		
@@ -18,7 +18,6 @@ public class Client extends ClientConnector {
 		sendNextRequest("http://localhost/test.text?anhang=infotainment&"+(int)(Math.random()*100));
 	}
 
-	
 	public static void main(String[] arg0)
 	{
 		new Client().start();

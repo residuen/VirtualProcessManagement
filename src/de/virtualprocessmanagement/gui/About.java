@@ -30,7 +30,7 @@ public class About extends JFrame
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14)); 	// Monospace-Font setzen
 		
-		string.append("\n VirtualWarehouseManagement: Ein virtuelles Logistik-Zentrum\n");
+		string.append("\n VirtualProcessManagement: Ein virtuelles Prozessleit-System\n");
 		string.append("\n Version: 0.1 beta\n");
 		string.append(" (c) Copyright K. Bettray 2011. All rights reserved.\n");
 		string.append(" Lizenz: GPL 3.0 (http://www.gnu.de/documents/gpl.de.html)\n");

@@ -21,25 +21,25 @@ public class IconMenuPanel extends JPanel {
 	private HashMap<String, Component> inputComponents = new HashMap<String,Component>();
 	
 
-	public IconMenuPanel() // ContentPanel contentPanel)
+	public IconMenuPanel()
 	{
-		initPanel(); //contentPanel);
+		initPanel();
 	}
 
-	private void initPanel() //ContentPanel contentPanel)
+	private void initPanel()
 	{
 		setBackground(new Color(215, 215, 215));
 
 		System.out.println("TEST");
 		
 		MenuListener menuListener = new MenuListener(inputComponents);
-		
-//		IconMenuListener iconMenuListener = new IconMenuListener(contentPanel);
+
 		Box vBox = Box.createVerticalBox();
 		Dimension dim = new Dimension(100, 80);
 		JPanel panel = null;
 		Font font = new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12);
 
+		// Laden einer Prozess-Anlage
 		panel = new JPanel(new GridLayout(1, 1));
 		JButton button = new JButton("<html>load<br/>warehouse</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/drive-harddisk.png")));
@@ -56,6 +56,7 @@ public class IconMenuPanel extends JPanel {
 		vBox.add(panel);
 		vBox.add(Box.createVerticalStrut(5));
 		
+		// Starten des COM-Servers
 		panel = new JPanel(new GridLayout(1, 1));
 		button = new JButton("<html>start<br/>server</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/network-server.png")));
@@ -72,6 +73,7 @@ public class IconMenuPanel extends JPanel {
 		vBox.add(panel);
 		vBox.add(Box.createVerticalStrut(5));
 		
+		// Starten des Client/Cleint-Algorithmus
 		panel = new JPanel(new GridLayout(1, 1));
 		button = new JButton("<html>start<br/>client</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/network-wired.png")));
@@ -88,7 +90,7 @@ public class IconMenuPanel extends JPanel {
 		vBox.add(panel);
 		vBox.add(Box.createVerticalStrut(5));
 		
-
+		// Starten der Visualisierung
 		panel = new JPanel(new GridLayout(1, 1));
 		button = new JButton("<html>connect to<br/>visualisation</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/x-office-presentation.png")));
@@ -121,6 +123,7 @@ public class IconMenuPanel extends JPanel {
 //		vBox.add(panel);
 //		vBox.add(Box.createVerticalStrut(5));
 
+		// Infos ueber das Programm
 		panel = new JPanel(new GridLayout(1, 1));
 		button = new JButton("<html>about</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/help-browser.png")));

@@ -18,6 +18,7 @@ import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
 import de.virtualprocessmanagement.server.WebserverGui;
 import de.virtualprocessmanagement.test.TestVisu;
+import de.virtualprocessmanagement.visu.VisualisationGui;
 
 public class MenuListener implements ActionListener, MouseListener
 {
@@ -29,7 +30,9 @@ public class MenuListener implements ActionListener, MouseListener
 	
 	private WebserverGui webserverGui = null;
 	
-	private ServerClientConnectionLayer simulationController = null;
+	private VisualisationGui visualisationGui = null;
+	
+	private ServerClientConnectionLayer serverClientConnector = null;
 	
 //	public MenuListener()
 //	{
@@ -67,8 +70,8 @@ public class MenuListener implements ActionListener, MouseListener
 			if(event.equals("startserver"))
 				if(webserverGui == null)
 				{
-					simulationController = new ServerClientConnectionLayer();
-					webserverGui = new WebserverGui(simulationController); // inputComponents.get("plotprop").setVisible(true);
+					serverClientConnector = new ServerClientConnectionLayer();
+					webserverGui = new WebserverGui(serverClientConnector); // inputComponents.get("plotprop").setVisible(true);
 					((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
 				}
 				else {
@@ -76,8 +79,8 @@ public class MenuListener implements ActionListener, MouseListener
 					webserverGui.dispose();
 					webserverGui = null;
 					
-					simulationController.closeClient();
-					simulationController = null;
+					serverClientConnector.closeClient();
+					serverClientConnector = null;
 					
 					if(client != null)
 						stopClient((JButton)arg0.getSource());
@@ -94,37 +97,37 @@ public class MenuListener implements ActionListener, MouseListener
 					}
 					else
 						if(event.equals("connectvisu"))
+						{
+							if(visualisationGui == null)
 							{
-								if(testVisu == null)
-								{
-									testVisu = new TestVisu();
-									testVisu.start();
-									
-									((JButton)arg0.getSource()).setText("<html>disconnect <br/>visualisation</html>");
-								}
-								else {
-									
-									testVisu.setRunMode(false);
-									testVisu.interrupt();
-									testVisu = null;
-									
-									((JButton)arg0.getSource()).setText("<html>connect <br/>visualisation</html>");
-								}
+								visualisationGui = new VisualisationGui(); //serverClientConnector);
+								visualisationGui.getReadServerData().start();
+								
+								((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
 							}
-							else
-								if(event.equals("about"))
-								new About();
+							else {
+								visualisationGui.setVisible(false);
+								visualisationGui.dispose();
+								visualisationGui = null;
+								
+								((JButton)inputComponents.get("connectvisu")).setText("<html>connect to<br/>visualisation</html>");
+							}
+						}
+						else
+							if(event.equals("about"))
+							new About();
 	}
 	
 	public void startClient(JButton button) {
+		
 		if(client == null)
 		{
 			client = new Client();
 			
-			if(simulationController != null)
+			if(serverClientConnector != null)
 			{
-				client.setServerClientConnectionLayer(simulationController);
-				simulationController.setClient(client);
+				client.setServerClientConnectionLayer(serverClientConnector);
+				serverClientConnector.setClient(client);
 			}
 			
 			client.start();
@@ -138,8 +141,8 @@ public class MenuListener implements ActionListener, MouseListener
 		client.interrupt();
 		client = null;
 		
-		if(simulationController!=null && simulationController.isClient())
-			simulationController.closeClient();
+		if(serverClientConnector!=null && serverClientConnector.isClient())
+			serverClientConnector.closeClient();
 		
 		((JButton)inputComponents.get("startclient")).setText("<html>start<br/>client</html>");
 	}
