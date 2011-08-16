@@ -21,6 +21,7 @@ import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
 import de.virtualprocessmanagement.server.Server;
+import de.virtualprocessmanagement.test.TestSubjects;
 
 /**
  * The Server ist based on the Webserver coded by "Jon Berg"
@@ -89,6 +90,10 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 	  
 		readServerData = new ReadServerData(this);
 		
+		JPanel centerPanel = new JPanel(new GridLayout(2,1));
+		VisuPanel visuPanel = new VisuPanel();
+		visuPanel.setObjectList(TestSubjects.getObjectList());
+		
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
 		//oh the pretty colors
@@ -108,7 +113,10 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 		jPanel1.setLayout(new GridLayout(1,1));
 		jScrollPane1.getViewport().add(jTextArea2);
 		jPanel1.add(jScrollPane1);
-		this.getContentPane().add(jPanel1, BorderLayout.CENTER);
+		
+		centerPanel.add(jPanel1);
+		centerPanel.add(visuPanel);
+		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(button, BorderLayout.SOUTH);
 		
 		//tweak the apearance
