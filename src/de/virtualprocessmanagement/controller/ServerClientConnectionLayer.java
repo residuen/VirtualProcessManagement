@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 
 import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
+import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.Server;
 
 public class ServerClientConnectionLayer {
@@ -14,23 +15,30 @@ public class ServerClientConnectionLayer {
 	
 	private DataOutputStream output = null;
 	
+	private ProcessManager processManager = new ProcessManager(this);
+	
 	public void clientRequest(String text, Server server, DataOutputStream output) {
 		
 		this.server = server;
 		this.output = output;
+		
+//		processManager = new ProcessManager(this);
 		/*
 		 * Hier kommt der Algorithmus fuer die Verarbeitung der Anfragedaten hin ...
 		 */
 		
 		System.out.println("ServerClientConnectionLayer: Request from Client:"+text);
 		
-		if(text.contains("visu?getobjects"))
-			server.sendResponseText("Grafische Informationen ueber Prozessobjekte\n", output);
-		else
-			client.dataRequestEvent(text);
+		if(text.contains("visu?loadobject"))
+			processManager.dataRequestEvent(text);
+//		else		
+//			if(text.contains("visu?getobjects"))
+//				server.sendResponseText(new String[] { "Grafische Informationen ueber Prozessobjekte\n" }, output);
+//			else
+//				client.dataRequestEvent(text);
 	}
 
-	public void clientResponse(String text) {
+	public void clientResponse(String[] text) {
 		
 		server.sendResponseText(text, output);
 	}

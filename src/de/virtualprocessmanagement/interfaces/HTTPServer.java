@@ -11,6 +11,6 @@ public interface HTTPServer {
 	public void setSimulationController( ServerClientConnectionLayer simulationController);
 	public String getRequestPath();
 	public String getRequestText();
-	public void sendResponseText(String text, DataOutputStream output);
+	public void sendResponseText(String[] text, DataOutputStream output);
 	public void interrupt();
 }

@@ -14,7 +14,7 @@ public class Client extends ClientConnector {
 		
 		System.out.println("Client empfaengt: data="+data);
 		
-		dataResponseEvent("Ueberraschungstext");
+		dataResponseEvent(new String[] { "Ueberraschungstext" });
 		sendNextRequest("http://localhost/test.text?anhang=infotainment&"+(int)(Math.random()*100));
 	}
 

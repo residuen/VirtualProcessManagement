@@ -18,7 +18,7 @@ public class ReadServerData extends Thread {
 
 	String data = null;
 	
-	String command = "http://localhost:80/visu?getobjects";
+	String command = "http://localhost:80/visu?loadobject";
 	
 	int sleepTime = 1000;
 	

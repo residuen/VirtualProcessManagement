@@ -30,7 +30,7 @@ public class IconMenuPanel extends JPanel {
 	{
 		setBackground(new Color(215, 215, 215));
 
-		System.out.println("TEST");
+//		System.out.println("TEST");
 		
 		MenuListener menuListener = new MenuListener(inputComponents);
 
@@ -41,7 +41,7 @@ public class IconMenuPanel extends JPanel {
 
 		// Laden einer Prozess-Anlage
 		panel = new JPanel(new GridLayout(1, 1));
-		JButton button = new JButton("<html>load<br/>warehouse</html>",
+		JButton button = new JButton("<html>load<br/>map</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/drive-harddisk.png")));
 		button.setFont(font);
 		button.setToolTipText("load warehouse-data from file");

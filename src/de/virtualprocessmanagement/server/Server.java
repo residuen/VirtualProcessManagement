@@ -91,6 +91,7 @@ public class Server extends Thread implements HTTPServer { //, HTTPClient {
 			serverMessage("\nFatal Error:" + e.getMessage());
 			return;
 		}
+		
 		serverMessage("OK!\n");
 		
 		//go in a infinite loop, wait for connections, process request, send response
@@ -252,7 +253,7 @@ public class Server extends Thread implements HTTPServer { //, HTTPClient {
 	* Sending the data to the client
 	*/
 	@Override
-	public void sendResponseText(String text, DataOutputStream output) {
+	public void sendResponseText(String[] text, DataOutputStream output) {
 	  
 		System.out.println("Text="+text);
 		//happy day scenario
@@ -260,10 +261,14 @@ public class Server extends Thread implements HTTPServer { //, HTTPClient {
     	
 			// Die Server-Antwort an den Client 
 			output.writeBytes(construct_http_header(200, 5));
-			output.writeBytes(text+"\n");
+			
+			for(String s : text)
+			{
+				output.writeBytes(s+"\n");
 
-			// Infotext fuer WebserverGui
-			serverMessage("message to client:"+text);
+				// Infotext fuer WebserverGui
+				serverMessage("message to client:"+s);
+			}
 
 	        //clean up the files, close open handles
 	    	output.close();

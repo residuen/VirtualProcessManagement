@@ -49,7 +49,7 @@ public class ClientConnector extends Thread implements HTTPClient {
 	/**
 	 * Empfaengt fuer Server vorgesehene Daten und gibt diese an simulationsController weiter
 	 */
-	public void dataResponseEvent(String data) {
+	public void dataResponseEvent(String[] data) {
 //		System.out.println("HTTPClientConnection: Response: Vater");
 		
 //		server.dataResponseEvent(data)
