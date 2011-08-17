@@ -1,14 +1,27 @@
 package de.virtualprocessmanagement.processing;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import de.virtualprocessmanagement.objects.MoveableSubject;
+import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.tools.FileHandler;
 
 public class ProcessMap {
  
-	String[][] mapAsStringArray = null;
+	private String[][] mapAsStringArray = null;
+	
+	private ArrayList<RectShape> objectList = new ArrayList<RectShape>();
 	
 	public ProcessMap(String filename) {
+		
+		loadMap(filename);
+		
+		initObjectList();
+		
+	}
+	
+	private void loadMap(String filename) {
 		
 		FileHandler fh = new FileHandler();
 		
@@ -22,15 +35,102 @@ public class ProcessMap {
 			swap = strArr[i].split(";");
 			
 			for(int j=0; j<swap.length; j++)
-				mapAsStringArray[i][j] = swap[j];
+				mapAsStringArray[i][j] = swap[j].trim();
 		}
 		
-		for(String[] arr : mapAsStringArray) {
-			for(String str : arr) 
-				System.out.print(str+" ");
+//		for(String[] arr : mapAsStringArray) {
+//			for(String str : arr) 
+//				System.out.print(str+" ");
+//		
+//			System.out.println("");
+//		}
+	}
+	
+	private void initObjectList() {
 		
-			System.out.println("");
+		String[] swap = null;
+		
+		RectShape shape = null;
+		
+		for(int i=0; i<mapAsStringArray.length; i++) {
+			
+			swap = mapAsStringArray[i];
+			
+			for(int j=0; j<swap.length; j++)
+			{
+				shape = compileSubjects(mapAsStringArray[i][j], i, j);
+				
+				if(shape != null)
+					objectList.add(shape);
+			}
 		}
-//		mapAsStringArray = fh.getTextLines(new File(filename));
+		
+//		return al;
+	}
+	
+	/**
+	 * Auswerten der MAP-Felder
+	 */
+	private RectShape compileSubjects(String entry, int i, int j) {
+		
+		RectShape shape = null;
+		
+		String[] swap = null;
+		
+		if(!entry.contains(","))
+			objectList.add(compileSubject(entry, i, j));
+		else
+		{
+			swap = entry.split(",");
+			
+			for(String s : swap)
+				objectList.add(compileSubject(s, i, j));
+		}
+		
+//		System.out.println(shape.toString());
+		
+		return shape;
+		
+	}
+	
+	/**
+	 * Erzeugen der einzelnen Shape-Objekte
+	 * @param entry
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	private RectShape compileSubject(String entry, int i, int j) {
+		
+		RectShape shape = null;
+		
+		if(entry.contains("s"))
+			shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+		else
+			if(entry.contains("ms"))
+			{
+				shape = new MoveableSubject(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+				shape.setSubjectTyp(RectShape.MOVEABLE_SUBJECT);
+			}
+			else
+				if(entry.contains("m"))
+				{
+					shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+					shape.setSubjectTyp(RectShape.MACHINE_WAY_SUBJECT);
+				}
+				else
+					if(entry.contains("h"))
+					{
+						shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+						shape.setSubjectTyp(RectShape.HUMAN_WAY_SUBJECT);
+					}
+		
+//		System.out.println(shape.toString());
+		
+		return shape;
+	}
+	
+	public ArrayList<RectShape> getObjectList() {
+		return objectList;
 	}
 }

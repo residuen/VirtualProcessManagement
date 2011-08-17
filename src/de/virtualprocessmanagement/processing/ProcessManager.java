@@ -32,6 +32,10 @@ public class ProcessManager implements HTTPClient {
 
 	}
 
+	public ProcessMap getProcessMap() {
+		return processMap;
+	}
+
 	@Override
 	public void dataResponseEvent(String[] data) {
 		connectionLayer.clientResponse(data);

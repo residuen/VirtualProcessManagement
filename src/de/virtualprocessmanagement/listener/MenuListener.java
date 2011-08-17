@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.connection.HTTPClientConnection;
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
+import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.WebserverGui;
 import de.virtualprocessmanagement.test.TestVisu;
@@ -36,6 +39,8 @@ public class MenuListener implements ActionListener, MouseListener
 	private ServerClientConnectionLayer serverClientConnector = null;
 	
 	private ProcessManager processManager = null;
+	
+	private String lastOpenPath = "";
 	
 //	public MenuListener()
 //	{
@@ -61,12 +66,23 @@ public class MenuListener implements ActionListener, MouseListener
 		
 		if(event.equals("loadwarehouse"))
 		{
-//			String fileName = JFileChooser.OPEN_DIALOG;
-			
 			JFileChooser fc = new JFileChooser(new File(System.getProperty("user.home")));
+			fc.setCurrentDirectory(new File(lastOpenPath));
 			fc.setDialogType(JFileChooser.OPEN_DIALOG);
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			fc.showDialog(null, "Open warehouse-file");
+			fc.showDialog(null, "Open map-file");
+			
+			if(fc.getSelectedFile() !=null && fc.getSelectedFile().isFile())
+			{
+				if(fc.getSelectedFile().getName().toLowerCase().contains(".csv"))
+				{
+					processManager = new ProcessManager(fc.getSelectedFile().getName());
+					
+					lastOpenPath = fc.getSelectedFile().getPath();
+				}
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Bitte ein korrekt formatiertes Map-File importieren!");
 			
 		}
 		else
@@ -109,7 +125,11 @@ public class MenuListener implements ActionListener, MouseListener
 						{
 							if(visualisationGui == null)
 							{
-								visualisationGui = new VisualisationGui(); //serverClientConnector);
+								ArrayList<RectShape> objectList = processManager.getProcessMap().getObjectList();
+								
+								System.out.println(objectList);
+								
+								visualisationGui = new VisualisationGui(objectList); //serverClientConnector);
 								visualisationGui.getReadServerData().start();
 								
 								((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");

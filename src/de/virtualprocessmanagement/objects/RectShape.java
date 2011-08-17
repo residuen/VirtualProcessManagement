@@ -8,6 +8,8 @@ public class RectShape extends Rectangle2D.Double {
 	public static final int STATIC_SUBJECT = 0;
 	public static final int PARTIAL_STATIC_SUBJECT = 1;
 	public static final int MOVEABLE_SUBJECT = 2;
+	public static final int MACHINE_WAY_SUBJECT = 3;
+	public static final int HUMAN_WAY_SUBJECT = 4;
 	
 	public static int NO_DIRECTION = STATIC_SUBJECT;
 	public static int X_DIRECTION = 1;
@@ -16,6 +18,8 @@ public class RectShape extends Rectangle2D.Double {
 	
 	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
 
+	protected int x_index = 0, y_index = 0;
+	
 	protected int subjectTyp = STATIC_SUBJECT;
 	protected int directions = NO_DIRECTION;
 	
@@ -28,13 +32,19 @@ public class RectShape extends Rectangle2D.Double {
 		super();
 	}
 
-	public RectShape(double arg0, double arg1) {
+	public RectShape(double arg0, double arg1, int x_index, int y_index) {
 		super();
 		super.setRect(arg0, arg1, arg0+DEFAULT_WIDTH, arg1+DEFAULT_HEIGHT);
+		
+		this.x_index = x_index;
+		this.y_index = y_index;
 	}
 
-	public RectShape(double arg0, double arg1, double arg2, double arg3) {
+	public RectShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
 		super(arg0, arg1, arg2, arg3);
+				
+		this.x_index = x_index;
+		this.y_index = y_index;
 		
 		width = arg2;
 		height = arg3;
@@ -71,6 +81,14 @@ public class RectShape extends Rectangle2D.Double {
 				fillColor = Color.LIGHT_GRAY;
 				break;
 			
+			case MACHINE_WAY_SUBJECT:
+				fillColor = Color.YELLOW;
+				break;
+			
+			case HUMAN_WAY_SUBJECT:
+				fillColor = Color.WHITE;
+				break;
+
 			default:
 				fillColor = Color.RED;
 				break;
@@ -99,6 +117,11 @@ public class RectShape extends Rectangle2D.Double {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+	
+	@Override
+	public String toString() {
+		return "[class="+getClass().getSimpleName()+",x_index="+x_index+",y_index="+y_index+"]";
 	}
 
 }

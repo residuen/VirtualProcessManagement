@@ -112,7 +112,8 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		
 		//tweak the apearance
 		this.setVisible(true);
-		this.setSize(420, 450);
+		this.setSize(420, 560);
+		this.setLocation(150, 0);
 		
 		//make sure it is drawn
 		this.validate();

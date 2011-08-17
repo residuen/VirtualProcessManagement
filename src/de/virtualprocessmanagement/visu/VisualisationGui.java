@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -20,6 +21,7 @@ import javax.swing.JTextArea;
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.server.Server;
 import de.virtualprocessmanagement.test.TestSubjects;
 
@@ -50,16 +52,17 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 	private JPanel jPanel1 = new JPanel();
 	private JScrollPane jScrollPane1 = new JScrollPane();
 	private JTextArea jTextArea2 = new JTextArea();
+	private VisuPanel visuPanel = new VisuPanel();
 	
 	private ReadServerData readServerData = null;
 	
 	//basic class constructor
-	public VisualisationGui() {
+	public VisualisationGui(ArrayList<RectShape> objectList) {
 		
 		listen_port = new Integer(80);
 
 		try {
-			jbInit();
+			jbInit(objectList);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -67,7 +70,7 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 	}
   
 	//basic class constructor
-	public VisualisationGui(String arg) {
+	public VisualisationGui(String arg, ArrayList<RectShape> objectList) {
 	  
 		try {
 			listen_port = new Integer(arg);
@@ -78,7 +81,7 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 		}
 
 		try {
-			jbInit();
+			jbInit(objectList);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -86,20 +89,21 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 	}
 
 	//set up the user interface
-	private void jbInit() throws Exception {
+	private void jbInit(ArrayList<RectShape> objectList) throws Exception {
 	  
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 		readServerData = new ReadServerData(this);
 		
 		JPanel centerPanel = new JPanel(new GridLayout(2,1));
-		VisuPanel visuPanel = new VisuPanel();
-		visuPanel.setObjectList(TestSubjects.getObjectList());
 		
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
 		//oh the pretty colors
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		setUndecorated(true);
 	  
+		visuPanel.setObjectList(objectList);
+		
 		jTextArea2.setBorder(BorderFactory.createLoweredBevelBorder());
 		jTextArea2.setEditable(false);
 
@@ -121,7 +125,7 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 		
 		//tweak the apearance
 		this.setVisible(true);
-		this.setSize(420, 450);
+		this.setSize(420, 560);
 		
 		//make sure it is drawn
 		this.validate();
@@ -137,6 +141,11 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 	public ReadServerData getReadServerData() {
 		return readServerData;
 	}
+	
+//	public void setObjectList(ArrayList<RectShape> objectList) {
+//		this.objectList = objectList;
+//	}
+
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
@@ -185,7 +194,7 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 			listen_port = new Integer(80);
 		}
 		//create an instance of this class
-		VisualisationGui visu = new VisualisationGui();
+		VisualisationGui visu = new VisualisationGui(TestSubjects.getObjectList());
 	}
 
 
