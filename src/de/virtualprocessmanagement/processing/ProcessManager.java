@@ -6,11 +6,19 @@ import de.virtualprocessmanagement.interfaces.HTTPClient;
 public class ProcessManager implements HTTPClient {
 	
 	private ServerClientConnectionLayer connectionLayer = null;
-
-	public ProcessManager(ServerClientConnectionLayer connectionLayer) {
-		this.connectionLayer = connectionLayer;
-	}
 	
+	private ProcessMap processMap = null;
+
+//	public ProcessManager(ServerClientConnectionLayer connectionLayer, String mapName) {
+//		this.connectionLayer = connectionLayer;
+//		
+//		processMap = new ProcessMap(mapName);
+//	}
+	
+	public ProcessManager(String mapName) {
+		processMap = new ProcessMap(mapName);
+	}
+
 	@Override
 	public void dataRequestEvent(String data) {
 		
@@ -33,6 +41,10 @@ public class ProcessManager implements HTTPClient {
 	public void sendNextRequest(String data) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setConnectionLayer(ServerClientConnectionLayer connectionLayer) {
+		this.connectionLayer = connectionLayer;
 	}
 
 }

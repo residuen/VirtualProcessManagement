@@ -184,7 +184,7 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 			listen_port = new Integer(80);
 		}
 		//create an instance of this class
-		WebserverGui webserver = new WebserverGui(new ServerClientConnectionLayer());
+		WebserverGui webserver = new WebserverGui(new ServerClientConnectionLayer(null));
 	}
 
 

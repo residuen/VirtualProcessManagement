@@ -5,9 +5,9 @@ import java.awt.geom.Rectangle2D;
 
 public class RectShape extends Rectangle2D.Double {
 
-	public static int STATIC_SUBJECT = 0;
-	public static int PARTIAL_STATIC_SUBJECT = 1;
-	public static int MOVEABLE_SUBJECT = 2;
+	public static final int STATIC_SUBJECT = 0;
+	public static final int PARTIAL_STATIC_SUBJECT = 1;
+	public static final int MOVEABLE_SUBJECT = 2;
 	
 	public static int NO_DIRECTION = STATIC_SUBJECT;
 	public static int X_DIRECTION = 1;
@@ -57,6 +57,24 @@ public class RectShape extends Rectangle2D.Double {
 
 	public void setSubjectTyp(int subjectTyp) {
 		this.subjectTyp = subjectTyp;
+		
+		switch(subjectTyp) {
+			case STATIC_SUBJECT:
+				fillColor = Color.RED;
+				break;
+		
+			case PARTIAL_STATIC_SUBJECT:
+				fillColor = Color.GREEN;
+				break;
+		
+			case MOVEABLE_SUBJECT:
+				fillColor = Color.LIGHT_GRAY;
+				break;
+			
+			default:
+				fillColor = Color.RED;
+				break;
+		}
 	}
 
 	public int getDirections() {

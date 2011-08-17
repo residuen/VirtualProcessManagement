@@ -16,6 +16,7 @@ import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.connection.HTTPClientConnection;
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
+import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.WebserverGui;
 import de.virtualprocessmanagement.test.TestVisu;
 import de.virtualprocessmanagement.visu.VisualisationGui;
@@ -33,6 +34,8 @@ public class MenuListener implements ActionListener, MouseListener
 	private VisualisationGui visualisationGui = null;
 	
 	private ServerClientConnectionLayer serverClientConnector = null;
+	
+	private ProcessManager processManager = null;
 	
 //	public MenuListener()
 //	{
@@ -70,7 +73,13 @@ public class MenuListener implements ActionListener, MouseListener
 			if(event.equals("startserver"))
 				if(webserverGui == null)
 				{
-					serverClientConnector = new ServerClientConnectionLayer();
+					if(processManager == null)
+					{
+						processManager = new ProcessManager("map.csv");
+					}
+					
+					serverClientConnector = new ServerClientConnectionLayer(processManager);
+					processManager.setConnectionLayer(serverClientConnector);
 					webserverGui = new WebserverGui(serverClientConnector); // inputComponents.get("plotprop").setVisible(true);
 					((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
 				}

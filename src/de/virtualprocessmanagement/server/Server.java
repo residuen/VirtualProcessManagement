@@ -38,7 +38,7 @@ import de.virtualprocessmanagement.interfaces.Message;
  * file: Server.java
 */
 
-public class Server extends Thread implements HTTPServer { //, HTTPClient {
+public class Server extends Thread implements HTTPServer {
 	
     private ServerSocket serversocket = null;
     
@@ -255,7 +255,6 @@ public class Server extends Thread implements HTTPServer { //, HTTPClient {
 	@Override
 	public void sendResponseText(String[] text, DataOutputStream output) {
 	  
-		System.out.println("Text="+text);
 		//happy day scenario
 		try {
     	
@@ -268,6 +267,8 @@ public class Server extends Thread implements HTTPServer { //, HTTPClient {
 
 				// Infotext fuer WebserverGui
 				serverMessage("message to client:"+s);
+				
+//				System.out.println("Text="+s);
 			}
 
 	        //clean up the files, close open handles

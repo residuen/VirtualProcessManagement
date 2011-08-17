@@ -15,7 +15,11 @@ public class ServerClientConnectionLayer {
 	
 	private DataOutputStream output = null;
 	
-	private ProcessManager processManager = new ProcessManager(this);
+	private ProcessManager processManager = null;
+	
+	public ServerClientConnectionLayer(ProcessManager processManager) {
+		this.processManager = processManager;
+	}
 	
 	public void clientRequest(String text, Server server, DataOutputStream output) {
 		
