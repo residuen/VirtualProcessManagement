@@ -68,6 +68,8 @@ public class RectShape extends Rectangle2D.Double {
 	public void setSubjectTyp(int subjectTyp) {
 		this.subjectTyp = subjectTyp;
 		
+		System.out.println("subjectTyp="+subjectTyp);
+		
 		switch(subjectTyp) {
 			case STATIC_SUBJECT:
 				fillColor = Color.RED;
@@ -89,9 +91,9 @@ public class RectShape extends Rectangle2D.Double {
 				fillColor = Color.WHITE;
 				break;
 
-			default:
-				fillColor = Color.RED;
-				break;
+//			default:
+//				fillColor = Color.RED;
+//				break;
 		}
 	}
 

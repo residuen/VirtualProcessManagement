@@ -104,25 +104,32 @@ public class ProcessMap {
 		
 		RectShape shape = null;
 		
-		if(entry.contains("s"))
+		if(entry.equals("s"))
+		{
 			shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setSubjectTyp(RectShape.STATIC_SUBJECT);
+			return shape;
+		}
 		else
-			if(entry.contains("ms"))
+			if(entry.equals("ms"))
 			{
 				shape = new MoveableSubject(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 				shape.setSubjectTyp(RectShape.MOVEABLE_SUBJECT);
+				return shape;
 			}
 			else
-				if(entry.contains("m"))
+				if(entry.equals("m"))
 				{
 					shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 					shape.setSubjectTyp(RectShape.MACHINE_WAY_SUBJECT);
+					return shape;
 				}
 				else
-					if(entry.contains("h"))
+					if(entry.equals("h"))
 					{
 						shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 						shape.setSubjectTyp(RectShape.HUMAN_WAY_SUBJECT);
+						return shape;
 					}
 		
 //		System.out.println(shape.toString());
