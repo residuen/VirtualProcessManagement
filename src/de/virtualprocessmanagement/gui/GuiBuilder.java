@@ -1,6 +1,8 @@
 package de.virtualprocessmanagement.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.util.HashMap;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -20,16 +22,10 @@ public class GuiBuilder
 		JTextField status = new JTextField();
 		status.setEnabled(false);
 		
-//		SolvingController solvingController = new SolvingController();
+		HashMap<String, Component> inputComponents = new HashMap<String,Component>();
 		
-//		solvingController.getInputComponents().put("status", status);
+		MainPanel mainPanel = new MainPanel(inputComponents); // solvingController);
 		
-		MainPanel mainPanel = new MainPanel(); // solvingController);
-		
-//		MainMenu mainMenu = new MainMenu(solvingController.getInputComponents());
-		
-//		mainFrame.setJMenuBar(mainMenu);
-
 		mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainFrame.getContentPane().add(status, BorderLayout.SOUTH);
 
@@ -40,10 +36,6 @@ public class GuiBuilder
 		
 		// Setzen des Look & Feels auf die System-Optik
 		String ui = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
-//		String ui = UIManager.getSystemLookAndFeelClassName();
-		
-//		System.out.println(System.getProperty("os.name"));
-		
 	
 		try {
 			UIManager.setLookAndFeel(ui);

@@ -14,9 +14,12 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
@@ -40,7 +43,7 @@ import de.virtualprocessmanagement.test.TestSubjects;
 
 //file: webserver_starter.java
 //declare a class wich inherit JFrame
-public class VisualisationGui extends JFrame implements WindowListener, Message, ActionListener {
+public class VisualisationGui extends JInternalFrame implements Message, ActionListener, InternalFrameListener {
 	
 	static Integer listen_port = null;
 
@@ -110,7 +113,7 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 		//change this to impress your friends
 		this.setTitle("Visualisation");
 
-		this.addWindowListener(this);
+		this.addInternalFrameListener(this); // WindowListener(this);
 
 		//add the various to the proper containers
 		setLayout(new BorderLayout());
@@ -126,6 +129,7 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 		//tweak the apearance
 		this.setVisible(true);
 		this.setSize(420, 560);
+		this.setLocation(440, 10);
 		
 		//make sure it is drawn
 		this.validate();
@@ -146,31 +150,6 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 //		this.objectList = objectList;
 //	}
 
-
-	@Override
-	public void windowClosed(WindowEvent arg0) {
-		  
-		  System.out.println("Visu-Client beenden!");
-		  
-		  readServerData.setRunMode(false);
-	}
-	
-	@Override
-	public void windowActivated(WindowEvent arg0) { }
-
-	@Override
-	public void windowClosing(WindowEvent arg0) { }
-	
-	@Override
-	public void windowDeactivated(WindowEvent arg0) { }
-	
-	@Override
-	public void windowDeiconified(WindowEvent arg0) { }
-	@Override
-	public void windowIconified(WindowEvent arg0) { }
-	
-	@Override
-	public void windowOpened(WindowEvent arg0) { }
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -197,6 +176,56 @@ public class VisualisationGui extends JFrame implements WindowListener, Message,
 		VisualisationGui visu = new VisualisationGui(TestSubjects.getObjectList());
 	}
 
+	@Override
+	public void internalFrameActivated(InternalFrameEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
-	
+	@Override
+	public void internalFrameClosed(InternalFrameEvent e) {
+		 System.out.println("Visu-Client beenden!");
+		  
+		  readServerData.setRunMode(false);
+	}
+
+	@Override
+	public void internalFrameClosing(InternalFrameEvent e) { }
+
+	@Override
+	public void internalFrameDeactivated(InternalFrameEvent e) { }
+
+	@Override
+	public void internalFrameDeiconified(InternalFrameEvent e)  { }
+
+	@Override
+	public void internalFrameIconified(InternalFrameEvent e) { }
+
+	@Override
+	public void internalFrameOpened(InternalFrameEvent e) { }
+
+//	@Override
+//	public void windowClosed(WindowEvent arg0) {
+//		  
+//		  System.out.println("Visu-Client beenden!");
+//		  
+//		  readServerData.setRunMode(false);
+//	}
+//	
+//	@Override
+//	public void windowActivated(WindowEvent arg0) { }
+//
+//	@Override
+//	public void windowClosing(WindowEvent arg0) { }
+//	
+//	@Override
+//	public void windowDeactivated(WindowEvent arg0) { }
+//	
+//	@Override
+//	public void windowDeiconified(WindowEvent arg0) { }
+//	@Override
+//	public void windowIconified(WindowEvent arg0) { }
+//	
+//	@Override
+//	public void windowOpened(WindowEvent arg0) { }	
 }

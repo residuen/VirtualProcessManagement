@@ -13,9 +13,12 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
@@ -36,7 +39,8 @@ import de.virtualprocessmanagement.interfaces.Message;
 
 //file: webserver_starter.java
 //declare a class wich inherit JFrame
-public class WebserverGui extends JFrame implements WindowListener, Message, ActionListener {
+//public class WebserverGui extends JFrame implements WindowListener, Message, ActionListener {
+public class WebserverGui extends JInternalFrame implements Message, ActionListener, InternalFrameListener {
 	
 	static Integer listen_port = null;
 
@@ -100,7 +104,7 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		//change this to impress your friends
 		this.setTitle("Server");
 
-		this.addWindowListener(this);
+		this.addInternalFrameListener(this); // WindowListener(this);
 
 		//add the various to the proper containers
 		setLayout(new BorderLayout());
@@ -113,7 +117,7 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		//tweak the apearance
 		this.setVisible(true);
 		this.setSize(420, 560);
-		this.setLocation(150, 0);
+		this.setLocation(10, 10);
 		
 		//make sure it is drawn
 		this.validate();
@@ -136,34 +140,6 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 	}
 
 	@Override
-	public void windowClosed(WindowEvent arg0) {
-		  
-//		  System.out.println("Server beenden!");
-		  
-		  try { server.getServersocket().close(); }
-		  catch (IOException e) { e.printStackTrace(); }
-		  
-		  server.interrupt();
-	}
-	
-	@Override
-	public void windowActivated(WindowEvent arg0) { }
-
-	@Override
-	public void windowClosing(WindowEvent arg0) { }
-	
-	@Override
-	public void windowDeactivated(WindowEvent arg0) { }
-	
-	@Override
-	public void windowDeiconified(WindowEvent arg0) { }
-	@Override
-	public void windowIconified(WindowEvent arg0) { }
-	
-	@Override
-	public void windowOpened(WindowEvent arg0) { }
-
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		jTextArea2.setText("<VirtualProcessManagement-Server>\n<Type http://localhost/test.txt in browser to test>\n\n");
 	}
@@ -172,22 +148,77 @@ public class WebserverGui extends JFrame implements WindowListener, Message, Act
 		this.simulationController = simulationController;
 	}
 	
-	//the JavaAPI entry point
-	//where it starts this class if run
-	public static void main(String[] args) {
-		//start server on port x, default 80
-		//use argument to main for what port to start on
-		try {
-			listen_port = new Integer(args[0]);
-			//catch parse error
-		}
-		catch (Exception e) {
-			listen_port = new Integer(80);
-		}
-		//create an instance of this class
-		WebserverGui webserver = new WebserverGui(new ServerClientConnectionLayer(null));
+	@Override
+	public void internalFrameClosed(InternalFrameEvent arg0) {
+	
+		try { server.getServersocket().close(); }
+		  catch (IOException e) { e.printStackTrace(); }
+		  
+		  server.interrupt();
 	}
 
+	@Override
+	public void internalFrameActivated(InternalFrameEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void internalFrameClosing(InternalFrameEvent arg0) { }
+
+	@Override
+	public void internalFrameDeactivated(InternalFrameEvent arg0) { }
+
+	@Override
+	public void internalFrameDeiconified(InternalFrameEvent arg0) { }
+
+	@Override
+	public void internalFrameIconified(InternalFrameEvent arg0) { }
+
+	@Override
+	public void internalFrameOpened(InternalFrameEvent arg0) { }
 	
+//	@Override
+//	public void windowClosed(WindowEvent arg0) {
+//		  
+////		  System.out.println("Server beenden!");
+//		  
+//		  try { server.getServersocket().close(); }
+//		  catch (IOException e) { e.printStackTrace(); }
+//		  
+//		  server.interrupt();
+//	}
+	
+//	@Override
+//	public void windowActivated(WindowEvent arg0) { }
+//
+//	@Override
+//	public void windowClosing(WindowEvent arg0) { }
+//	
+//	@Override
+//	public void windowDeactivated(WindowEvent arg0) { }
+//	
+//	@Override
+//	public void windowDeiconified(WindowEvent arg0) { }
+//	@Override
+//	public void windowIconified(WindowEvent arg0) { }
+//	
+//	@Override
+//	public void windowOpened(WindowEvent arg0) { }
+
+	//the JavaAPI entry point
+	//where it starts this class if run
+//	public static void main(String[] args) {
+//		//start server on port x, default 80
+//		//use argument to main for what port to start on
+//		try {
+//			listen_port = new Integer(args[0]);
+//			//catch parse error
+//		}
+//		catch (Exception e) {
+//			listen_port = new Integer(80);
+//		}
+//		//create an instance of this class
+//		WebserverGui webserver = new WebserverGui(new ServerClientConnectionLayer(null));
+//	}
 }

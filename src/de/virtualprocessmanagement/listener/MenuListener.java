@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -31,6 +32,8 @@ public class MenuListener implements ActionListener, MouseListener
 	private TestVisu testVisu = null;
 	
 	private Client client = null;
+	
+//	private JDesktopPane mdiFrame = null;
 	
 	private WebserverGui webserverGui = null;
 	
@@ -97,6 +100,7 @@ public class MenuListener implements ActionListener, MouseListener
 					serverClientConnector = new ServerClientConnectionLayer(processManager);
 					processManager.setConnectionLayer(serverClientConnector);
 					webserverGui = new WebserverGui(serverClientConnector); // inputComponents.get("plotprop").setVisible(true);
+					((JDesktopPane)inputComponents.get("mdiframe")).add(webserverGui);
 					((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
 				}
 				else {
@@ -130,6 +134,7 @@ public class MenuListener implements ActionListener, MouseListener
 								System.out.println(objectList);
 								
 								visualisationGui = new VisualisationGui(objectList); //serverClientConnector);
+								((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
 								visualisationGui.getReadServerData().start();
 								
 								((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
@@ -185,23 +190,14 @@ public class MenuListener implements ActionListener, MouseListener
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseEntered(MouseEvent arg0) {}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseExited(MouseEvent arg0) {}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void mousePressed(MouseEvent arg0) {}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
+	public void mouseReleased(MouseEvent arg0) {}
 }

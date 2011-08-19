@@ -18,15 +18,16 @@ import de.virtualprocessmanagement.listener.MenuListener;
 
 public class IconMenuPanel extends JPanel {
 
-	private HashMap<String, Component> inputComponents = new HashMap<String,Component>();
+//	private HashMap<String, Component> inputComponents = null;
 	
-
-	public IconMenuPanel()
+	public IconMenuPanel(HashMap<String, Component> inputComponents)
 	{
-		initPanel();
+//		this.inputComponents = inputComponents;
+		
+		initPanel(inputComponents);
 	}
 
-	private void initPanel()
+	private void initPanel(HashMap<String, Component> inputComponents)
 	{
 		setBackground(new Color(215, 215, 215));
 

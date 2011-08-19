@@ -2,32 +2,35 @@ package de.virtualprocessmanagement.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.util.HashMap;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class MainPanel extends JDesktopPane
+public class MainPanel extends JPanel 
 {
-	
-	public MainPanel()
+	public MainPanel(HashMap<String, Component> inputComponents)
 	{		
-		initPanel();
+		initPanel(inputComponents);
 		
 //		JOptionPane.showMessageDialog(this, "Fehlerhafter Funktionsausdruck!");
 	}
 
-	private void initPanel()
+	private void initPanel(HashMap<String, Component> inputComponents)
 	{
 		setLayout(new BorderLayout());
-//		setBackground(Color.WHITE);
 		
-//		ContentPanel contentPanel = new ContentPanel();
+		JDesktopPane mdiFrame = new JDesktopPane();
+		 
+		 inputComponents.put("mdiframe", mdiFrame);
 		
-		JScrollPane leftScrollpane = new JScrollPane(new IconMenuPanel(), JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // contentPanel));
+		JScrollPane leftScrollpane = new JScrollPane(new IconMenuPanel(inputComponents), JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // contentPanel));
 		leftScrollpane.setBorder(null);
 
 //		add(new TopPanel(), BorderLayout.NORTH);
 		add(leftScrollpane, BorderLayout.WEST);
-//		add(contentPanel, BorderLayout.CENTER);
+		add(mdiFrame, BorderLayout.CENTER);
 	}
 }
