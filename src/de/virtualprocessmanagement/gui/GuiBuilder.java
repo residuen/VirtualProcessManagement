@@ -14,8 +14,6 @@ public class GuiBuilder
 	{
 		initLookAndFeel();
 		
-		System.out.println("user.home="+System.getProperty("user.home"));
-		
 		MainFrame mainFrame = new MainFrame("VirtualProcessManagement");
 		mainFrame.getContentPane().setLayout(new BorderLayout());
 		

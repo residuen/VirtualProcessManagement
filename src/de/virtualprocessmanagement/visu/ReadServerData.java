@@ -4,7 +4,7 @@ import de.virtualprocessmanagement.connection.HTTPClientConnection;
 import de.virtualprocessmanagement.interfaces.Message;
 
 /**
- * Beipiel-Client, empfaengt Daten VOM Server und sendet Daten ZUM Server
+ * Beipiel-Client, empfaengt Daten vom Server und sendet Daten ZUM Server
  * @author bettray
  *
  */
@@ -18,7 +18,7 @@ public class ReadServerData extends Thread {
 
 	String data = null;
 	
-	String command = "http://localhost:80/visu?loadobject";
+	String command = "http://localhost:80/visu?updateObjectList";
 	
 	int sleepTime = 1000;
 	
@@ -35,7 +35,7 @@ public class ReadServerData extends Thread {
         {    		
     		data = connection.sendRequest(command);
     		
-    		System.out.println("ReadServerData: data="+data);
+//    		System.out.println("ReadServerData: data="+data);
     		
     		to_send_message_to.message(data+"\n");
     		
@@ -65,9 +65,8 @@ public class ReadServerData extends Thread {
 		return connection;
 	}
 
-	public static void main(String[] arg0)
-	{
-		new ReadServerData().start();
-	}
-
+//	public static void main(String[] arg0)
+//	{
+//		new ReadServerData().start();
+//	}
 }

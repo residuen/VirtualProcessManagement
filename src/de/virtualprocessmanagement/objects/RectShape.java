@@ -6,10 +6,11 @@ import java.awt.geom.Rectangle2D;
 public class RectShape extends Rectangle2D.Double {
 
 	public static final int STATIC_SUBJECT = 0;
-	public static final int PARTIAL_STATIC_SUBJECT = 1;
+	public static final int PARTIAL_MOVEABLE_SUBJECT = 1;
 	public static final int MOVEABLE_SUBJECT = 2;
-	public static final int MACHINE_WAY_SUBJECT = 3;
-	public static final int HUMAN_WAY_SUBJECT = 4;
+	public static final int ROBOT = 3;
+	public static final int MACHINE_WAY_SUBJECT = 4;
+	public static final int HUMAN_WAY_SUBJECT = 5;
 	
 	public static int NO_DIRECTION = STATIC_SUBJECT;
 	public static int X_DIRECTION = 1;
@@ -17,6 +18,8 @@ public class RectShape extends Rectangle2D.Double {
 	public static int Z_DIRECTION = 3;
 	
 	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
+	
+	protected String name = null;
 
 	protected int x_index = 0, y_index = 0;
 	
@@ -75,7 +78,7 @@ public class RectShape extends Rectangle2D.Double {
 				fillColor = Color.RED;
 				break;
 		
-			case PARTIAL_STATIC_SUBJECT:
+			case PARTIAL_MOVEABLE_SUBJECT:
 				fillColor = Color.GREEN;
 				break;
 		
@@ -119,6 +122,13 @@ public class RectShape extends Rectangle2D.Double {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	@Override

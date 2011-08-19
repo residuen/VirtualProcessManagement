@@ -20,13 +20,14 @@ public class ProcessManager implements HTTPClient {
 	}
 
 	@Override
-	public void dataRequestEvent(String data) {
+	public void loop(String data) {
 		
-		String[] str = new String[3];
-		for(int i=0; i<3; i++)
-		{
-			str[i] = "{id="+i+";x="+(i*10)+";x="+(i*10)+"}\n";
-		}
+		String[] str = new String[] {"Client asked the server: "+data };
+//		String[] str = new String[3];
+//		for(int i=0; i<3; i++)
+//		{
+//			str[i] = "{id="+i+";x="+(i*10)+";x="+(i*10)+"}\n";
+//		}
 		
 		dataResponseEvent(str);
 

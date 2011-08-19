@@ -9,9 +9,9 @@ import de.virtualprocessmanagement.tools.FileHandler;
 
 public class ProcessMap {
  
-	private String[][] mapAsStringArray = null;
+	protected String[][] mapAsStringArray = null;
 	
-	private ArrayList<RectShape> objectList = new ArrayList<RectShape>();
+	protected ArrayList<RectShape> objectList = new ArrayList<RectShape>();
 	
 	public ProcessMap(String filename) {
 		
@@ -104,10 +104,13 @@ public class ProcessMap {
 		
 		RectShape shape = null;
 		
+		System.out.println("entry="+entry);
+		
 		if(entry.equals("s"))
 		{
 			shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 			shape.setSubjectTyp(RectShape.STATIC_SUBJECT);
+			shape.setName("STATIC_SUBJECT:x="+j+";y="+i);
 			return shape;
 		}
 		else
@@ -115,6 +118,7 @@ public class ProcessMap {
 			{
 				shape = new MoveableSubject(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 				shape.setSubjectTyp(RectShape.MOVEABLE_SUBJECT);
+				shape.setName("MOVEABLE_SUBJECT:x="+j+";y="+i);
 				return shape;
 			}
 			else
@@ -122,6 +126,7 @@ public class ProcessMap {
 				{
 					shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 					shape.setSubjectTyp(RectShape.MACHINE_WAY_SUBJECT);
+					shape.setName("MACHINE_WAY_SUBJECT:x="+j+";y="+i);
 					return shape;
 				}
 				else
@@ -129,6 +134,7 @@ public class ProcessMap {
 					{
 						shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 						shape.setSubjectTyp(RectShape.HUMAN_WAY_SUBJECT);
+						shape.setName("HUMAN_WAY_SUBJECT:x="+j+";y="+i);
 						return shape;
 					}
 		

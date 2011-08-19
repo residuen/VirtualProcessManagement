@@ -160,7 +160,7 @@ public class MenuListener implements ActionListener, MouseListener
 			
 			if(serverClientConnector != null)
 			{
-				client.setServerClientConnectionLayer(serverClientConnector);
+				client.setServerClientConnectionLayer(serverClientConnector, "localhost");
 				serverClientConnector.setClient(client);
 			}
 			
@@ -184,7 +184,7 @@ public class MenuListener implements ActionListener, MouseListener
 	@Override
 	public void mouseClicked(MouseEvent arg0)
 	{
-		String cmd = ((Component) arg0.getSource()).getName();
+		String cmd = ((Component)arg0.getSource()).getName();
 
 		event(cmd, null);
 	}

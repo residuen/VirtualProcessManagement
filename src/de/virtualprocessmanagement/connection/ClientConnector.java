@@ -2,6 +2,7 @@ package de.virtualprocessmanagement.connection;
 
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
+import de.virtualprocessmanagement.interfaces.SubjectHandler;
 import de.virtualprocessmanagement.server.Server;
 
 /**
@@ -9,24 +10,26 @@ import de.virtualprocessmanagement.server.Server;
  * @author bettray
  *
  */
-public class ClientConnector extends Thread implements HTTPClient {
+public class ClientConnector extends Thread implements HTTPClient, SubjectHandler {
 	
 	private boolean runMode = true;
 	
 	private int sleepTime = 1000;
 	
-	private String command = "?client=foo&cmd=info";
+	protected String command = ""; //client?getserverinfo";
 	
 	private String data = null;
 	
-	private HTTPClientConnection connection = new HTTPClientConnection("127.0.0.1");
+	private HTTPClientConnection connection = null;
 	
 	private Server server = null;
 	
 	ServerClientConnectionLayer serverClientConnectionLayer = null;
 		
-	public void setServerClientConnectionLayer(ServerClientConnectionLayer serverClientConnectionLayer) {
+	public void setServerClientConnectionLayer(ServerClientConnectionLayer serverClientConnectionLayer, String host) {
 		this.serverClientConnectionLayer = serverClientConnectionLayer;
+		
+		connection = new HTTPClientConnection(host);
 	}
 
 	public void setRunMode(boolean runMode) {
@@ -42,7 +45,7 @@ public class ClientConnector extends Thread implements HTTPClient {
     /**
      * Uebergibt Daten an Child-Objekt
      */
-	public void dataRequestEvent(String data) {
+	public void loop(String data) {
 		System.out.println("HTTPClientConnection: Request: Vater");
 	}
 	
@@ -73,15 +76,23 @@ public class ClientConnector extends Thread implements HTTPClient {
 		
 		synchronized (command) {
 			this.command = command;
+			
+//			System.out.println("1*command="+command);
 		}
 	}
 
 	public void run() {
     	
-    	while(!isInterrupted() && runMode)
-        {    		
-    		data = connection.sendRequest(command);
-			dataRequestEvent(data);
+    	while(true) //!isInterrupted() && runMode)
+        {
+//    		this.command = "http://localhost/client?getrobots";
+    		
+//    		System.out.println("command="+this.command);
+    		
+    		if(this.command.length()>0)
+    			data = connection.sendRequest(this.command);
+  
+    		loop(data);
     		
     		try {
     			Thread.sleep(sleepTime);

@@ -10,17 +10,19 @@ import de.virtualprocessmanagement.connection.ClientConnector;
 public class Client extends ClientConnector {
 
 	@Override
-	public void dataRequestEvent(String data) {
+	public void loop(String data) {
 		
-		System.out.println("Client empfaengt: data="+data);
+//		System.out.println("LOOP:Client empfaengt:\n"+data);
 		
 		dataResponseEvent(new String[] { "Ueberraschungstext" });
-		sendNextRequest("http://localhost/test.text?anhang=infotainment&"+(int)(Math.random()*100));
+		super.sendNextRequest("http://localhost/client?getrobots");
+		
+//		super.command = "http://localhost/client?getrobots";
 	}
 
-	public static void main(String[] arg0)
-	{
-		new Client().start();
-	}
+//	public static void main(String[] arg0)
+//	{
+//		new Client().start();
+//	}
 
 }

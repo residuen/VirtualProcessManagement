@@ -1,9 +1,10 @@
 package de.virtualprocessmanagement.controller;
 
 import java.io.DataOutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import de.virtualprocessmanagement.client.Client;
-import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.Server;
 
@@ -33,11 +34,34 @@ public class ServerClientConnectionLayer {
 		
 		System.out.println("ServerClientConnectionLayer: Request from Client:"+text);
 		
-		if(text.contains("visu?loadobject"))
-			processManager.dataRequestEvent(text);
-//		else		
-//			if(text.contains("visu?getobjects"))
-//				server.sendResponseText(new String[] { "Grafische Informationen ueber Prozessobjekte\n" }, output);
+		if(text.toLowerCase().contains("client?"))
+			processManager.loop(text);
+		else		
+			if(text.toLowerCase().equals("client?getserverinfo"))
+			{
+				InetAddress inetAdress = null;
+				try { inetAdress = InetAddress.getLocalHost(); }
+				catch (UnknownHostException e) { e.printStackTrace(); }
+				
+				server.sendResponseText(new String[] { "\nserver-home="+System.getProperty("user.home")+";",
+													   "\nserver-ip="+inetAdress.getHostAddress()+";",
+													   "\nserver-name="+inetAdress.getHostName()+";",
+													   "\nserver-cores="+Runtime.getRuntime().availableProcessors() },
+													   output);
+			}
+			else		
+				if(text.toLowerCase().equals("client?getserverinfoashtml"))
+				{
+					InetAddress inetAdress = null;
+					try { inetAdress = InetAddress.getLocalHost(); }
+					catch (UnknownHostException e) { e.printStackTrace(); }
+				
+					server.sendResponseText(new String[] { "<html>\n<body>\nserver-home="+System.getProperty("user.home")+"<br>",
+														   "server-ip="+inetAdress.getHostAddress()+"<br>",
+														   "server-name="+inetAdress.getHostName()+"<br>",
+														   "server-cores="+Runtime.getRuntime().availableProcessors()+"\n</body>\n</html>" },
+														   output);
+			}
 //			else
 //				client.dataRequestEvent(text);
 	}

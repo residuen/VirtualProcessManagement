@@ -20,6 +20,7 @@ public class VirtualProcessManagement
 
 	public VirtualProcessManagement()
 	{
+		System.out.println("user.home="+System.getProperty("user.home"));
 		System.out.println("CPU-Cores: "+ Runtime.getRuntime().availableProcessors() );
 		
 		new GuiBuilder();

@@ -118,6 +118,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		this.setVisible(true);
 		this.setSize(420, 560);
 		this.setLocation(10, 10);
+		this.setResizable(true);
 		
 		//make sure it is drawn
 		this.validate();
