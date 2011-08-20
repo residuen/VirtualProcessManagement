@@ -25,6 +25,7 @@ import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
 import de.virtualprocessmanagement.objects.RectShape;
+import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.server.Server;
 import de.virtualprocessmanagement.test.TestSubjects;
 
@@ -60,12 +61,12 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	private ReadServerData readServerData = null;
 	
 	//basic class constructor
-	public VisualisationGui(ArrayList<RectShape> objectList) {
+	public VisualisationGui(ProcessMap processMap) {
 		
 		listen_port = new Integer(80);
 
 		try {
-			jbInit(objectList);
+			jbInit(processMap);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -73,7 +74,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	}
   
 	//basic class constructor
-	public VisualisationGui(String arg, ArrayList<RectShape> objectList) {
+	public VisualisationGui(ProcessMap processMap, String arg) {
 	  
 		try {
 			listen_port = new Integer(arg);
@@ -84,7 +85,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		}
 
 		try {
-			jbInit(objectList);
+			jbInit(processMap);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +93,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	}
 
 	//set up the user interface
-	private void jbInit(ArrayList<RectShape> objectList) throws Exception {
+	private void jbInit(ProcessMap processMap) throws Exception {
 	  
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -105,7 +106,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		//oh the pretty colors
 //		setUndecorated(true);
 	  
-		visuPanel.setObjectList(objectList);
+		visuPanel.setProcessMap(processMap);
 		
 		jTextArea2.setBorder(BorderFactory.createLoweredBevelBorder());
 		jTextArea2.setEditable(false);
@@ -127,10 +128,12 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		this.getContentPane().add(button, BorderLayout.SOUTH);
 		
 		//tweak the apearance
-		this.setVisible(true);
 		this.setSize(420, 560);
 		this.setLocation(440, 10);
 		this.setResizable(true);
+		this.setMaximizable(true);
+		this.setIconifiable(true);
+		this.setVisible(true);
 		
 		//make sure it is drawn
 		this.validate();
@@ -157,38 +160,15 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		jTextArea2.setText("<VirtualProcessManagement-Client>\n<Type http://localhost/test.txt in browser to test>\n\n");
 	}
 	
-//	public void setSimulationController( ServerClientConnectionLayer simulationController) {
-//		this.serverClientConnector = simulationController;
-//	}
-	
-	//the JavaAPI entry point
-	//where it starts this class if run
-	public static void main(String[] args) {
-		//start server on port x, default 80
-		//use argument to main for what port to start on
-		try {
-			listen_port = new Integer(args[0]);
-			//catch parse error
-		}
-		catch (Exception e) {
-			listen_port = new Integer(80);
-		}
-		//create an instance of this class
-		VisualisationGui visu = new VisualisationGui(TestSubjects.getObjectList());
-	}
-
-	@Override
-	public void internalFrameActivated(InternalFrameEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void internalFrameClosed(InternalFrameEvent e) {
 		 System.out.println("Visu-Client beenden!");
 		  
 		  readServerData.setRunMode(false);
 	}
+
+	@Override
+	public void internalFrameActivated(InternalFrameEvent e) { }
 
 	@Override
 	public void internalFrameClosing(InternalFrameEvent e) { }
@@ -205,28 +185,24 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	@Override
 	public void internalFrameOpened(InternalFrameEvent e) { }
 
-//	@Override
-//	public void windowClosed(WindowEvent arg0) {
-//		  
-//		  System.out.println("Visu-Client beenden!");
-//		  
-//		  readServerData.setRunMode(false);
+	//	public void setSimulationController( ServerClientConnectionLayer simulationController) {
+//		this.serverClientConnector = simulationController;
 //	}
-//	
-//	@Override
-//	public void windowActivated(WindowEvent arg0) { }
-//
-//	@Override
-//	public void windowClosing(WindowEvent arg0) { }
-//	
-//	@Override
-//	public void windowDeactivated(WindowEvent arg0) { }
-//	
-//	@Override
-//	public void windowDeiconified(WindowEvent arg0) { }
-//	@Override
-//	public void windowIconified(WindowEvent arg0) { }
-//	
-//	@Override
-//	public void windowOpened(WindowEvent arg0) { }	
+	
+	//the JavaAPI entry point
+	//where it starts this class if run
+//	public static void main(String[] args) {
+//		//start server on port x, default 80
+//		//use argument to main for what port to start on
+//		try {
+//			listen_port = new Integer(args[0]);
+//			//catch parse error
+//		}
+//		catch (Exception e) {
+//			listen_port = new Integer(80);
+//		}
+//		//create an instance of this class
+//		VisualisationGui visu = new VisualisationGui(TestSubjects.getObjectList());
+//	}
+
 }

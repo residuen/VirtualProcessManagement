@@ -129,11 +129,9 @@ public class MenuListener implements ActionListener, MouseListener
 						{
 							if(visualisationGui == null)
 							{
-								ArrayList<RectShape> objectList = processManager.getProcessMap().getObjectList();
+//								System.out.println(objectList);
 								
-								System.out.println(objectList);
-								
-								visualisationGui = new VisualisationGui(objectList); //serverClientConnector);
+								visualisationGui = new VisualisationGui(processManager.getProcessMap());
 								((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
 								visualisationGui.getReadServerData().start();
 								

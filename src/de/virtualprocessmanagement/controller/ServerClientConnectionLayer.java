@@ -36,34 +36,7 @@ public class ServerClientConnectionLayer {
 		
 		if(text.toLowerCase().contains("client?"))
 			processManager.loop(text);
-		else		
-			if(text.toLowerCase().equals("client?getserverinfo"))
-			{
-				InetAddress inetAdress = null;
-				try { inetAdress = InetAddress.getLocalHost(); }
-				catch (UnknownHostException e) { e.printStackTrace(); }
-				
-				server.sendResponseText(new String[] { "\nserver-home="+System.getProperty("user.home")+";",
-													   "\nserver-ip="+inetAdress.getHostAddress()+";",
-													   "\nserver-name="+inetAdress.getHostName()+";",
-													   "\nserver-cores="+Runtime.getRuntime().availableProcessors() },
-													   output);
-			}
-			else		
-				if(text.toLowerCase().equals("client?getserverinfoashtml"))
-				{
-					InetAddress inetAdress = null;
-					try { inetAdress = InetAddress.getLocalHost(); }
-					catch (UnknownHostException e) { e.printStackTrace(); }
-				
-					server.sendResponseText(new String[] { "<html>\n<body>\nserver-home="+System.getProperty("user.home")+"<br>",
-														   "server-ip="+inetAdress.getHostAddress()+"<br>",
-														   "server-name="+inetAdress.getHostName()+"<br>",
-														   "server-cores="+Runtime.getRuntime().availableProcessors()+"\n</body>\n</html>" },
-														   output);
-			}
-//			else
-//				client.dataRequestEvent(text);
+//		else		
 	}
 
 	public void clientResponse(String[] text) {

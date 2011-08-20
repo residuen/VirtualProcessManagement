@@ -1,7 +1,10 @@
 package de.virtualprocessmanagement.processing;
 
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.virtualprocessmanagement.objects.MoveableSubject;
 import de.virtualprocessmanagement.objects.RectShape;
@@ -13,7 +16,16 @@ public class ProcessMap {
 	
 	protected ArrayList<RectShape> objectList = new ArrayList<RectShape>();
 	
-	public ProcessMap(String filename) {
+	protected HashMap<String, ArrayList<RectShape>> objectMap = new HashMap<String, ArrayList<RectShape>>();
+	
+	protected Shape boundary = null;
+	
+	protected int fieldsX = 0, fieldsY = 0, cellWidth = 0, cellHeight = 0;
+	
+	public ProcessMap(String filename, int cellWidth, int cellHeight) {
+		
+		this.cellWidth = cellWidth;
+		this.cellHeight = cellHeight;
 		
 		loadMap(filename);
 		
@@ -28,13 +40,18 @@ public class ProcessMap {
 		String[] strArr = fh.getTextLines(new File(filename));
 		String[] swap = null;
 		
-		mapAsStringArray = new String[strArr.length][(strArr[0].split(";")).length];
+		fieldsY = strArr.length;
+		fieldsX = (strArr[0].split(";")).length;
 		
-		for(int i=0; i<strArr.length; i++) {
+		boundary = new Rectangle2D.Double(0, 0, cellWidth*fieldsX, cellHeight*fieldsY);
+		
+		mapAsStringArray = new String[fieldsY][fieldsX];
+		
+		for(int i=0; i<fieldsY; i++) {
 			
 			swap = strArr[i].split(";");
 			
-			for(int j=0; j<swap.length; j++)
+			for(int j=0; j<fieldsX; j++)
 				mapAsStringArray[i][j] = swap[j].trim();
 		}
 		
@@ -104,46 +121,82 @@ public class ProcessMap {
 		
 		RectShape shape = null;
 		
-		System.out.println("entry="+entry);
+//		System.out.println("entry="+entry);
+		
+		String typ = null;
 		
 		if(entry.equals("s"))
 		{
+			typ = Integer.toString(RectShape.STATIC_SUBJECT);
+			
+			if(objectMap.get(typ) == null)
+				objectMap.put(typ, new ArrayList<RectShape>());
+				
 			shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 			shape.setSubjectTyp(RectShape.STATIC_SUBJECT);
-			shape.setName("STATIC_SUBJECT:x="+j+";y="+i);
-			return shape;
+			shape.setName("storage");
 		}
 		else
 			if(entry.equals("ms"))
 			{
+				typ = Integer.toString(RectShape.MOVEABLE_SUBJECT);
+				
+				if(objectMap.get(typ) == null)
+					objectMap.put(typ, new ArrayList<RectShape>());
+					
 				shape = new MoveableSubject(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 				shape.setSubjectTyp(RectShape.MOVEABLE_SUBJECT);
-				shape.setName("MOVEABLE_SUBJECT:x="+j+";y="+i);
-				return shape;
+				shape.setName("moveable");
 			}
 			else
 				if(entry.equals("m"))
 				{
+					typ = Integer.toString(RectShape.MACHINE_WAY_SUBJECT);
+					
+					if(objectMap.get(typ) == null)
+						objectMap.put(typ, new ArrayList<RectShape>());
+						
 					shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 					shape.setSubjectTyp(RectShape.MACHINE_WAY_SUBJECT);
-					shape.setName("MACHINE_WAY_SUBJECT:x="+j+";y="+i);
-					return shape;
+					shape.setName("machineway");
 				}
 				else
-					if(entry.equals("h"))
+					if(true) // entry.equals("h"))
 					{
+						typ = Integer.toString(RectShape.HUMAN_WAY_SUBJECT);
+						
+						if(objectMap.get(typ) == null)
+							objectMap.put(typ, new ArrayList<RectShape>());
+							
 						shape = new RectShape(RectShape.DEFAULT_WIDTH*(1+j), RectShape.DEFAULT_HEIGHT*(1+i), RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+//						shape.set
 						shape.setSubjectTyp(RectShape.HUMAN_WAY_SUBJECT);
-						shape.setName("HUMAN_WAY_SUBJECT:x="+j+";y="+i);
-						return shape;
+						shape.setName("humanway");
 					}
 		
 //		System.out.println(shape.toString());
 		
+		shape.setId(objectMap.get(typ).size());
+		objectMap.get(typ).add(shape);
+		
 		return shape;
+	}
+	
+	public int getFieldsX() {
+		return fieldsX;
+	}
+	
+	public int getFieldsY() {
+		return fieldsY;
 	}
 	
 	public ArrayList<RectShape> getObjectList() {
 		return objectList;
 	}
+	
+	public Shape getBoundary() {
+		return boundary;
+	}
+
+
 }

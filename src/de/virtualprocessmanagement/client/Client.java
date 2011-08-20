@@ -12,10 +12,10 @@ public class Client extends ClientConnector {
 	@Override
 	public void loop(String data) {
 		
-//		System.out.println("LOOP:Client empfaengt:\n"+data);
+		System.out.println("LOOP:Client empfaengt:\n"+data);
 		
 		dataResponseEvent(new String[] { "Ueberraschungstext" });
-		super.sendNextRequest("http://localhost/client?getrobots");
+		super.sendNextRequest("http://localhost/client?getserverinfo");
 		
 //		super.command = "http://localhost/client?getrobots";
 	}

@@ -83,7 +83,7 @@ public class ClientConnector extends Thread implements HTTPClient, SubjectHandle
 
 	public void run() {
     	
-    	while(true) //!isInterrupted() && runMode)
+    	while(!isInterrupted() && runMode)
         {
 //    		this.command = "http://localhost/client?getrobots";
     		

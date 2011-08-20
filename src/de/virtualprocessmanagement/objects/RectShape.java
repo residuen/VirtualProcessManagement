@@ -19,6 +19,8 @@ public class RectShape extends Rectangle2D.Double {
 	
 	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
 	
+	protected int id = 0;
+	
 	protected String name = null;
 
 	protected int x_index = 0, y_index = 0;
@@ -64,8 +66,13 @@ public class RectShape extends Rectangle2D.Double {
 	public Color getFrameColor() {
 		return frameColor;
 	}
+
 	public int getSubjectTyp() {
 		return subjectTyp;
+	}
+
+	public String getSubjectTypAsString() {
+		return Integer.toString(subjectTyp);
 	}
 
 	public void setSubjectTyp(int subjectTyp) {
@@ -92,6 +99,7 @@ public class RectShape extends Rectangle2D.Double {
 			
 			case HUMAN_WAY_SUBJECT:
 				fillColor = Color.WHITE;
+				frameColor = Color.LIGHT_GRAY;
 				break;
 
 //			default:
@@ -123,6 +131,15 @@ public class RectShape extends Rectangle2D.Double {
 	public void setHeight(double height) {
 		this.height = height;
 	}
+	
+	public int getX_index() {
+		return x_index;
+	}
+
+	public int getY_index() {
+		return y_index;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -131,9 +148,17 @@ public class RectShape extends Rectangle2D.Double {
 		this.name = name;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String toString() {
-		return "[class="+getClass().getSimpleName()+",x_index="+x_index+",y_index="+y_index+"]";
+		return "[name="+name+",x_index="+x_index+",y_index="+y_index+"]";
 	}
 
 }
