@@ -8,11 +8,25 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import de.virtualprocessmanagement.tools.Dialog;
+
 public class GuiBuilder
 {
 	public GuiBuilder()
 	{
 		initLookAndFeel();
+		
+		HashMap<String, Component> inputComponents = new HashMap<String,Component>();
+		
+		Dialog inputDialog = new Dialog();
+		
+		inputComponents.put("servermode", inputDialog.getServerMode());
+		inputComponents.put("serveradress", inputDialog.getIpAdress());
+		
+		System.out.println(inputDialog.getServerMode().isSelected()+","+inputDialog.getIpAdress().getText());
+		
+		inputDialog.dispose();
+		inputDialog = null;
 		
 		MainFrame mainFrame = new MainFrame("VirtualProcessManagement");
 		mainFrame.getContentPane().setLayout(new BorderLayout());
@@ -20,9 +34,7 @@ public class GuiBuilder
 		JTextField status = new JTextField();
 		status.setEnabled(false);
 		
-		HashMap<String, Component> inputComponents = new HashMap<String,Component>();
-		
-		MainPanel mainPanel = new MainPanel(inputComponents); // solvingController);
+		MainPanel mainPanel = new MainPanel(inputComponents);
 		
 		mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainFrame.getContentPane().add(status, BorderLayout.SOUTH);

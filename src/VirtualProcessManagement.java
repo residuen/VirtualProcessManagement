@@ -1,4 +1,7 @@
+import javax.swing.JOptionPane;
+
 import de.virtualprocessmanagement.gui.GuiBuilder;
+import de.virtualprocessmanagement.tools.Dialog;
 
 /*
 OpenEdu-VirtualWarehouseManager: Grafische Darstellung von Warenhaus-Logistik-Ablaeufen
@@ -33,5 +36,4 @@ public class VirtualProcessManagement
 	{	
 		new VirtualProcessManagement();
 	}
-
 }

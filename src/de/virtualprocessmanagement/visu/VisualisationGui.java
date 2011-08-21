@@ -61,12 +61,12 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	private ReadServerData readServerData = null;
 	
 	//basic class constructor
-	public VisualisationGui(ProcessMap processMap) {
+	public VisualisationGui(ProcessMap processMap, String host) {
 		
 		listen_port = new Integer(80);
 
 		try {
-			jbInit(processMap);
+			jbInit(processMap, host);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +74,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	}
   
 	//basic class constructor
-	public VisualisationGui(ProcessMap processMap, String arg) {
+	public VisualisationGui(ProcessMap processMap, String host, String arg) {
 	  
 		try {
 			listen_port = new Integer(arg);
@@ -85,7 +85,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		}
 
 		try {
-			jbInit(processMap);
+			jbInit(processMap, host);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -93,11 +93,11 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	}
 
 	//set up the user interface
-	private void jbInit(ProcessMap processMap) throws Exception {
+	private void jbInit(ProcessMap processMap, String host) throws Exception {
 	  
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		readServerData = new ReadServerData(this);
+		readServerData = new ReadServerData(this, host);
 		
 		JPanel centerPanel = new JPanel(new GridLayout(2,1));
 		

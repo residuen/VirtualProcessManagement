@@ -10,7 +10,7 @@ import de.virtualprocessmanagement.interfaces.Message;
  */
 public class ReadServerData extends Thread {
 
-	HTTPClientConnection connection = new HTTPClientConnection("localhost");
+	HTTPClientConnection connection = null; // new HTTPClientConnection("localhost");
 
 	Message to_send_message_to = null;
 	
@@ -18,15 +18,19 @@ public class ReadServerData extends Thread {
 
 	String data = null;
 	
-	String command = "http://localhost:80/visu?updateObjectList";
+	String command = null; // "http://localhost:80/visu?updateObjectList";
 	
 	int sleepTime = 1000;
 	
-	public ReadServerData() { }
+//	public ReadServerData() { }
 	
-	public ReadServerData(Message to_send_message_to) {
+	public ReadServerData(Message to_send_message_to, String host) {
 		
 		this.to_send_message_to = to_send_message_to;
+		
+		command = "http://"+host+"t:80/visu?updateObjectList";
+		
+		connection = new HTTPClientConnection(host);
 	}
 	
 	public void run() {

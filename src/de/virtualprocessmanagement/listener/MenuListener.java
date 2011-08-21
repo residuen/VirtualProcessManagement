@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.connection.HTTPClientConnection;
@@ -131,7 +132,8 @@ public class MenuListener implements ActionListener, MouseListener
 							{
 //								System.out.println(objectList);
 								
-								visualisationGui = new VisualisationGui(processManager.getProcessMap());
+								// get new visuGui and add the map and the hostname
+								visualisationGui = new VisualisationGui(processManager.getProcessMap(), ((JTextField)inputComponents.get("serveradress")).getText());
 								((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
 								visualisationGui.getReadServerData().start();
 								
@@ -158,7 +160,8 @@ public class MenuListener implements ActionListener, MouseListener
 			
 			if(serverClientConnector != null)
 			{
-				client.setServerClientConnectionLayer(serverClientConnector, "localhost");
+				client.setServerClientConnectionLayer(serverClientConnector, ((JTextField)inputComponents.get("serveradress")).getText());
+//				client.setServerClientConnectionLayer(serverClientConnector, "localhost");
 				serverClientConnector.setClient(client);
 			}
 			
