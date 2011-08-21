@@ -18,12 +18,11 @@ public class GuiBuilder
 		
 		HashMap<String, Component> inputComponents = new HashMap<String,Component>();
 		
+		// Input the server/Client-mode an the server-ip
 		Dialog inputDialog = new Dialog();
 		
 		inputComponents.put("servermode", inputDialog.getServerMode());
 		inputComponents.put("serveradress", inputDialog.getIpAdress());
-		
-		System.out.println(inputDialog.getServerMode().isSelected()+","+inputDialog.getIpAdress().getText());
 		
 		inputDialog.dispose();
 		inputDialog = null;
@@ -40,6 +39,7 @@ public class GuiBuilder
 		mainFrame.getContentPane().add(status, BorderLayout.SOUTH);
 
 		mainFrame.setVisible(true);
+		mainFrame.getContentPane().validate();
 	}
 
 	private void initLookAndFeel() {

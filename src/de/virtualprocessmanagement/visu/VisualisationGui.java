@@ -149,11 +149,10 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	public ReadServerData getReadServerData() {
 		return readServerData;
 	}
-	
-//	public void setObjectList(ArrayList<RectShape> objectList) {
-//		this.objectList = objectList;
-//	}
 
+	public VisuPanel getVisuPanel() {
+		return visuPanel;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -184,25 +183,4 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 
 	@Override
 	public void internalFrameOpened(InternalFrameEvent e) { }
-
-	//	public void setSimulationController( ServerClientConnectionLayer simulationController) {
-//		this.serverClientConnector = simulationController;
-//	}
-	
-	//the JavaAPI entry point
-	//where it starts this class if run
-//	public static void main(String[] args) {
-//		//start server on port x, default 80
-//		//use argument to main for what port to start on
-//		try {
-//			listen_port = new Integer(args[0]);
-//			//catch parse error
-//		}
-//		catch (Exception e) {
-//			listen_port = new Integer(80);
-//		}
-//		//create an instance of this class
-//		VisualisationGui visu = new VisualisationGui(TestSubjects.getObjectList());
-//	}
-
 }

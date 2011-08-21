@@ -3,7 +3,9 @@ package de.virtualprocessmanagement.objects;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-public class RectShape extends Rectangle2D.Double {
+import de.virtualprocessmanagement.interfaces.SubjectShape;
+
+public class RectShape extends Rectangle2D.Double implements SubjectShape {
 
 	public static final int STATIC_SUBJECT = 0;
 	public static final int PARTIAL_MOVEABLE_SUBJECT = 1;
@@ -16,6 +18,11 @@ public class RectShape extends Rectangle2D.Double {
 	public static int X_DIRECTION = 1;
 	public static int Y_DIRECTION = 2;
 	public static int Z_DIRECTION = 3;
+	
+	public static int LEFT = 0;
+	public static int UP = 1;
+	public static int RIGHT = 2;
+	public static int DOWN = 3;
 	
 	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
 	
@@ -30,6 +37,8 @@ public class RectShape extends Rectangle2D.Double {
 	
 	protected double width = DEFAULT_WIDTH;
 	protected double height = DEFAULT_HEIGHT;
+	
+	protected boolean showId = true;
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
 
@@ -78,7 +87,7 @@ public class RectShape extends Rectangle2D.Double {
 	public void setSubjectTyp(int subjectTyp) {
 		this.subjectTyp = subjectTyp;
 		
-		System.out.println("subjectTyp="+subjectTyp);
+//		System.out.println("subjectTyp="+subjectTyp);
 		
 		switch(subjectTyp) {
 			case STATIC_SUBJECT:
@@ -156,9 +165,19 @@ public class RectShape extends Rectangle2D.Double {
 		this.id = id;
 	}
 	
+	public boolean isShowId() {
+		return showId;
+	}
+
+	public void setShowId(boolean showId) {
+		this.showId = showId;
+	}
+
+
+	
 	@Override
 	public String toString() {
-		return "[name="+name+",x_index="+x_index+",y_index="+y_index+"]";
+		return "[name="+name+",subjectTyp="+subjectTyp+",x_index="+x_index+",y_index="+y_index+"]";
 	}
 
 }

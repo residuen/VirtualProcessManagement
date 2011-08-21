@@ -26,7 +26,7 @@ public class Dialog extends JDialog {
 		
 		setLayout(new BorderLayout());
 		 
-		setSize(300,200);
+		setSize(230,170);
 
 		setModal(true);
 		

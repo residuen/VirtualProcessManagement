@@ -134,6 +134,7 @@ public class MenuListener implements ActionListener, MouseListener
 								
 								// get new visuGui and add the map and the hostname
 								visualisationGui = new VisualisationGui(processManager.getProcessMap(), ((JTextField)inputComponents.get("serveradress")).getText());
+								processManager.setVisuComponent(visualisationGui.getVisuPanel());
 								((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
 								visualisationGui.getReadServerData().start();
 								

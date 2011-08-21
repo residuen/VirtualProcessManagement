@@ -2,7 +2,6 @@ package de.virtualprocessmanagement.connection;
 
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
-import de.virtualprocessmanagement.interfaces.SubjectHandler;
 import de.virtualprocessmanagement.server.Server;
 
 /**
@@ -10,7 +9,7 @@ import de.virtualprocessmanagement.server.Server;
  * @author bettray
  *
  */
-public class ClientConnector extends Thread implements HTTPClient, SubjectHandler {
+public class ClientConnector extends Thread implements HTTPClient { //, SubjectShape {
 	
 	private boolean runMode = true;
 	

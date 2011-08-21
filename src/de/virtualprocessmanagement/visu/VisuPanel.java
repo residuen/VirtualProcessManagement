@@ -1,5 +1,7 @@
 package de.virtualprocessmanagement.visu;
 
+import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -7,12 +9,13 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import de.virtualprocessmanagement.interfaces.SubjectShape;
 import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessMap;
 
 public class VisuPanel extends JPanel {
 
-	private ArrayList<RectShape> objectList = null;
+	private ArrayList<SubjectShape> objectList = null;
 	
 	private ProcessMap processMap = null;
 	
@@ -25,7 +28,7 @@ public class VisuPanel extends JPanel {
 	public void setProcessMap(ProcessMap processMap) {
 		this.processMap = processMap;
 		
-		objectList = processMap.getObjectList();
+		objectList = processMap.getAllObjects();
 	}
 
 	public void paint(Graphics g) {
@@ -34,14 +37,40 @@ public class VisuPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		for(RectShape shape : objectList) {
+		g2d.clearRect(0, 0, getWidth(), getHeight());
+		
+		for(SubjectShape shape : objectList) {
 			
 			g2d.setColor(shape.getFillColor());
 			g2d.fill(shape);
 
 			g2d.setColor(shape.getFrameColor());
 			g2d.draw(shape);
+			
+			// Zeichne die Object-Id, wenn showId  = true ist
+			if(shape.isShowId())
+				paintId(g2d, shape);
+			
+			g2d.setColor(Color.BLACK);
+			g2d.draw(processMap.getBoundary());
 		}
-		
 	}
+	
+	/**
+	 * Zeichne die Object-Id, wenn showId  = true ist
+	 * @param g2d
+	 * @param shape
+	 */
+	private void paintId(Graphics2D g2d, SubjectShape shape) {
+		
+		String str = Integer.toString(shape.getId());
+		FontMetrics fontMetrics = g2d.getFontMetrics();
+		
+		g2d.setColor(Color.BLACK);
+		g2d.drawString(str,
+					  (int)((RectShape)shape).getCenterX() - fontMetrics.stringWidth(str)/2,
+					  (int)((RectShape) shape).getCenterY() + fontMetrics.getHeight()/2);
+	}
+	
+
 }

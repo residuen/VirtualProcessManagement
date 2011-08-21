@@ -1,14 +1,16 @@
 package de.virtualprocessmanagement.processing;
 
+import java.awt.Component;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
+import de.virtualprocessmanagement.interfaces.ShapeHandler;
 
-public class ProcessManager implements HTTPClient {
+public class ProcessManager implements HTTPClient, ShapeHandler  {
 	
-	public static final int CELL_WIDTH = 30, CELL_HEIGHT = 30;
+	public static final int CELL_WIDTH = 25, CELL_HEIGHT = 25;
 	
 	private ServerClientConnectionLayer connectionLayer = null;
 	
@@ -25,10 +27,26 @@ public class ProcessManager implements HTTPClient {
 	@Override
 	public void loop(String data) {
 		
-		String[] str; //  = new String[] {"Client asked the server: "+data };
+		String[] swap = null;
+		
+		data = data.toLowerCase();
 		
 		if(data.contains("?getserverinfo"))
 			dataResponseEvent(getServerInfo(data));
+		else
+		if(data.contains("?moveobject="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		{
+//			System.out.println("ProcessManager:"+data);
+			swap = data.substring(data.indexOf("=")+1).split(",");
+			
+//			for( String g : swap)
+//				System.out.println(g);
+			
+			moveObject(Integer.parseInt(swap[0]),
+					   Integer.parseInt(swap[1]),
+					   swap[2]);
+		}
+			
 
 	}
 
@@ -78,5 +96,19 @@ public class ProcessManager implements HTTPClient {
 		
 		return null;
 	}
+
+	@Override
+	public void moveObject(int objectGroup, int objectId, String direction) {
+
+		shapeManager.moveObject(objectGroup, objectId, direction);
+				
+		dataResponseEvent(new String[] {"Move Object to: "+objectGroup+" "+objectId+" "+direction});
+
+	}
+	
+	public void setVisuComponent(Component visuComponent) {
+		shapeManager.setVisuComponent(visuComponent);
+	}
+
 
 }

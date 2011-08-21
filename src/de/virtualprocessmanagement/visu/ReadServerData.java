@@ -18,17 +18,17 @@ public class ReadServerData extends Thread {
 
 	String data = null;
 	
-	String command = null; // "http://localhost:80/visu?updateObjectList";
+	String command = null;
 	
 	int sleepTime = 1000;
 	
-//	public ReadServerData() { }
+	public ReadServerData() { }
 	
 	public ReadServerData(Message to_send_message_to, String host) {
 		
 		this.to_send_message_to = to_send_message_to;
 		
-		command = "http://"+host+"t:80/visu?updateObjectList";
+		command = "http://"+host+":80/visu?updateObjectList";
 		
 		connection = new HTTPClientConnection(host);
 	}

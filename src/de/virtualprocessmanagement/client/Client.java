@@ -15,9 +15,9 @@ public class Client extends ClientConnector {
 		System.out.println("LOOP:Client empfaengt:\n"+data);
 		
 		dataResponseEvent(new String[] { "Ueberraschungstext" });
-		super.sendNextRequest("http://localhost/client?getserverinfo");
-		
-//		super.command = "http://localhost/client?getrobots";
+//		sendNextRequest("http://localhost/client?getserverinfo");
+		sendNextRequest("http://localhost/client?moveobject=2,0,up");
+
 	}
 
 //	public static void main(String[] arg0)
