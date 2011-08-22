@@ -21,10 +21,6 @@ public class VisuPanel extends JPanel {
 	
 	private Shape boundary = null;
 
-//	public VisuPanel(Shape boundary) {
-//		this.boundary = boundary;
-//	}
-	
 	public void setProcessMap(ProcessMap processMap) {
 		this.processMap = processMap;
 	}
@@ -38,6 +34,7 @@ public class VisuPanel extends JPanel {
 		g2d.clearRect(0, 0, getWidth(), getHeight());
 		
 		
+		// Zuerst die statischen Objekte zeichnen
 		for(String key : RectShape.staticShapeKeys)
 		{
 			objectList = processMap.getObjectList(key);
@@ -46,6 +43,7 @@ public class VisuPanel extends JPanel {
 				paintShapes(g2d);
 		}
 
+		// ... anschliessend werden die beweglichen Objekte gezeichnet
 		for(String key : RectShape.moveableShapeKeys)
 		{
 			objectList = processMap.getObjectList(key);
@@ -55,6 +53,10 @@ public class VisuPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Zeichnen der Shapes und der IDs
+	 * @param g2d
+	 */
 	private void paintShapes(Graphics2D g2d) {
 		
 		for(SubjectShape shape : objectList) {
