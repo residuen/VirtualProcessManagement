@@ -11,10 +11,12 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import de.virtualprocessmanagement.listener.MenuListener;
+import de.virtualprocessmanagement.tools.Dialog;
 
 public class IconMenuPanel extends JPanel {
 
@@ -30,6 +32,8 @@ public class IconMenuPanel extends JPanel {
 	private void initPanel(HashMap<String, Component> inputComponents)
 	{
 		setBackground(new Color(215, 215, 215));
+		
+		int guiMode = new Integer(((JTextField)inputComponents.get("guimode")).getText());
 
 //		System.out.println("TEST");
 		
@@ -39,57 +43,67 @@ public class IconMenuPanel extends JPanel {
 		Dimension dim = new Dimension(100, 80);
 		JPanel panel = null;
 		Font font = new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12);
+		JButton button = null;
 
 		// Laden einer Prozess-Anlage
-		panel = new JPanel(new GridLayout(1, 1));
-		JButton button = new JButton("<html>load<br/>map</html>",
-				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/drive-harddisk.png")));
-		button.setFont(font);
-		button.setToolTipText("load warehouse-data from file");
-		button.setName("loadwarehouse");
-		inputComponents.put(button.getName(), button);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setPreferredSize(dim);
-		button.setMinimumSize(dim);
-		button.addActionListener(menuListener);
-		panel.add(button);
-		vBox.add(panel);
-		vBox.add(Box.createVerticalStrut(5));
+		if(guiMode==Dialog.SERVER_MODE || guiMode==Dialog.SERVER_CLIENT_MODE)
+		{
+			panel = new JPanel(new GridLayout(1, 1));
+			button = new JButton("<html>load<br/>map</html>",
+					new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/drive-harddisk.png")));
+			button.setFont(font);
+			button.setToolTipText("load warehouse-data from file");
+			button.setName("loadwarehouse");
+			inputComponents.put(button.getName(), button);
+			button.setHorizontalTextPosition(SwingConstants.CENTER);
+			button.setVerticalTextPosition(SwingConstants.BOTTOM);
+			button.setPreferredSize(dim);
+			button.setMinimumSize(dim);
+			button.addActionListener(menuListener);
+			panel.add(button);
+			vBox.add(panel);
+			vBox.add(Box.createVerticalStrut(5));
+		}
 		
 		// Starten des COM-Servers
-		panel = new JPanel(new GridLayout(1, 1));
-		button = new JButton("<html>start<br/>server</html>",
-				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/network-server.png")));
-		button.setFont(font);
-		button.setToolTipText("start communication-server");
-		button.setName("startserver");
-		inputComponents.put(button.getName(), button);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setPreferredSize(dim);
-		button.setMinimumSize(dim);
-		button.addActionListener(menuListener);
-		panel.add(button);
-		vBox.add(panel);
-		vBox.add(Box.createVerticalStrut(5));
+		if(guiMode==Dialog.SERVER_MODE || guiMode==Dialog.SERVER_CLIENT_MODE)
+		{
+			panel = new JPanel(new GridLayout(1, 1));
+			button = new JButton("<html>start<br/>server</html>",
+					new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/network-server.png")));
+			button.setFont(font);
+			button.setToolTipText("start communication-server");
+			button.setName("startserver");
+			inputComponents.put(button.getName(), button);
+			button.setHorizontalTextPosition(SwingConstants.CENTER);
+			button.setVerticalTextPosition(SwingConstants.BOTTOM);
+			button.setPreferredSize(dim);
+			button.setMinimumSize(dim);
+			button.addActionListener(menuListener);
+			panel.add(button);
+			vBox.add(panel);
+			vBox.add(Box.createVerticalStrut(5));
+		}
 		
-		// Starten des Client/Cleint-Algorithmus
-		panel = new JPanel(new GridLayout(1, 1));
-		button = new JButton("<html>start<br/>client</html>",
-				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/network-wired.png")));
-		button.setFont(font);
-		button.setToolTipText("manage communication-client");
-		button.setName("startclient");
-		inputComponents.put(button.getName(), button);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setPreferredSize(dim);
-		button.setMinimumSize(dim);
-		button.addActionListener(menuListener);
-		panel.add(button);
-		vBox.add(panel);
-		vBox.add(Box.createVerticalStrut(5));
+		// Starten des Client/Client-Algorithmus
+		if(guiMode==Dialog.CLIENT_MODE || guiMode==Dialog.SERVER_CLIENT_MODE)
+		{
+			panel = new JPanel(new GridLayout(1, 1));
+			button = new JButton("<html>start<br/>client</html>",
+					new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/network-wired.png")));
+			button.setFont(font);
+			button.setToolTipText("manage communication-client");
+			button.setName("startclient");
+			inputComponents.put(button.getName(), button);
+			button.setHorizontalTextPosition(SwingConstants.CENTER);
+			button.setVerticalTextPosition(SwingConstants.BOTTOM);
+			button.setPreferredSize(dim);
+			button.setMinimumSize(dim);
+			button.addActionListener(menuListener);
+			panel.add(button);
+			vBox.add(panel);
+			vBox.add(Box.createVerticalStrut(5));
+		}
 		
 		// Starten der Visualisierung
 		panel = new JPanel(new GridLayout(1, 1));

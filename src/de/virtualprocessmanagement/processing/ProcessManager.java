@@ -102,7 +102,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 
 		shapeManager.moveObject(objectGroup, objectId, direction);
 				
-		dataResponseEvent(new String[] {"Move Object to: "+objectGroup+" "+objectId+" "+direction});
+		dataResponseEvent(new String[] {"server?acknowledge="+objectGroup+","+objectId+","+direction+";"+true});
 
 	}
 	

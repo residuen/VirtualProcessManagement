@@ -66,6 +66,10 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
 	protected void setSleepTime(int sleepTime) {
 		this.sleepTime = sleepTime;
 	}
+	
+	protected int getSleepTime() {
+		return sleepTime;
+	}
 
 	/**
 	 * Setzt den Text fuer die naechste Serveranfrage 
@@ -76,7 +80,7 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
 		synchronized (command) {
 			this.command = command;
 			
-//			System.out.println("1*command="+command);
+//			System.out.println("1*command="+command);			
 		}
 	}
 

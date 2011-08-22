@@ -12,11 +12,15 @@ public class Client extends ClientConnector {
 	@Override
 	public void loop(String data) {
 		
-		System.out.println("LOOP:Client empfaengt:\n"+data);
+		System.out.println("LOOP:Client empfaengt: "+data);
 		
-		dataResponseEvent(new String[] { "Ueberraschungstext" });
+		String cmd = "http://localhost/client?moveobject=2,0,up";
+		
+//		System.out.println("nächste Anfrage des Client: "+cmd);
+		
+//		dataResponseEvent(new String[] { "Ueberraschungstext" });
 //		sendNextRequest("http://localhost/client?getserverinfo");
-		sendNextRequest("http://localhost/client?moveobject=2,0,up");
+		sendNextRequest(cmd);
 
 	}
 

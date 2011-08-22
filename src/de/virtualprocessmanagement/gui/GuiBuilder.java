@@ -1,14 +1,17 @@
 package de.virtualprocessmanagement.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.util.HashMap;
 
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import de.virtualprocessmanagement.tools.Dialog;
+import de.virtualprocessmanagement.tools.ServerInfos;
 
 public class GuiBuilder
 {
@@ -18,20 +21,32 @@ public class GuiBuilder
 		
 		HashMap<String, Component> inputComponents = new HashMap<String,Component>();
 		
+		ServerInfos serverInfos = new ServerInfos();
+		
 		// Input the server/Client-mode an the server-ip
 		Dialog inputDialog = new Dialog();
 		
-		inputComponents.put("servermode", inputDialog.getServerMode());
+//		System.out.println("GuiMode="+inputDialog.getGuiMode());
+		
+		inputComponents.put("guimode", new JTextField(""+inputDialog.getGuiMode()));
 		inputComponents.put("serveradress", inputDialog.getIpAdress());
 		
+		JLabel status = new JLabel();
+		status.setOpaque(true);
+		status.setForeground(Color.BLACK);
+		status.setBackground(Color.WHITE);
+		
+		if(inputDialog.getGuiMode()==Dialog.CLIENT_MODE)
+			status.setText("Client-name="+serverInfos.getServerName()+" Client-adress="+serverInfos.getServerIP()+" Client-cores="+serverInfos.getServerCores());
+		else
+			status.setText("Server-name="+serverInfos.getServerName()+" Server-adress="+serverInfos.getServerIP()+" Server-cores="+serverInfos.getServerCores());
+
 		inputDialog.dispose();
 		inputDialog = null;
 		
 		MainFrame mainFrame = new MainFrame("VirtualProcessManagement");
 		mainFrame.getContentPane().setLayout(new BorderLayout());
 		
-		JTextField status = new JTextField();
-		status.setEnabled(false);
 		
 		MainPanel mainPanel = new MainPanel(inputComponents);
 		
