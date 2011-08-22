@@ -27,8 +27,6 @@ public class VisuPanel extends JPanel {
 	
 	public void setProcessMap(ProcessMap processMap) {
 		this.processMap = processMap;
-		
-		objectList = processMap.getAllObjects();
 	}
 
 	public void paint(Graphics g) {
@@ -38,6 +36,26 @@ public class VisuPanel extends JPanel {
 		Graphics2D g2d = (Graphics2D)g;
 		
 		g2d.clearRect(0, 0, getWidth(), getHeight());
+		
+		
+		for(String key : RectShape.staticShapeKeys)
+		{
+			objectList = processMap.getObjectList(key);
+			
+			if(objectList != null)
+				paintShapes(g2d);
+		}
+
+		for(String key : RectShape.moveableShapeKeys)
+		{
+			objectList = processMap.getObjectList(key);
+			
+			if(objectList != null)
+				paintShapes(g2d);
+		}
+	}
+	
+	private void paintShapes(Graphics2D g2d) {
 		
 		for(SubjectShape shape : objectList) {
 			
@@ -55,7 +73,6 @@ public class VisuPanel extends JPanel {
 			g2d.draw(processMap.getBoundary());
 		}
 	}
-	
 	/**
 	 * Zeichne die Object-Id, wenn showId  = true ist
 	 * @param g2d

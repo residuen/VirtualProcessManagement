@@ -99,7 +99,8 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 
 		readServerData = new ReadServerData(this, host);
 		
-		JPanel centerPanel = new JPanel(new GridLayout(2,1));
+//		JPanel centerPanel = new JPanel(new GridLayout(2,1));
+		JPanel centerPanel = new JPanel(new GridLayout(1,1));
 		
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
@@ -122,7 +123,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		jScrollPane1.getViewport().add(jTextArea2);
 		jPanel1.add(jScrollPane1);
 		
-		centerPanel.add(jPanel1);
+//		centerPanel.add(jPanel1);
 		centerPanel.add(visuPanel);
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(button, BorderLayout.SOUTH);
@@ -142,8 +143,8 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	//this is a method to get messages from the actual
 	//server to the window
 	public void message(String s) {
-		jTextArea2.append(s);
-		jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
+//		jTextArea2.append(s);
+//		jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
 	}
 	
 	public ReadServerData getReadServerData() {

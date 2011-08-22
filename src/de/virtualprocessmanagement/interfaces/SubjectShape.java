@@ -43,4 +43,10 @@ public interface SubjectShape extends Shape {
 	public boolean isShowId();
 
 	public void setShowId(boolean showId);
+	
+	public void lockShape();
+	
+	public void unlockShape();
+	
+	public boolean isShapeLocked();
 }

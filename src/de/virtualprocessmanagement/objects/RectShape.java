@@ -7,12 +7,25 @@ import de.virtualprocessmanagement.interfaces.SubjectShape;
 
 public class RectShape extends Rectangle2D.Double implements SubjectShape {
 
+	// nicht bewegliche shapes
 	public static final int STATIC_SUBJECT = 0;
+	public static final int MACHINE_WAY_SUBJECT = 4;
+	public static final int HUMAN_WAY_SUBJECT = 5;
+
+	// (teil)bewegliche Shapes
 	public static final int PARTIAL_MOVEABLE_SUBJECT = 1;
 	public static final int MOVEABLE_SUBJECT = 2;
 	public static final int ROBOT = 3;
-	public static final int MACHINE_WAY_SUBJECT = 4;
-	public static final int HUMAN_WAY_SUBJECT = 5;
+	
+	public static final int[] staticShapeKeysNumbers = new int[] { STATIC_SUBJECT, MACHINE_WAY_SUBJECT, HUMAN_WAY_SUBJECT };
+	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_SUBJECT, MOVEABLE_SUBJECT, ROBOT };
+
+	public static final String[] staticShapeKeys = new String[] { Integer.toString(STATIC_SUBJECT),
+																  Integer.toString(MACHINE_WAY_SUBJECT),
+																  Integer.toString(HUMAN_WAY_SUBJECT) };
+	public static final String[] moveableShapeKeys = new String[]{ Integer.toString(PARTIAL_MOVEABLE_SUBJECT),
+															  	   Integer.toString(MOVEABLE_SUBJECT),
+																   Integer.toString(ROBOT) };
 	
 	public static int NO_DIRECTION = STATIC_SUBJECT;
 	public static int X_DIRECTION = 1;
@@ -39,6 +52,8 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	protected double height = DEFAULT_HEIGHT;
 	
 	protected boolean showId = true;
+	
+	protected boolean lock = false;
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
 
@@ -178,6 +193,21 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	@Override
 	public String toString() {
 		return "[name="+name+",subjectTyp="+subjectTyp+",x_index="+x_index+",y_index="+y_index+"]";
+	}
+
+	@Override
+	public void lockShape() {
+		lock = true;
+	}
+
+	@Override
+	public void unlockShape() {
+		lock = false;
+	}
+
+	@Override
+	public boolean isShapeLocked() {
+		return lock;
 	}
 
 }

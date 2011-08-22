@@ -29,41 +29,35 @@ public class ShapeManager implements ShapeHandler {
 		
 		direction = direction.toLowerCase();
 		
-		System.out.println("ShapeManager: Move Object: "+objectGroup+" "+objectId+" "+direction);
+//		System.out.println("ShapeManager: Move Object: "+objectGroup+" "+objectId+" "+direction);
 		
 		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectId);
 		
-		if(direction.equals("up"))
-			((RectShape)shape).setRect(shape.getBounds2D().getX(),
-									   shape.getBounds2D().getY() - RectShape.DEFAULT_HEIGHT,
-									   shape.getWidth(),
-									   shape.getHeight());
+		ShapeMover mover = null;
 		
-		else if(direction.equals("down"))
-			((RectShape)shape).setRect(shape.getBounds2D().getX(),
-					   shape.getBounds2D().getY() + RectShape.DEFAULT_HEIGHT,
-					   shape.getWidth(),
-					   shape.getHeight());
+		if(!shape.isShapeLocked())
+		{
+			if(direction.equals("up"))
+				mover = new ShapeMover(shape, RectShape.UP, 1000, visuComponent);
+	
+			else if(direction.equals("down"))
+				mover = new ShapeMover(shape, RectShape.DOWN, 1000, visuComponent);
+	
+			else if(direction.equals("left"))
+				mover = new ShapeMover(shape, RectShape.LEFT, 1000, visuComponent);
+	
+			else if(direction.equals("right"))
+				mover = new ShapeMover(shape, RectShape.RIGHT, 1000, visuComponent);
+			
+			shape.lockShape();
 		
-		else if(direction.equals("left"))
-			((RectShape)shape).setRect(shape.getBounds2D().getX() - RectShape.DEFAULT_WIDTH,
-					   shape.getBounds2D().getY(),
-					   shape.getWidth(),
-					   shape.getHeight());
-		
-		else if(direction.equals("right"))
-			((RectShape)shape).setRect(shape.getBounds2D().getX() + RectShape.DEFAULT_WIDTH,
-					   shape.getBounds2D().getY(),
-					   shape.getWidth(),
-					   shape.getHeight());
-		
-		visuComponent.repaint();
-		
+		if(mover!=null)
+			mover.start();
+		}
 		System.out.println("Shape to move:"+shape);
 	}
 	
 	public void setVisuComponent(Component visuComponent) {
 		this.visuComponent = visuComponent;
 	}
-
 }

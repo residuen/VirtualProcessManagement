@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.interfaces.ShapeHandler;
+import de.virtualprocessmanagement.tools.ServerInfos;
 
 public class ProcessManager implements HTTPClient, ShapeHandler  {
 	
@@ -17,6 +18,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	private ShapeManager shapeManager = null;
 	
 	private ProcessMap processMap = null;
+	
+	private String data = null;
 
 	public ProcessManager(String mapName) {
 		processMap = new ProcessMap(mapName, CELL_WIDTH, CELL_HEIGHT);
@@ -26,6 +29,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 
 	@Override
 	public void loop(String data) {
+		
+		this.data = data;
 		
 		String[] swap = null;
 		
@@ -70,28 +75,23 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 	
 	public String[] getServerInfo(String data) {
+		
+		ServerInfos serverInfos = new ServerInfos();
+		
 		if(data.toLowerCase().equals("client?getserverinfo"))
 		{
-			InetAddress inetAdress = null;
-			try { inetAdress = InetAddress.getLocalHost(); }
-			catch (UnknownHostException e) { e.printStackTrace(); }
-			
-			return new String[] { "\nserver-home="+System.getProperty("user.home")+";",
-												   "\nserver-ip="+inetAdress.getHostAddress()+";",
-												   "\nserver-name="+inetAdress.getHostName()+";",
-												   "\nserver-cores="+Runtime.getRuntime().availableProcessors() };
+			return new String[] { "\nserver-home="+serverInfos.getServerHome()+";",
+												   "\nserver-ip="+serverInfos.getServerIP()+";",
+												   "\nserver-name="+serverInfos.getServerName()+";",
+												   "\nserver-cores="+serverInfos.getServerCores() };
 		}
 		else		
 			if(data.toLowerCase().equals("client?getserverinfoashtml"))
-			{
-				InetAddress inetAdress = null;
-				try { inetAdress = InetAddress.getLocalHost(); }
-				catch (UnknownHostException e) { e.printStackTrace(); }
-			
-				return new String[] { "<html>\n<body>\nserver-home="+System.getProperty("user.home")+"<br>",
-													   "server-ip="+inetAdress.getHostAddress()+"<br>",
-													   "server-name="+inetAdress.getHostName()+"<br>",
-													   "server-cores="+Runtime.getRuntime().availableProcessors()+"\n</body>\n</html>" };
+			{		
+				return new String[] { "<html>\n<body>\nserver-home="+serverInfos.getServerHome()+"<br>",
+													   "server-ip="+serverInfos.getServerIP()+"<br>",
+													   "server-name="+serverInfos.getServerName()+"<br>",
+													   "server-cores="+serverInfos.getServerCores()+"\n</body>\n</html>" };
 		}
 		
 		return null;
@@ -102,8 +102,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 
 		shapeManager.moveObject(objectGroup, objectId, direction);
 				
-		dataResponseEvent(new String[] {"server?acknowledge="+objectGroup+","+objectId+","+direction+";"+true});
-
+		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
 	}
 	
 	public void setVisuComponent(Component visuComponent) {

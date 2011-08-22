@@ -213,6 +213,10 @@ public class ProcessMap {
 		return objectMap.get(Integer.toString(objectGroup));
 	}
 	
+	public  ArrayList<SubjectShape> getObjectList(String objectGroup) {
+		return objectMap.get(objectGroup);
+	}
+
 	public Shape getBoundary() {
 		return boundary;
 	}
