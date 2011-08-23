@@ -29,7 +29,7 @@ public class ClientConnector extends Thread implements HTTPClient {
 	
 	protected String hostAdress = null;
 	
-	private Vector<String> commandList = new Vector<String>();
+	private Vector<String> commandList = new Vector<String>();	// Speichert die Client2Server-Anfragen ziwschen
 		
 	public void setServerClientConnectionLayer(ServerClientConnectionLayer serverClientConnectionLayer, String host) {
 	
@@ -113,14 +113,15 @@ public class ClientConnector extends Thread implements HTTPClient {
   
     		if(commandList.size() > 0)
     		{
+    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelsen und anschliessend geloescht
     			data = connection.sendRequest("http://"+hostAdress+"/"+commandList.get(0));
-    			commandList.remove(0);
+    			commandList.remove(0);	// Loeschen des gesendeten Kommandos
     		}
 
     		loop(data);
     		
     		try {
-    			Thread.sleep(10); //sleepTime);
+    			Thread.sleep(sleepTime);
     		} catch (InterruptedException e) {
     			System.out.println(e.getMessage());
     		}

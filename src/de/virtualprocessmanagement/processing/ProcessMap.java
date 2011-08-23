@@ -90,6 +90,11 @@ public class ProcessMap {
 			}
 		}
 		
+		for(SubjectShape s : objectList)
+		{
+			addToObjectMap(Integer.toString(s.getSubjectTyp()), s);
+		}
+		
 //		return al;
 	}
 	
@@ -172,13 +177,28 @@ public class ProcessMap {
 //		System.out.println(shape.toString());
 		
 		// Testen, ob Object-Map fuer Objektgruppe vorhanden ist, wenn nicht wird sie angelegt 
+//		if(objectMap.get(typ) == null)
+//			objectMap.put(typ, new ArrayList<SubjectShape>());
+//		
+//		shape.setId(objectMap.get(typ).size());
+//		objectMap.get(typ).add(shape);
+		
+		return shape;
+	}
+	
+	/**
+	 * Speichern der Objekte aus der ArrayList in einer HashMap
+	 * @param typ
+	 * @param shape
+	 */
+	private void addToObjectMap(String typ, SubjectShape shape) {
+		
 		if(objectMap.get(typ) == null)
 			objectMap.put(typ, new ArrayList<SubjectShape>());
 		
 		shape.setId(objectMap.get(typ).size());
 		objectMap.get(typ).add(shape);
-		
-		return shape;
+
 	}
 	
 	public int getFieldsX() {

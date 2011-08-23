@@ -120,7 +120,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		ArrayList<SubjectShape> swapList = null;
 		
 		if(swap[1].toLowerCase().equals("getall"))
-			objects = new String[processMap.getAllObjects().size()+1];
+			objectList = processMap.getAllObjects();
 		else
 			if(swap[1].toLowerCase().equals("getallstatic"))
 				objectList = processMap.getObjectList(RectShape.STORAGE_SUBJECT);

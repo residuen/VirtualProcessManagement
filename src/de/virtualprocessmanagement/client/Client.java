@@ -20,8 +20,8 @@ public class Client extends ClientConnector {
 		
 		String cmd = "";
 		
-//		String cmd = "client?objectinfo=getall";
-//		String cmd = "client?objectinfo=getallstatic";
+//		cmd = "client?objectinfo=getall";
+//		cmd = "client?objectinfo=getallstatic";
 //		cmd = "client?objectinfo=getallmoveable";
 //		cmd = "client?objectinfo=getbygroup:2,0";
 		
