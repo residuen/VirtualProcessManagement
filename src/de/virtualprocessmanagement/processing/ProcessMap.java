@@ -9,6 +9,7 @@ import java.util.HashMap;
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 import de.virtualprocessmanagement.objects.MoveableSubject;
 import de.virtualprocessmanagement.objects.RectShape;
+import de.virtualprocessmanagement.objects.StorageSubject;
 import de.virtualprocessmanagement.tools.FileHandler;
 
 public class ProcessMap {
@@ -124,9 +125,9 @@ public class ProcessMap {
 	 * @param j
 	 * @return
 	 */
-	private RectShape compileSubject(String entry, int i, int j) {
+	private SubjectShape compileSubject(String entry, int i, int j) {
 		
-		RectShape shape = null;
+		SubjectShape shape = null;
 		
 //		System.out.println("entry="+entry);
 		
@@ -134,13 +135,10 @@ public class ProcessMap {
 		
 		if(entry.equals("s"))
 		{
-			typ = Integer.toString(RectShape.STATIC_SUBJECT);
+			typ = Integer.toString(RectShape.STORAGE_SUBJECT);
 			
-			if(objectMap.get(typ) == null)
-				objectMap.put(typ, new ArrayList<SubjectShape>());
-				
-			shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-			shape.setSubjectTyp(RectShape.STATIC_SUBJECT);
+			shape = new StorageSubject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setSubjectTyp(RectShape.STORAGE_SUBJECT);
 			shape.setName("storage");
 		}
 		else
@@ -148,9 +146,6 @@ public class ProcessMap {
 			{
 				typ = Integer.toString(RectShape.MOVEABLE_SUBJECT);
 				
-				if(objectMap.get(typ) == null)
-					objectMap.put(typ, new ArrayList<SubjectShape>());
-					
 				shape = new MoveableSubject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 				shape.setSubjectTyp(RectShape.MOVEABLE_SUBJECT);
 				shape.setName("moveable");
@@ -160,9 +155,6 @@ public class ProcessMap {
 				{
 					typ = Integer.toString(RectShape.MACHINE_WAY_SUBJECT);
 					
-					if(objectMap.get(typ) == null)
-						objectMap.put(typ, new ArrayList<SubjectShape>());
-						
 					shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 					shape.setSubjectTyp(RectShape.MACHINE_WAY_SUBJECT);
 					shape.setName("machineway");
@@ -172,15 +164,16 @@ public class ProcessMap {
 					{
 						typ = Integer.toString(RectShape.HUMAN_WAY_SUBJECT);
 						
-						if(objectMap.get(typ) == null)
-							objectMap.put(typ, new ArrayList<SubjectShape>());
-							
 						shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 						shape.setSubjectTyp(RectShape.HUMAN_WAY_SUBJECT);
 						shape.setName("humanway");
 					}
 		
 //		System.out.println(shape.toString());
+		
+		// Testen, ob Object-Map fuer Objektgruppe vorhanden ist, wenn nicht wird sie angelegt 
+		if(objectMap.get(typ) == null)
+			objectMap.put(typ, new ArrayList<SubjectShape>());
 		
 		shape.setId(objectMap.get(typ).size());
 		objectMap.get(typ).add(shape);

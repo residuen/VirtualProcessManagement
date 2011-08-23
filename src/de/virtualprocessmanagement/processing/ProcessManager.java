@@ -113,15 +113,17 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	public void getObjectInfo(String data) {
 		
 		String[] swap = data.split("objectinfo=");
+		String[] swap2 = null;
 		String[] objects = null;
 		
-		ArrayList<SubjectShape> objectList = processMap.getAllObjects();
+		ArrayList<SubjectShape> objectList = null; //processMap.getAllObjects();
+		ArrayList<SubjectShape> swapList = null;
 		
 		if(swap[1].toLowerCase().equals("getall"))
 			objects = new String[processMap.getAllObjects().size()+1];
 		else
 			if(swap[1].toLowerCase().equals("getallstatic"))
-				objectList = processMap.getObjectList(RectShape.STATIC_SUBJECT);
+				objectList = processMap.getObjectList(RectShape.STORAGE_SUBJECT);
 			else
 				if(swap[1].toLowerCase().equals("getallmoveable"))
 					objectList = processMap.getObjectList(RectShape.MOVEABLE_SUBJECT);
@@ -131,13 +133,22 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 					else
 						if(swap[1].toLowerCase().equals("getallpartialmoveable"))
 							objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_SUBJECT);
-//						else
-//							if(swap[1].toLowerCase().equals("getbygroup"))
-//								objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_SUBJECT);
-//							else
-//								if(swap[1].toLowerCase().equals("getallpartialmoveable"))
-//									objects = new String[processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_SUBJECT).size()+1];
-		
+						else
+							if(swap[1].toLowerCase().contains("getbygroup"))
+							{
+								swap2 = swap[1].toLowerCase().split("getbygroup:");
+								
+								System.out.println("Wotts app?"+swap2[0]+" "+swap2[1]);
+								
+								if(swap2[1].contains(","))
+								{
+									swapList = new ArrayList<SubjectShape>();
+									swapList.add(processMap.getObjectList(swap2[1].split(",")[0]).get(Integer.parseInt(swap2[1].split(",")[1])));
+									objectList = new ArrayList<SubjectShape>(swapList);
+								}
+								else
+									objectList = processMap.getObjectList(swap2[1]);
+							}
 		
 		objects = new String[objectList.size()+1];
 		
@@ -148,17 +159,6 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		}
 		
 		dataResponseEvent(objects);
-				
-				
-		
-		
-//		String cmd = "http://localhost/client?objectinfo=getall";
-//		String cmd = "http://localhost/client?objectinfo=getallstatic";
-//		String cmd = "http://localhost/client?objectinfo=getallmoveable";
-//		String cmd = "http://localhost/client?objectinfo=getallpartialmoveable";
-//		String cmd = "http://localhost/client?objectinfo=getbygroup:2";
-//		String cmd = "http://localhost/client?moveobject=2,0,up";
-
 	}
 	
 	public void setVisuComponent(Component visuComponent) {

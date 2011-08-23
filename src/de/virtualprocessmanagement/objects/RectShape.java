@@ -8,7 +8,7 @@ import de.virtualprocessmanagement.interfaces.SubjectShape;
 public class RectShape extends Rectangle2D.Double implements SubjectShape {
 
 	// nicht bewegliche shapes
-	public static final int STATIC_SUBJECT = 0;
+	public static final int STORAGE_SUBJECT = 0;
 	public static final int MACHINE_WAY_SUBJECT = 4;
 	public static final int HUMAN_WAY_SUBJECT = 5;
 
@@ -17,17 +17,17 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	public static final int MOVEABLE_SUBJECT = 2;
 	public static final int ROBOT = 3;
 	
-	public static final int[] staticShapeKeysNumbers = new int[] { STATIC_SUBJECT, MACHINE_WAY_SUBJECT, HUMAN_WAY_SUBJECT };
+	public static final int[] staticShapeKeysNumbers = new int[] { STORAGE_SUBJECT, MACHINE_WAY_SUBJECT, HUMAN_WAY_SUBJECT };
 	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_SUBJECT, MOVEABLE_SUBJECT, ROBOT };
 
-	public static final String[] staticShapeKeys = new String[] { Integer.toString(STATIC_SUBJECT),
+	public static final String[] staticShapeKeys = new String[] { Integer.toString(STORAGE_SUBJECT),
 																  Integer.toString(MACHINE_WAY_SUBJECT),
 																  Integer.toString(HUMAN_WAY_SUBJECT) };
 	public static final String[] moveableShapeKeys = new String[]{ Integer.toString(PARTIAL_MOVEABLE_SUBJECT),
 															  	   Integer.toString(MOVEABLE_SUBJECT),
 																   Integer.toString(ROBOT) };
 	
-	public static int NO_DIRECTION = STATIC_SUBJECT;
+	public static int NO_DIRECTION = STORAGE_SUBJECT;
 	public static int X_DIRECTION = 1;
 	public static int Y_DIRECTION = 2;
 	public static int Z_DIRECTION = 3;
@@ -45,7 +45,7 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 
 	protected int x_index = 0, y_index = 0;
 	
-	protected int subjectTyp = STATIC_SUBJECT;
+	protected int subjectTyp = STORAGE_SUBJECT;
 	protected int directions = NO_DIRECTION;
 	
 	protected double width = DEFAULT_WIDTH;
@@ -105,7 +105,7 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 //		System.out.println("subjectTyp="+subjectTyp);
 		
 		switch(subjectTyp) {
-			case STATIC_SUBJECT:
+			case STORAGE_SUBJECT:
 				fillColor = Color.RED;
 				break;
 		

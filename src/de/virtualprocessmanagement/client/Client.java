@@ -9,24 +9,36 @@ import de.virtualprocessmanagement.connection.ClientConnector;
  */
 public class Client extends ClientConnector {
 
+	String[] testDirections = new String[] { "up", "up", "right", "up", "right", "right", "right", "right", "right", "right" };
+	
+	int count = 0; 
+	
 	@Override
 	public void loop(String data) {
 		
-		System.out.println("LOOP:Client empfaengt:\n"+data);
+		System.out.println(count+" LOOP:Client empfaengt:\n"+data);
 		
-//		String cmd = "http://localhost/client?objectinfo=getall";
-//		String cmd = "http://localhost/client?objectinfo=getallstatic";
-		String cmd = "http://localhost/client?objectinfo=getallmoveable";
-//		String cmd = "http://localhost/client?objectinfo=getbygroup:2,0";
+		String cmd = "";
 		
-//		String cmd = "http://localhost/client?moveobject=2,0,up";
+//		String cmd = "client?objectinfo=getall";
+//		String cmd = "client?objectinfo=getallstatic";
+//		cmd = "client?objectinfo=getallmoveable";
+//		cmd = "client?objectinfo=getbygroup:2,0";
+		
+		if(count < testDirections.length)
+		{
+			cmd = "client?moveobject=2,0,"+testDirections[count];
+			count++;
+		}
+		else
+			cmd = "";
 		
 //		System.out.println("nächste Anfrage des Client: "+cmd);
 		
 //		dataResponseEvent(new String[] { "Ueberraschungstext" });
-//		sendNextRequest("http://localhost/client?getserverinfo");
+//		sendNextRequest("client?getserverinfo");
+		
 		sendNextRequest(cmd);
-
 	}
 
 //	public static void main(String[] arg0)

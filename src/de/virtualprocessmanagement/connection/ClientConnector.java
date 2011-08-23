@@ -1,5 +1,7 @@
 package de.virtualprocessmanagement.connection;
 
+import java.util.Vector;
+
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.server.Server;
@@ -9,13 +11,13 @@ import de.virtualprocessmanagement.server.Server;
  * @author bettray
  *
  */
-public class ClientConnector extends Thread implements HTTPClient { //, SubjectShape {
+public class ClientConnector extends Thread implements HTTPClient {
 	
 	private boolean runMode = true;
 	
 	private int sleepTime = 1000;
 	
-	protected String command = ""; //client?getserverinfo";
+	protected String command = "";
 	
 	private String data = null;
 	
@@ -23,10 +25,16 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
 	
 	private Server server = null;
 	
-	ServerClientConnectionLayer serverClientConnectionLayer = null;
+	private ServerClientConnectionLayer serverClientConnectionLayer = null;
+	
+	protected String hostAdress = null;
+	
+	private Vector<String> commandList = new Vector<String>();
 		
 	public void setServerClientConnectionLayer(ServerClientConnectionLayer serverClientConnectionLayer, String host) {
+	
 		this.serverClientConnectionLayer = serverClientConnectionLayer;
+		this.hostAdress = host;
 		
 		connection = new HTTPClientConnection(host);
 	}
@@ -38,6 +46,8 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
     protected void setCommand(String command) {
 		synchronized (command) {
 			this.command = command;
+			
+			commandList.add(command);
 		}
 	}
 	
@@ -70,6 +80,10 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
 	protected int getSleepTime() {
 		return sleepTime;
 	}
+	
+	protected String getHostAdress() {
+		return hostAdress;
+	}
 
 	/**
 	 * Setzt den Text fuer die naechste Serveranfrage 
@@ -80,6 +94,8 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
 		synchronized (command) {
 			this.command = command;
 			
+			commandList.add(command);
+			
 //			System.out.println("1*command="+command);			
 		}
 	}
@@ -88,17 +104,23 @@ public class ClientConnector extends Thread implements HTTPClient { //, SubjectS
     	
     	while(!isInterrupted() && runMode)
         {
-//    		this.command = "http://localhost/client?getrobots";
+//    		this.command = "http://"+getHostAdress()+"/client?getrobots";
     		
 //    		System.out.println("command="+this.command);
     		
-    		if(this.command.length()>0)
-    			data = connection.sendRequest(this.command);
+//    		if(this.command != null && this.command.length()>0)
+//    			data = connection.sendRequest("http://"+hostAdress+"/"+this.command);
   
+    		if(commandList.size() > 0)
+    		{
+    			data = connection.sendRequest("http://"+hostAdress+"/"+commandList.get(0));
+    			commandList.remove(0);
+    		}
+
     		loop(data);
     		
     		try {
-    			Thread.sleep(sleepTime);
+    			Thread.sleep(10); //sleepTime);
     		} catch (InterruptedException e) {
     			System.out.println(e.getMessage());
     		}

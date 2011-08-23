@@ -51,8 +51,12 @@ public class ShapeManager implements ShapeHandler {
 			
 			shape.lockShape();
 		
-		if(mover!=null)
-			mover.start();
+			if(mover!=null)
+			{
+				mover.start();
+				try { mover.join(); }
+				catch (InterruptedException e) { e.printStackTrace(); }
+			}
 		}
 		System.out.println("Shape to move:"+shape);
 	}
