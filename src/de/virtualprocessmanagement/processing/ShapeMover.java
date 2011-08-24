@@ -59,7 +59,7 @@ public class ShapeMover extends Thread {
 						x_new = shape.getBounds2D().getX();	// vergl. oben
 					}
 		
-		while(!isInterrupted() && testRectValues((RectShape)shape))
+		while(!isInterrupted() && testRectValues((SubjectShape)shape))
         {
 //			System.out.println("x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+((RectShape)shape).getX()+" shape->y="+((RectShape)shape).getY());
     		
@@ -95,7 +95,7 @@ public class ShapeMover extends Thread {
 
 	}
 	
-	private boolean testRectValues(RectShape shape) {
+	private boolean testRectValues(SubjectShape shape) {
 		
 		if(direction==RectShape.UP)
 			return shape.getY() >= y_new;

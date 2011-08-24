@@ -67,7 +67,8 @@ public class PathShape implements SubjectShape {
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
 	
-	private GeneralPath path = null;
+	private GeneralPath vehicle = null;
+	private GeneralPath forks = null;
 
 	public PathShape() {
 		super();
@@ -91,30 +92,33 @@ public class PathShape implements SubjectShape {
 		width = w;
 		height = h;
 		
-		path = new GeneralPath();
+		vehicle = new GeneralPath();
+		forks = new GeneralPath();
 		
 		// Bewegliche Teile des Staplers: Fahrzeug
-		path.moveTo(x, y);
-		path.lineTo(x+w, y);
-		path.lineTo(x+w, y+h);
-		path.lineTo(x, y+h);
-		path.lineTo(x, y);
-		path.closePath();
+		vehicle.moveTo(x, y);
+		vehicle.lineTo(x+w, y);
+		vehicle.lineTo(x+w, y+h);
+		vehicle.lineTo(x, y+h);
+		vehicle.lineTo(x, y);
+		vehicle.closePath();
 		
 		// Ausfahrbare Teile des Staplers: Linke Gabel
-		path.moveTo(x, y);
-		path.lineTo(x+0.333*w, y);
-		path.lineTo(x+0.333*w, y+h);
-		path.lineTo(x, y+h);
-		path.lineTo(x, y);
+		forks.moveTo(x, y);
+		forks.lineTo(x+0.333*w, y);
+		forks.lineTo(x+0.333*w, y+h);
+		forks.lineTo(x, y+h);
+		forks.lineTo(x, y);
 
 		// Ausfahrbare Teile des Staplers: Linke Gabel
-		path.moveTo(x+w - 0.333*w, y);
-		path.lineTo(x+w, y);
-		path.lineTo(x+w, y+h);
-		path.lineTo(x+w - 0.333*w, y+h);
-		path.lineTo(x+w - 0.333*w, y);
-		path.closePath();
+		forks.moveTo(x+w - 0.333*w, y);
+		forks.lineTo(x+w, y);
+		forks.lineTo(x+w, y+h);
+		forks.lineTo(x+w - 0.333*w, y+h);
+		forks.lineTo(x+w - 0.333*w, y);
+		forks.closePath();
+		
+		vehicle.append(forks, true);
 		
 	}
 
@@ -263,62 +267,72 @@ public class PathShape implements SubjectShape {
 
 	@Override
 	public boolean contains(Point2D arg0) {
-		return path.contains(arg0);
+		return vehicle.contains(arg0);
 	}
 
 	@Override
 	public boolean contains(Rectangle2D arg0) {
-		return path.contains(arg0);
+		return vehicle.contains(arg0);
 	}
 
 	@Override
 	public boolean contains(double arg0, double arg1) {
-		return path.contains(arg0, arg1);
+		return vehicle.contains(arg0, arg1);
 	}
 
 	@Override
 	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
-		return path.contains(arg0, arg1, arg2, arg3);
+		return vehicle.contains(arg0, arg1, arg2, arg3);
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		return path.getBounds();
+		return vehicle.getBounds();
 	}
 
 	@Override
 	public Rectangle2D getBounds2D() {
-		return path.getBounds2D();
+		return vehicle.getBounds2D();
 	}
 
 	@Override
 	public PathIterator getPathIterator(AffineTransform arg0) {
-		return path.getPathIterator(arg0);
+		return vehicle.getPathIterator(arg0);
 	}
 
 	@Override
 	public PathIterator getPathIterator(AffineTransform arg0, double arg1) {
-		return path.getPathIterator(arg0, arg1);
+		return vehicle.getPathIterator(arg0, arg1);
 	}
 
 	@Override
 	public boolean intersects(Rectangle2D arg0) {
-		return path.intersects(arg0);
+		return vehicle.intersects(arg0);
 	}
 
 	@Override
 	public boolean intersects(double arg0, double arg1, double arg2, double arg3) {
-		return path.intersects(arg0, arg1, arg2, arg3);
+		return vehicle.intersects(arg0, arg1, arg2, arg3);
 	}
 
 	@Override
 	public double getCenterX() {
-		return path.getBounds2D().getCenterX();
+		return vehicle.getBounds2D().getCenterX();
 	}
 
 	@Override
 	public double getCenterY() {
-		return path.getBounds2D().getCenterY();
+		return vehicle.getBounds2D().getCenterY();
+	}
+
+	@Override
+	public double getX() {
+		return vehicle.getBounds2D().getX();
+	}
+
+	@Override
+	public double getY() {
+		return vehicle.getBounds2D().getY();
 	}
 
 }

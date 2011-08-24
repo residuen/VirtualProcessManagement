@@ -58,5 +58,9 @@ public interface SubjectShape extends Shape {
 	
 	public boolean isShapeLocked();
 	
+	public double getX();
+	
+	public double getY();
+	
 	public String toString();
 }

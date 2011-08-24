@@ -23,6 +23,7 @@ import javax.swing.event.InternalFrameListener;
 import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.tools.ServerInfos;
 
 /**
  * The Server ist based on the Webserver coded by "Jon Berg"
@@ -47,6 +48,8 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	private HTTPServer server = null;
 	
 	private ServerClientConnectionLayer simulationController = null;
+	
+    private ServerInfos serverInfos = new ServerInfos();
 
 	   //declare some panel, scrollpanel, textarea for gui
 	JPanel jPanel1 = new JPanel();
@@ -144,7 +147,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		jTextArea2.setText("<VirtualProcessManagement-Server>\n<Type http://localhost/test.txt in browser to test>\n\n");
+		jTextArea2.setText("<The VirtualProcessManagement-Server>\n<Type http://"+serverInfos.getServerIP()+"/client?getserverinfo in browser to test>\n\n");
 	}
 	
 	public void setSimulationController( ServerClientConnectionLayer simulationController) {

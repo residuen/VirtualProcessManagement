@@ -24,6 +24,7 @@ import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.tools.ServerInfos;
 
 /**
  * The Server ist based on the webserver coded by "Jon Berg"
@@ -43,6 +44,8 @@ public class Server extends Thread implements HTTPServer {
     private ServerSocket serversocket = null;
     
     private ServerClientConnectionLayer simulationController = null;
+    
+    private ServerInfos serverInfos = new ServerInfos();
     
 	private Message message_to; //the starter class, needed for gui
 	private int port; //port we are going to listen to
@@ -76,8 +79,8 @@ public class Server extends Thread implements HTTPServer {
 		// we are now inside our own thread separated from the gui.
 		// ServerSocket serversocket = null;
 		// To easily pick up lots of girls, change this to your name!!!
-		serverMessage("<VirtualWarehouseManagement-Server>\n");
-		serverMessage("<Type http://localhost/test.txt in browser to test>\n\n");
+		serverMessage("<The VirtualProzessManagement-Server>\n");
+		serverMessage("<Type http://"+serverInfos.getServerIP()+"/client?getserverinfo in browser to test>\n\n");
     
 		//Pay attention, this is where things starts to cook!
 		try {

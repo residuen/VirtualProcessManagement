@@ -29,6 +29,7 @@ public class Client extends ClientConnector {
 		{
 //			cmd = "client?moveobject=2,0,"+testDirections[count];
 			cmd = "client?moveobject=33,"+testDirections[count];
+//			cmd = "client?moveobject=43,"+testDirections[count]; // the lifter
 			count++;
 		}
 		else
