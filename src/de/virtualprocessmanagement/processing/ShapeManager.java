@@ -15,6 +15,26 @@ public class ShapeManager implements ShapeHandler {
 		this.processMap = processMap;
 	}
 	
+	@Override
+	public void moveObject(int objectGroup, int objectMapId, String direction) {
+		
+		direction = direction.toLowerCase();
+		
+		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectMapId);
+	
+		objectMover(shape, direction);
+	}
+	
+	@Override
+	public void moveObject(int objectId, String direction) {
+		
+		direction = direction.toLowerCase();
+		
+		SubjectShape shape = processMap.getAllObjects().get(objectId);
+	
+		objectMover(shape, direction);
+	}
+	
 	/**
 	 * Move object to a special cell in field
 	 * request: client?moveObject=objectGroup,objectId,left/up/right/down
@@ -24,14 +44,11 @@ public class ShapeManager implements ShapeHandler {
 	 * @param x
 	 * @param y
 	 */
-	@Override
-	public void moveObject(int objectGroup, int objectId, String direction) {
+	public void objectMover(SubjectShape shape, String direction) {
 		
 		direction = direction.toLowerCase();
 		
 //		System.out.println("ShapeManager: Move Object: "+objectGroup+" "+objectId+" "+direction);
-		
-		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectId);
 		
 		ShapeMover mover = null;
 		

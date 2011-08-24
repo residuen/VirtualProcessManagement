@@ -27,7 +27,8 @@ public class Client extends ClientConnector {
 		
 		if(count < testDirections.length)
 		{
-			cmd = "client?moveobject=2,0,"+testDirections[count];
+//			cmd = "client?moveobject=2,0,"+testDirections[count];
+			cmd = "client?moveobject=33,"+testDirections[count];
 			count++;
 		}
 		else

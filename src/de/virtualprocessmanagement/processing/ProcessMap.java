@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
-import de.virtualprocessmanagement.objects.MoveableSubject;
+import de.virtualprocessmanagement.objects.ForkliftObject;
+import de.virtualprocessmanagement.objects.MoveableObject;
 import de.virtualprocessmanagement.objects.RectShape;
-import de.virtualprocessmanagement.objects.StorageSubject;
+import de.virtualprocessmanagement.objects.StorageObject;
 import de.virtualprocessmanagement.tools.FileHandler;
 
 public class ProcessMap {
@@ -90,9 +91,10 @@ public class ProcessMap {
 			}
 		}
 		
-		for(SubjectShape s : objectList)
+		for(int i=0; i<objectList.size(); i++)
 		{
-			addToObjectMap(Integer.toString(s.getSubjectTyp()), s);
+			objectList.get(i).setId(i);
+			addToObjectMap(Integer.toString(objectList.get(i).getGroup()), objectList.get(i));
 		}
 		
 //		return al;
@@ -140,48 +142,48 @@ public class ProcessMap {
 		
 		if(entry.equals("s"))
 		{
-			typ = Integer.toString(RectShape.STORAGE_SUBJECT);
+//			typ = Integer.toString(RectShape.STORAGE_OBJECT);
 			
-			shape = new StorageSubject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-			shape.setSubjectTyp(RectShape.STORAGE_SUBJECT);
+			shape = new StorageObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setGroup(RectShape.STORAGE_OBJECT);
 			shape.setName("storage");
 		}
 		else
-			if(entry.equals("ms"))
+			if(entry.equals("mo"))
 			{
-				typ = Integer.toString(RectShape.MOVEABLE_SUBJECT);
+//				typ = Integer.toString(RectShape.MOVEABLE_OBJECT);
 				
-				shape = new MoveableSubject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-				shape.setSubjectTyp(RectShape.MOVEABLE_SUBJECT);
+				shape = new MoveableObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+				shape.setGroup(RectShape.MOVEABLE_OBJECT);
 				shape.setName("moveable");
 			}
 			else
-				if(entry.equals("m"))
+				if(entry.equals("fl"))
 				{
-					typ = Integer.toString(RectShape.MACHINE_WAY_SUBJECT);
+//					typ = Integer.toString(RectShape.FORKLIFT);
 					
-					shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-					shape.setSubjectTyp(RectShape.MACHINE_WAY_SUBJECT);
-					shape.setName("machineway");
+					shape = new ForkliftObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+					shape.setGroup(RectShape.FORKLIFT);
+					shape.setName("forklift");
 				}
 				else
-					if(true) // entry.equals("h"))
+					if(entry.equals("m"))
 					{
-						typ = Integer.toString(RectShape.HUMAN_WAY_SUBJECT);
+//						typ = Integer.toString(RectShape.MACHINE_WAY_OBJECT);
 						
 						shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-						shape.setSubjectTyp(RectShape.HUMAN_WAY_SUBJECT);
-						shape.setName("humanway");
+						shape.setGroup(RectShape.MACHINE_WAY_OBJECT);
+						shape.setName("machineway");
 					}
-		
-//		System.out.println(shape.toString());
-		
-		// Testen, ob Object-Map fuer Objektgruppe vorhanden ist, wenn nicht wird sie angelegt 
-//		if(objectMap.get(typ) == null)
-//			objectMap.put(typ, new ArrayList<SubjectShape>());
-//		
-//		shape.setId(objectMap.get(typ).size());
-//		objectMap.get(typ).add(shape);
+					else
+						if(true) // entry.equals("h"))
+						{
+//							typ = Integer.toString(RectShape.HUMAN_WAY_OBJECT);
+							
+							shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+							shape.setGroup(RectShape.HUMAN_WAY_OBJECT);
+							shape.setName("humanway");
+						}
 		
 		return shape;
 	}
@@ -193,10 +195,11 @@ public class ProcessMap {
 	 */
 	private void addToObjectMap(String typ, SubjectShape shape) {
 		
+		// Testen, ob Object-Map fuer Objektgruppe vorhanden ist, wenn nicht wird sie angelegt 
 		if(objectMap.get(typ) == null)
 			objectMap.put(typ, new ArrayList<SubjectShape>());
 		
-		shape.setId(objectMap.get(typ).size());
+		shape.setMapId(objectMap.get(typ).size());
 		objectMap.get(typ).add(shape);
 
 	}
@@ -219,13 +222,18 @@ public class ProcessMap {
 	
 	/**
 	 * Liefert nur die Shapes der gewuenschten Gruppe zurueck
-	 * @param typ
+	 * @param objectGroup
 	 * @return
 	 */
 	public  ArrayList<SubjectShape> getObjectList(int objectGroup) {
 		return objectMap.get(Integer.toString(objectGroup));
 	}
 	
+	/**
+	 * Liefert nur die Shapes der gewuenschten Gruppe zurueck
+	 * @param objectGroup
+	 * @return
+	 */
 	public  ArrayList<SubjectShape> getObjectList(String objectGroup) {
 		return objectMap.get(objectGroup);
 	}

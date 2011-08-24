@@ -10,11 +10,11 @@ public interface SubjectShape extends Shape {
 	
 	public Color getFrameColor() ;
 	
-	public int getSubjectTyp();
+	public int getGroup();
 	
-	public String getSubjectTypAsString();
+	public String getGroupAsString();
 	
-	public void setSubjectTyp(int subjectTyp);
+	public void setGroup(int subjectTyp);
 	
 	public int getDirections();
 
@@ -28,6 +28,10 @@ public interface SubjectShape extends Shape {
 
 	public void setHeight(double height);
 	
+	public double getCenterX();
+	
+	public double getCenterY();
+	
 	public int getX_index();
 
 	public int getY_index();
@@ -40,6 +44,10 @@ public interface SubjectShape extends Shape {
 
 	public void setId(int id);
 	
+	public int getMapId();
+	
+	public void setMapId(int mapId);
+	
 	public boolean isShowId();
 
 	public void setShowId(boolean showId);
@@ -49,4 +57,6 @@ public interface SubjectShape extends Shape {
 	public void unlockShape();
 	
 	public boolean isShapeLocked();
+	
+	public String toString();
 }

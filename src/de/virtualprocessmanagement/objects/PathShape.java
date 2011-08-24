@@ -1,11 +1,16 @@
 package de.virtualprocessmanagement.objects;
 
 import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.GeneralPath;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 
-public class RectShape extends Rectangle2D.Double implements SubjectShape {
+public class PathShape implements SubjectShape {
 
 	// nicht bewegliche shapes
 	public static final int STORAGE_OBJECT = 0;
@@ -61,27 +66,56 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	protected boolean lock = false;
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
+	
+	private GeneralPath path = null;
 
-	public RectShape() {
+	public PathShape() {
 		super();
 	}
 
-	public RectShape(double arg0, double arg1, int x_index, int y_index) {
-		super();
-		super.setRect(arg0, arg1, arg0+DEFAULT_WIDTH, arg1+DEFAULT_HEIGHT);
+	public PathShape(double arg0, double arg1, int x_index, int y_index) {
 		
-		this.x_index = x_index;
-		this.y_index = y_index;
+		init(arg0, arg1, DEFAULT_WIDTH, DEFAULT_HEIGHT, x_index, y_index);
 	}
 
-	public RectShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
-		super(arg0, arg1, arg2, arg3);
-				
+	public PathShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
+		
+		init(arg0, arg1, arg2, arg3, x_index, y_index);
+	}
+	
+	private void init(double x, double y, double w, double h, int x_index, int y_index) {
+		
 		this.x_index = x_index;
 		this.y_index = y_index;
 		
-		width = arg2;
-		height = arg3;
+		width = w;
+		height = h;
+		
+		path = new GeneralPath();
+		
+		// Bewegliche Teile des Staplers: Fahrzeug
+		path.moveTo(x, y);
+		path.lineTo(x+w, y);
+		path.lineTo(x+w, y+h);
+		path.lineTo(x, y+h);
+		path.lineTo(x, y);
+		path.closePath();
+		
+		// Ausfahrbare Teile des Staplers: Linke Gabel
+		path.moveTo(x, y);
+		path.lineTo(x+0.333*w, y);
+		path.lineTo(x+0.333*w, y+h);
+		path.lineTo(x, y+h);
+		path.lineTo(x, y);
+
+		// Ausfahrbare Teile des Staplers: Linke Gabel
+		path.moveTo(x+w - 0.333*w, y);
+		path.lineTo(x+w, y);
+		path.lineTo(x+w, y+h);
+		path.lineTo(x+w - 0.333*w, y+h);
+		path.lineTo(x+w - 0.333*w, y);
+		path.closePath();
+		
 	}
 
 	public Color getFillColor() {
@@ -138,10 +172,6 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 			case ROBOT:
 				fillColor = Color.ORANGE;
 				break;
-				
-//			default:
-//				fillColor = Color.RED;
-//				break;
 		}
 	}
 
@@ -229,6 +259,66 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	@Override
 	public boolean isShapeLocked() {
 		return lock;
+	}
+
+	@Override
+	public boolean contains(Point2D arg0) {
+		return path.contains(arg0);
+	}
+
+	@Override
+	public boolean contains(Rectangle2D arg0) {
+		return path.contains(arg0);
+	}
+
+	@Override
+	public boolean contains(double arg0, double arg1) {
+		return path.contains(arg0, arg1);
+	}
+
+	@Override
+	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
+		return path.contains(arg0, arg1, arg2, arg3);
+	}
+
+	@Override
+	public Rectangle getBounds() {
+		return path.getBounds();
+	}
+
+	@Override
+	public Rectangle2D getBounds2D() {
+		return path.getBounds2D();
+	}
+
+	@Override
+	public PathIterator getPathIterator(AffineTransform arg0) {
+		return path.getPathIterator(arg0);
+	}
+
+	@Override
+	public PathIterator getPathIterator(AffineTransform arg0, double arg1) {
+		return path.getPathIterator(arg0, arg1);
+	}
+
+	@Override
+	public boolean intersects(Rectangle2D arg0) {
+		return path.intersects(arg0);
+	}
+
+	@Override
+	public boolean intersects(double arg0, double arg1, double arg2, double arg3) {
+		return path.intersects(arg0, arg1, arg2, arg3);
+	}
+
+	@Override
+	public double getCenterX() {
+		return path.getBounds2D().getCenterX();
+	}
+
+	@Override
+	public double getCenterY() {
+		return path.getBounds2D().getCenterY();
 	}
 
 }

@@ -48,9 +48,10 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		{
 			swap = data.substring(data.indexOf("=")+1).split(",");
 			
-			moveObject(Integer.parseInt(swap[0]),
-					   Integer.parseInt(swap[1]),
-					   swap[2]);
+			if(swap.length==2)
+				moveObject(Integer.parseInt(swap[0]), swap[1]);
+			else
+				moveObject(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
 		}
 		else
 		if(data.contains("?objectinfo="))	// moveObject=objectGroup,objectId,left/up/right/down  
@@ -103,13 +104,21 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 
 	@Override
-	public void moveObject(int objectGroup, int objectId, String direction) {
+	public void moveObject(int objectGroup, int objectMapId, String direction) {
 
-		shapeManager.moveObject(objectGroup, objectId, direction);
+		shapeManager.moveObject(objectGroup, objectMapId, direction);
 				
 		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
 	}
 	
+	@Override
+	public void moveObject(int objectId, String direction) {
+
+		shapeManager.moveObject(objectId, direction);
+				
+		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
+	}
+
 	public void getObjectInfo(String data) {
 		
 		String[] swap = data.split("objectinfo=");
@@ -123,22 +132,22 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 			objectList = processMap.getAllObjects();
 		else
 			if(swap[1].toLowerCase().equals("getallstatic"))
-				objectList = processMap.getObjectList(RectShape.STORAGE_SUBJECT);
+				objectList = processMap.getObjectList(RectShape.STORAGE_OBJECT);
 			else
 				if(swap[1].toLowerCase().equals("getallmoveable"))
-					objectList = processMap.getObjectList(RectShape.MOVEABLE_SUBJECT);
+					objectList = processMap.getObjectList(RectShape.MOVEABLE_OBJECT);
 				else
 					if(swap[1].toLowerCase().equals("getallpartialmoveable"))
-						objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_SUBJECT);
+						objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_OBJECT);
 					else
 						if(swap[1].toLowerCase().equals("getallpartialmoveable"))
-							objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_SUBJECT);
+							objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_OBJECT);
 						else
 							if(swap[1].toLowerCase().contains("getbygroup"))
 							{
 								swap2 = swap[1].toLowerCase().split("getbygroup:");
 								
-								System.out.println("Wotts app?"+swap2[0]+" "+swap2[1]);
+//								System.out.println("Wotts app?"+swap2[0]+" "+swap2[1]);
 								
 								if(swap2[1].contains(","))
 								{

@@ -1,12 +1,11 @@
 package de.virtualprocessmanagement.objects;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 
-public class RectShape extends Rectangle2D.Double implements SubjectShape {
-
+public abstract class DefaultObject implements SubjectShape {
+	
 	// nicht bewegliche shapes
 	public static final int STORAGE_OBJECT = 0;
 	public static final int MACHINE_WAY_OBJECT = 4;
@@ -62,28 +61,6 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
 
-	public RectShape() {
-		super();
-	}
-
-	public RectShape(double arg0, double arg1, int x_index, int y_index) {
-		super();
-		super.setRect(arg0, arg1, arg0+DEFAULT_WIDTH, arg1+DEFAULT_HEIGHT);
-		
-		this.x_index = x_index;
-		this.y_index = y_index;
-	}
-
-	public RectShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
-		super(arg0, arg1, arg2, arg3);
-				
-		this.x_index = x_index;
-		this.y_index = y_index;
-		
-		width = arg2;
-		height = arg3;
-	}
-
 	public Color getFillColor() {
 		return fillColor;
 	}
@@ -138,10 +115,6 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 			case ROBOT:
 				fillColor = Color.ORANGE;
 				break;
-				
-//			default:
-//				fillColor = Color.RED;
-//				break;
 		}
 	}
 
@@ -208,14 +181,7 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	public void setShowId(boolean showId) {
 		this.showId = showId;
 	}
-
-
 	
-	@Override
-	public String toString() {
-		return "[id="+id+",group="+group+",name="+name+",groupId="+groupId+",x_index="+x_index+",y_index="+y_index+"]";
-	}
-
 	@Override
 	public void lockShape() {
 		lock = true;
@@ -230,5 +196,7 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	public boolean isShapeLocked() {
 		return lock;
 	}
-
+	
+	@Override
+	public abstract String toString();
 }

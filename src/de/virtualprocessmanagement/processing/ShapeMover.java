@@ -62,7 +62,8 @@ public class ShapeMover extends Thread {
 		while(!isInterrupted() && testRectValues((RectShape)shape))
         {
 //			System.out.println("x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+((RectShape)shape).getX()+" shape->y="+((RectShape)shape).getY());
-    			
+    		
+			// Zeichnen er neuen x-y-Koordinaten
 			((RectShape)shape).setRect(
 			   shape.getBounds2D().getX() + x,
 			   shape.getBounds2D().getY() + y,

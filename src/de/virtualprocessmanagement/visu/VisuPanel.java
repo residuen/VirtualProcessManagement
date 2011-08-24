@@ -31,6 +31,8 @@ public class VisuPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
+		g2d.scale(1.5, 1.5);
+		
 		g2d.clearRect(0, 0, getWidth(), getHeight());
 		
 		
@@ -87,8 +89,8 @@ public class VisuPanel extends JPanel {
 		
 		g2d.setColor(Color.BLACK);
 		g2d.drawString(str,
-					  (int)((RectShape)shape).getCenterX() - fontMetrics.stringWidth(str)/2,
-					  (int)((RectShape) shape).getCenterY() + fontMetrics.getHeight()/2);
+					  (int)(shape).getCenterX() - fontMetrics.stringWidth(str)/2,
+					  (int)(shape).getCenterY() + fontMetrics.getHeight()/2);
 	}
 	
 
