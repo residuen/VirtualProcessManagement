@@ -23,6 +23,7 @@ public class ShapeMover extends Thread {
 	private double x = 0, x_new = 0, y = 0, y_new = 0;
 	
 	public ShapeMover(SubjectShape shape, int direction, int sleepTime, Component component) {
+		
 		this.shape = shape;
 		this.direction = direction;
 		this.sleepTime = sleepTime / 10;
@@ -59,17 +60,15 @@ public class ShapeMover extends Thread {
 						x_new = shape.getBounds2D().getX();	// vergl. oben
 					}
 		
-		while(!isInterrupted() && testRectValues((SubjectShape)shape))
+		while(!isInterrupted() && testRectValues(shape))
         {
 //			System.out.println("x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+((RectShape)shape).getX()+" shape->y="+((RectShape)shape).getY());
     		
-			// Zeichnen er neuen x-y-Koordinaten
-			((RectShape)shape).setRect(
-			   shape.getBounds2D().getX() + x,
-			   shape.getBounds2D().getY() + y,
-			   shape.getWidth(),
-			   shape.getHeight());
+//			System.out.println("shape.getBounds2D().getX() + x="+(shape.getBounds2D().getX()+" + " + x));
 			
+			// Zeichnen er neuen x-y-Koordinaten
+			shape.setRect(shape.getBounds2D().getX() + x,shape.getBounds2D().getY() + y, shape.getWidth(), shape.getHeight());			
+		
 			component.repaint();
 
     		try {
@@ -85,11 +84,7 @@ public class ShapeMover extends Thread {
 	
 	private void finalizeShape() {
 		
-		((RectShape)shape).setRect(
-				   x_new,
-				   y_new,
-				   shape.getWidth(),
-				   shape.getHeight());
+		shape.setRect( x_new, y_new, shape.getWidth(), shape.getHeight());
 
 		shape.unlockShape();
 

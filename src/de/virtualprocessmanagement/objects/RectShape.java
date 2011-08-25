@@ -1,82 +1,36 @@
 package de.virtualprocessmanagement.objects;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 
-public class RectShape extends Rectangle2D.Double implements SubjectShape {
+public class RectShape extends MainObject implements SubjectShape {	// Rectangle2D.Double 
 
-	// nicht bewegliche shapes
-	public static final int STORAGE_OBJECT = 0;
-	public static final int MACHINE_WAY_OBJECT = 4;
-	public static final int HUMAN_WAY_OBJECT = 5;
-
-	// (teil)bewegliche Shapes
-	public static final int PARTIAL_MOVEABLE_OBJECT = 6;
-	public static final int MOVEABLE_OBJECT = 7;
-	public static final int FORKLIFT = 8;
-	public static final int ROBOT = 9;
+	Rectangle2D.Double shape = new Rectangle2D.Double();
 	
-	public static final int[] staticShapeKeysNumbers = new int[] { STORAGE_OBJECT, MACHINE_WAY_OBJECT, HUMAN_WAY_OBJECT };
-	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_OBJECT, MOVEABLE_OBJECT, FORKLIFT, ROBOT };
-
-	public static final String[] staticShapeKeys = new String[] { Integer.toString(STORAGE_OBJECT),
-																  Integer.toString(MACHINE_WAY_OBJECT),
-																  Integer.toString(HUMAN_WAY_OBJECT) };
-	
-	public static final String[] moveableShapeKeys = new String[]{ Integer.toString(PARTIAL_MOVEABLE_OBJECT),
-															  	   Integer.toString(MOVEABLE_OBJECT),
-															  	   Integer.toString(FORKLIFT),
-																   Integer.toString(ROBOT) };
-	
-	public static int NO_DIRECTION = STORAGE_OBJECT;
-	public static int X_DIRECTION = 1;
-	public static int Y_DIRECTION = 2;
-	public static int Z_DIRECTION = 3;
-	
-	public static int LEFT = 0;
-	public static int UP = 1;
-	public static int RIGHT = 2;
-	public static int DOWN = 3;
-	
-	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
-	
-	protected int id = 0;
-	
-	protected int group = 0;
-	
-	protected String name = null;
-
-	protected int x_index = 0, y_index = 0;
-	
-	protected int groupId = STORAGE_OBJECT;
-	protected int directions = NO_DIRECTION;
-	
-	protected double width = DEFAULT_WIDTH;
-	protected double height = DEFAULT_HEIGHT;
-	
-	protected boolean showId = true;
-	
-	protected boolean lock = false;
-
-	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
-
 	public RectShape() {
 		super();
 	}
 
 	public RectShape(double arg0, double arg1, int x_index, int y_index) {
-		super();
-		super.setRect(arg0, arg1, arg0+DEFAULT_WIDTH, arg1+DEFAULT_HEIGHT);
+//		super();
+		shape.setRect(arg0, arg1, arg0+DEFAULT_WIDTH, arg1+DEFAULT_HEIGHT);
 		
 		this.x_index = x_index;
 		this.y_index = y_index;
 	}
 
 	public RectShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
-		super(arg0, arg1, arg2, arg3);
-				
+//		super(arg0, arg1, arg2, arg3);
+		shape.setRect(arg0, arg1, arg2, arg3);
+		
 		this.x_index = x_index;
 		this.y_index = y_index;
 		
@@ -229,6 +183,122 @@ public class RectShape extends Rectangle2D.Double implements SubjectShape {
 	@Override
 	public boolean isShapeLocked() {
 		return lock;
+	}
+
+	@Override
+	public boolean hasMoveableAdditionalShape() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public SubjectShape getAdditionalShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setAdditionalShape(SubjectShape shape) { }
+
+	@Override
+	public void chargeLoad() { }
+
+	@Override
+	public void dischargeLoad() { }
+
+	@Override
+	public boolean contains(Point2D p) {
+
+		return shape.contains(p);
+	}
+
+	@Override
+	public boolean contains(Rectangle2D r) {
+
+		return shape.contains(r);
+	}
+
+	@Override
+	public boolean contains(double x, double y) {
+
+		return shape.contains(x, y);
+	}
+
+	@Override
+	public boolean contains(double x, double y, double w, double h) {
+
+		return shape.contains(x, y, w, h);
+	}
+
+	@Override
+	public Rectangle getBounds() {
+
+		return shape.getBounds();
+	}
+
+	@Override
+	public Rectangle2D getBounds2D() {
+
+		return shape.getBounds2D();
+	}
+
+	@Override
+	public PathIterator getPathIterator(AffineTransform at) {
+		
+		return shape.getPathIterator(at);
+	}
+
+	@Override
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+
+		return shape.getPathIterator(at, flatness);
+	}
+
+	@Override
+	public boolean intersects(Rectangle2D r) {
+
+		return shape.intersects(r);
+	}
+
+	@Override
+	public boolean intersects(double x, double y, double w, double h) {
+
+		return shape.intersects(x, y, w, h);
+	}
+
+	@Override
+	public double getCenterX() {
+
+		return shape.getCenterX();
+	}
+
+	@Override
+	public double getCenterY() {
+
+		return shape.getCenterY();
+	}
+
+	@Override
+	public double getX() {
+
+		return shape.getX();
+	}
+
+	@Override
+	public double getY() {
+
+		return shape.getX();
+	}
+
+	@Override
+	public void setRect(double x, double y, double width, double height) {
+		
+		shape.setRect(x, y, width, height);
+	}
+
+	@Override
+	public void chargeLoad(int direction, int sleepTime, Component component) {
+		
 	}
 
 }

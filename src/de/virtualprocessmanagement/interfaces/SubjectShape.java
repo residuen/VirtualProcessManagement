@@ -1,6 +1,7 @@
 package de.virtualprocessmanagement.interfaces;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Shape;
 
 public interface SubjectShape extends Shape {
@@ -63,4 +64,17 @@ public interface SubjectShape extends Shape {
 	public double getY();
 	
 	public String toString();
+	
+	public void setRect(double x, double y, double width, double height);
+	
+	public boolean hasMoveableAdditionalShape();
+	
+	public SubjectShape getAdditionalShape();
+	
+	public void setAdditionalShape(SubjectShape shape);
+	
+	public void chargeLoad(int direction, int sleepTime, Component component);
+	
+	public void dischargeLoad();
+	void chargeLoad();
 }

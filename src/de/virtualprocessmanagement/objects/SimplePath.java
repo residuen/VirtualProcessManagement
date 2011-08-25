@@ -12,93 +12,28 @@ import java.awt.geom.GeneralPath;
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 import de.virtualprocessmanagement.processing.ShapeMover;
 
-public class PathShape implements SubjectShape {
+public class SimplePath extends MainObject implements SubjectShape {
 
-	// nicht bewegliche shapes
-	public static final int STORAGE_OBJECT = 0;
-	public static final int MACHINE_WAY_OBJECT = 4;
-	public static final int HUMAN_WAY_OBJECT = 5;
+	private GeneralPath path = new GeneralPath();
 
-	// (teil)bewegliche Shapes
-	public static final int PARTIAL_MOVEABLE_OBJECT = 6;
-	public static final int MOVEABLE_OBJECT = 7;
-	public static final int FORKLIFT = 8;
-	public static final int ROBOT = 9;
-	
-	public static final int[] staticShapeKeysNumbers = new int[] { STORAGE_OBJECT, MACHINE_WAY_OBJECT, HUMAN_WAY_OBJECT };
-	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_OBJECT, MOVEABLE_OBJECT, FORKLIFT, ROBOT };
-
-	public static final String[] staticShapeKeys = new String[] { Integer.toString(STORAGE_OBJECT),
-																  Integer.toString(MACHINE_WAY_OBJECT),
-																  Integer.toString(HUMAN_WAY_OBJECT) };
-	
-	public static final String[] moveableShapeKeys = new String[]{ Integer.toString(PARTIAL_MOVEABLE_OBJECT),
-															  	   Integer.toString(MOVEABLE_OBJECT),
-															  	   Integer.toString(FORKLIFT),
-																   Integer.toString(ROBOT) };
-	
-	public static int NO_DIRECTION = STORAGE_OBJECT;
-	public static int X_DIRECTION = 1;
-	public static int Y_DIRECTION = 2;
-	public static int Z_DIRECTION = 3;
-	
-	public static int LEFT = 0;
-	public static int UP = 1;
-	public static int RIGHT = 2;
-	public static int DOWN = 3;
-	
-	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
-	
-	protected int id = 0;
-	
-	protected int group = 0;
-	
-	protected String name = null;
-
-	protected int x_index = 0, y_index = 0;
-	
-	protected int groupId = STORAGE_OBJECT;
-	protected int directions = NO_DIRECTION;
-	
-	protected double width = DEFAULT_WIDTH;
-	protected double height = DEFAULT_HEIGHT;
-	
-	protected double x_vehicle = 0;
-	protected double y_vehicle = 0;
-	protected double x_fork = 0;
-	protected double y_fork = 0;
-	
-	protected boolean showId = true;
-	
-	protected boolean lock = false;
-
-	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
-	
-	private GeneralPath vehicle = new GeneralPath();
-	private GeneralPath forks = new GeneralPath();
-	
-	private SubjectShape load = null;
-
-	public PathShape() {
+	public SimplePath() {
 		super();
 	}
 
-	public PathShape(double arg0, double arg1, int x_index, int y_index) {
+	public SimplePath(double arg0, double arg1, int x_index, int y_index) {
 		
 		init(arg0, arg1, DEFAULT_WIDTH, DEFAULT_HEIGHT, x_index, y_index);
 	}
 
-	public PathShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
+	public SimplePath(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
 		
 		init(arg0, arg1, arg2, arg3, x_index, y_index);
 	}
 	
 	private void init(double x, double y, double w, double h, int x_index, int y_index) {
 		
-		this.x_vehicle = x;
-		this.y_vehicle = y;
-		this.x_fork = x;
-		this.y_fork = y;
+		this.x = x;
+		this.x = y;
 		
 		this.x_index = x_index;
 		this.y_index = y_index;
@@ -111,33 +46,15 @@ public class PathShape implements SubjectShape {
 	
 	private void buildforklifter() {
 		
-		vehicle.reset();
-		forks.reset();
+		path.reset();
 		
-		// Bewegliche Teile des Staplers: Fahrzeug
-		vehicle.moveTo(x_vehicle, y_vehicle);
-		vehicle.lineTo(x_vehicle+width, y_vehicle);
-		vehicle.lineTo(x_vehicle+width, y_vehicle+height);
-		vehicle.lineTo(x_vehicle, y_vehicle+height);
-		vehicle.lineTo(x_vehicle, y_vehicle);
-		vehicle.closePath();
-		
-		// Ausfahrbare Teile des Staplers: Linke Gabel
-		forks.moveTo(x_fork, y_fork);
-		forks.lineTo(x_fork+0.333*width, y_fork);
-		forks.lineTo(x_fork+0.333*width, y_fork+height);
-		forks.lineTo(x_fork, y_fork+height);
-		forks.lineTo(x_fork, y_fork);
-
-		// Ausfahrbare Teile des Staplers: Linke Gabel
-		forks.moveTo(x_fork+width - 0.333*width, y_fork);
-		forks.lineTo(x_fork+width, y_fork);
-		forks.lineTo(x_fork+width, y_fork+height);
-		forks.lineTo(x_fork+width - 0.333*width, y_fork+height);
-		forks.lineTo(x_fork+width - 0.333*width, y_fork);
-		forks.closePath();
-		
-		vehicle.append(forks, true);		
+		// Path zusammensetzen
+		path.moveTo(x, y);
+		path.lineTo(x+width, y);
+		path.lineTo(x+width, y+height);
+		path.lineTo(x, y+height);
+		path.lineTo(x, y);
+		path.closePath();
 	}
 
 	public Color getFillColor() {
@@ -285,72 +202,72 @@ public class PathShape implements SubjectShape {
 
 	@Override
 	public boolean contains(Point2D arg0) {
-		return vehicle.contains(arg0);
+		return path.contains(arg0);
 	}
 
 	@Override
 	public boolean contains(Rectangle2D arg0) {
-		return vehicle.contains(arg0);
+		return path.contains(arg0);
 	}
 
 	@Override
 	public boolean contains(double arg0, double arg1) {
-		return vehicle.contains(arg0, arg1);
+		return path.contains(arg0, arg1);
 	}
 
 	@Override
 	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
-		return vehicle.contains(arg0, arg1, arg2, arg3);
+		return path.contains(arg0, arg1, arg2, arg3);
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		return vehicle.getBounds();
+		return path.getBounds();
 	}
 
 	@Override
 	public Rectangle2D getBounds2D() {
-		return vehicle.getBounds2D();
+		return path.getBounds2D();
 	}
 
 	@Override
 	public PathIterator getPathIterator(AffineTransform arg0) {
-		return vehicle.getPathIterator(arg0);
+		return path.getPathIterator(arg0);
 	}
 
 	@Override
 	public PathIterator getPathIterator(AffineTransform arg0, double arg1) {
-		return vehicle.getPathIterator(arg0, arg1);
+		return path.getPathIterator(arg0, arg1);
 	}
 
 	@Override
 	public boolean intersects(Rectangle2D arg0) {
-		return vehicle.intersects(arg0);
+		return path.intersects(arg0);
 	}
 
 	@Override
 	public boolean intersects(double arg0, double arg1, double arg2, double arg3) {
-		return vehicle.intersects(arg0, arg1, arg2, arg3);
+		return path.intersects(arg0, arg1, arg2, arg3);
 	}
 
 	@Override
 	public double getCenterX() {
-		return vehicle.getBounds2D().getCenterX();
+		return path.getBounds2D().getCenterX();
 	}
 
 	@Override
 	public double getCenterY() {
-		return vehicle.getBounds2D().getCenterY();
+		return path.getBounds2D().getCenterY();
 	}
 
 	@Override
 	public double getX() {
-		return x_vehicle; //vehicle.getBounds2D().getX();
+		return x; //vehicle.getBounds2D().getX();
 	}
 
 	@Override
 	public double getY() {
-		return y_vehicle; //vehicle.getBounds2D().getY();
+		return x; //vehicle.getBounds2D().getY();
 	}
 
 	@Override
@@ -358,10 +275,8 @@ public class PathShape implements SubjectShape {
 		
 //		System.out.println("PathShape: setRect-> x="+x+" y="+y+" width="+width+" height"+height);
 
-		this.x_vehicle = x;
-		this.y_vehicle = y;
-		this.x_fork = x;
-		this.y_fork = y;
+		this.x = x;
+		this.x = y;
 
 		buildforklifter();
 	}

@@ -52,19 +52,20 @@ public class ShapeManager implements ShapeHandler {
 		
 		ShapeMover mover = null;
 		
+		int dirAsInt = 0;
+		
 		if(!shape.isShapeLocked())
 		{
 			if(direction.equals("up"))
-				mover = new ShapeMover(shape, RectShape.UP, 1000, visuComponent);
-	
+				dirAsInt = RectShape.UP;
 			else if(direction.equals("down"))
-				mover = new ShapeMover(shape, RectShape.DOWN, 1000, visuComponent);
-	
+				dirAsInt = RectShape.DOWN;
 			else if(direction.equals("left"))
-				mover = new ShapeMover(shape, RectShape.LEFT, 1000, visuComponent);
-	
+				dirAsInt = RectShape.LEFT;
 			else if(direction.equals("right"))
-				mover = new ShapeMover(shape, RectShape.RIGHT, 1000, visuComponent);
+				dirAsInt = RectShape.RIGHT;
+			
+			mover = new ShapeMover(shape, dirAsInt, 1000, visuComponent);
 			
 			shape.lockShape();
 		

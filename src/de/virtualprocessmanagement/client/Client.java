@@ -9,7 +9,7 @@ import de.virtualprocessmanagement.connection.ClientConnector;
  */
 public class Client extends ClientConnector {
 
-	String[] testDirections = new String[] { "up", "up", "right", "up", "right", "right", "right", "right", "right", "right" };
+	String[] testDirections = new String[] { "up", "up", "right", "up", "right", "right", "right", "right" };
 	
 	int count = 0; 
 	
@@ -28,8 +28,8 @@ public class Client extends ClientConnector {
 		if(count < testDirections.length)
 		{
 //			cmd = "client?moveobject=2,0,"+testDirections[count];
-			cmd = "client?moveobject=33,"+testDirections[count];
-//			cmd = "client?moveobject=43,"+testDirections[count]; // the lifter
+//			cmd = "client?moveobject=33,"+testDirections[count];
+			cmd = "client?moveobject=43,"+testDirections[count]; // the lifter
 			count++;
 		}
 		else
