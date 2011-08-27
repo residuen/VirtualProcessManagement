@@ -11,11 +11,13 @@ import de.virtualprocessmanagement.objects.*;
  * @author bettray
  *
  */
-public class ShapeMover extends Thread {
+public class ForkMover extends Thread {
+	
+	private SubjectShape mainShape = null;
 	
 	private SubjectShape shape = null;
 	
-	private int sleepTime = 1000;
+	private int sleepTime = 100;
 	
 	private int direction = RectShape.UP;
 	
@@ -23,17 +25,20 @@ public class ShapeMover extends Thread {
 	
 	private double x = 0, x_new = 0, y = 0, y_new = 0;
 	
-	public ShapeMover(SubjectShape shape, int direction, int sleepTime, Component component) {
+	private ExtendedPoint forkOffset = null;
+	
+	public ForkMover(ExtendedPoint forkOffset, SubjectShape mainShape, SubjectShape shape, int direction, Component component) {
 		
+		this.forkOffset = forkOffset;
+		this.mainShape = mainShape;
 		this.shape = shape;
 		this.direction = direction;
-		this.sleepTime = sleepTime / 10;
 		this.component = component;
 	}
 	
-	public ShapeMover(GeneralPath path, int direction2, int sleepTime2, Component component2) {
-		// TODO Auto-generated constructor stub
-	}
+//	public ForkMover(GeneralPath path, int direction2, int sleepTime2, Component component2) {
+//		// TODO Auto-generated constructor stub
+//	}
 
 	public void run() {
 		
@@ -77,15 +82,18 @@ public class ShapeMover extends Thread {
         {
 //			System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+(shape).getX()+" shape->y="+(shape).getY());
     		
+			forkOffset.setLocation(forkOffset.getX() + x, forkOffset.getY() + y);
+			
 //			System.out.println("shape.getBounds2D().getX() + x="+(shape.getBounds2D().getX()+" + " + x));
 			
 			// Zeichnen er neuen x-y-Koordinaten
 			shape.setRect(shape.getBounds2D().getX() + x,shape.getBounds2D().getY() + y, shape.getWidth(), shape.getHeight());			
-		
+			mainShape.updateObject();
+			
 			component.repaint();
 
     		try {
-    			Thread.sleep(10);
+    			Thread.sleep(sleepTime / 10);
     		} catch (InterruptedException e) {
     			shape.unlockShape();
     			System.out.println(e.getMessage());

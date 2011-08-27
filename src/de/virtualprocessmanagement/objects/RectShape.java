@@ -301,4 +301,20 @@ public class RectShape extends MainObject implements SubjectShape {	// Rectangle
 		
 	}
 
+	@Override
+	public void setX_index(int x_index) {
+		this.x_index = x_index;
+	}
+
+	@Override
+	public void setY_index(int y_index) {
+		this.y_index = y_index;
+	}
+
+	@Override
+	public void updateObject() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -4,6 +4,8 @@ import java.awt.Component;
 
 import de.virtualprocessmanagement.interfaces.ShapeHandler;
 import de.virtualprocessmanagement.interfaces.SubjectShape;
+import de.virtualprocessmanagement.objects.MainObject;
+import de.virtualprocessmanagement.objects.PathLifterShape;
 import de.virtualprocessmanagement.objects.RectShape;
 
 public class ShapeManager implements ShapeHandler {
@@ -35,6 +37,52 @@ public class ShapeManager implements ShapeHandler {
 		objectMover(shape, direction);
 	}
 	
+	@Override
+	public void chargeObject(int objectGroup, int objectMapId, String direction) {
+
+		direction = direction.toLowerCase();
+		
+		int dirAsInt = 0;
+		
+		if(direction.equals("up"))
+			dirAsInt = RectShape.UP;
+		else if(direction.equals("down"))
+			dirAsInt = RectShape.DOWN;
+		else if(direction.equals("left"))
+			dirAsInt = RectShape.LEFT;
+		else if(direction.equals("right"))
+			dirAsInt = RectShape.RIGHT;
+
+		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectMapId);
+	
+		if(shape.getGroup() == MainObject.FORKLIFT)
+			((PathLifterShape)shape).chargeLoad(dirAsInt, 1000, visuComponent);
+//			objectMover(((PathLifterShape)shape).getForks(), direction);
+	}
+
+	@Override
+	public void chargeObject(int objectId, String direction) {
+
+		direction = direction.toLowerCase();
+		
+		int dirAsInt = 0;
+		
+			if(direction.equals("up"))
+				dirAsInt = RectShape.UP;
+			else if(direction.equals("down"))
+				dirAsInt = RectShape.DOWN;
+			else if(direction.equals("left"))
+				dirAsInt = RectShape.LEFT;
+			else if(direction.equals("right"))
+				dirAsInt = RectShape.RIGHT;
+
+			SubjectShape shape =  processMap.getAllObjects().get(objectId);
+	
+		if(shape.getGroup() == MainObject.FORKLIFT)
+			((PathLifterShape)shape).chargeLoad(dirAsInt, 1000, visuComponent);
+//			objectMover(((PathLifterShape)shape).getForks(), direction);
+	}
+
 	/**
 	 * Move object to a special cell in field
 	 * request: client?moveObject=objectGroup,objectId,left/up/right/down
@@ -76,10 +124,18 @@ public class ShapeManager implements ShapeHandler {
 				catch (InterruptedException e) { e.printStackTrace(); }
 			}
 		}
+		
+//		if(shape.getY_index() == 3 && shape instanceof PathLifterShape)
+//		{
+//			((PathLifterShape)shape).getForks().chargeLoad(dirAsInt, 1000, visuComponent);
+//		}
+
+		
 		System.out.println("Shape to move:"+shape);
 	}
 	
 	public void setVisuComponent(Component visuComponent) {
 		this.visuComponent = visuComponent;
 	}
+
 }

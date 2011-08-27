@@ -35,7 +35,11 @@ public interface SubjectShape extends Shape {
 	
 	public int getX_index();
 
+	public void setX_index(int x_index);
+
 	public int getY_index();
+
+	public void setY_index( int y_index);
 
 	public String getName();
 
@@ -76,5 +80,8 @@ public interface SubjectShape extends Shape {
 	public void chargeLoad(int direction, int sleepTime, Component component);
 	
 	public void dischargeLoad();
-	void chargeLoad();
+	
+	public void chargeLoad();
+	
+	public void updateObject();
 }

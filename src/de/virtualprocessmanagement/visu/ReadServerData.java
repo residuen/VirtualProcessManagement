@@ -28,7 +28,7 @@ public class ReadServerData extends Thread {
 		
 		this.to_send_message_to = to_send_message_to;
 		
-		command = "http://"+host+":80/visu?updateObjectList";
+		command = ""; // http://"+host+":80/visu?updateObjectList";
 		
 		connection = new HTTPClientConnection(host);
 	}
@@ -36,17 +36,20 @@ public class ReadServerData extends Thread {
 	public void run() {
     	
     	while(!isInterrupted() && runMode)
-        {    		
-    		data = connection.sendRequest(command);
+        {   
+    		if(command.length() > 0)
+    		{
+    			data = connection.sendRequest(command);
     		
-//    		System.out.println("ReadServerData: data="+data);
-    		
-    		to_send_message_to.message(data+"\n");
-    		
-    		try {
-    			Thread.sleep(sleepTime);
-    		} catch (InterruptedException e) {
-    			System.out.println(e.getMessage());
+//	    		System.out.println("ReadServerData: data="+data);
+	    		
+	    		to_send_message_to.message(data+"\n");
+	    		
+	    		try {
+	    			Thread.sleep(sleepTime);
+	    		} catch (InterruptedException e) {
+	    			System.out.println(e.getMessage());
+	    		}
     		}
         }
     }

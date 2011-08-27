@@ -13,7 +13,8 @@ public class MainObject {
 	public static final int PARTIAL_MOVEABLE_OBJECT = 6;
 	public static final int MOVEABLE_OBJECT = 7;
 	public static final int FORKLIFT = 8;
-	public static final int ROBOT = 9;
+	public static final int FORK = 9;
+	public static final int ROBOT = 10;
 	
 	public static final int[] staticShapeKeysNumbers = new int[] { STORAGE_OBJECT, MACHINE_WAY_OBJECT, HUMAN_WAY_OBJECT };
 	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_OBJECT, MOVEABLE_OBJECT, FORKLIFT, ROBOT };

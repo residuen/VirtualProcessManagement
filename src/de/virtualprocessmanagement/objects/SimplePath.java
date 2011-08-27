@@ -15,9 +15,12 @@ import de.virtualprocessmanagement.processing.ShapeMover;
 public class SimplePath extends MainObject implements SubjectShape {
 
 	private GeneralPath path = new GeneralPath();
+	
+	private double offsetX = 0;
+	private double offsetY = 0;
 
 	public SimplePath() {
-		super();
+//		super();
 	}
 
 	public SimplePath(double arg0, double arg1, int x_index, int y_index) {
@@ -32,8 +35,8 @@ public class SimplePath extends MainObject implements SubjectShape {
 	
 	private void init(double x, double y, double w, double h, int x_index, int y_index) {
 		
-		this.x = x;
-		this.x = y;
+		this.x = x + offsetX;
+		this.y = y + offsetY;
 		
 		this.x_index = x_index;
 		this.y_index = y_index;
@@ -41,10 +44,10 @@ public class SimplePath extends MainObject implements SubjectShape {
 		this.width = w;
 		this.height = h;
 		
-		buildforklifter();
+		initPath();
 	}
 	
-	private void buildforklifter() {
+	private void initPath() {
 		
 		path.reset();
 		
@@ -144,6 +147,16 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 	public int getY_index() {
 		return y_index;
+	}
+
+	@Override
+	public void setX_index(int x_index) {
+		this.x_index = x_index;
+	}
+
+	@Override
+	public void setY_index(int y_index) {
+		this.y_index = y_index;
 	}
 
 	public String getName() {
@@ -267,7 +280,7 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 	@Override
 	public double getY() {
-		return x; //vehicle.getBounds2D().getY();
+		return y; //vehicle.getBounds2D().getY();
 	}
 
 	@Override
@@ -275,10 +288,13 @@ public class SimplePath extends MainObject implements SubjectShape {
 		
 //		System.out.println("PathShape: setRect-> x="+x+" y="+y+" width="+width+" height"+height);
 
-		this.x = x;
-		this.x = y;
+		this.x = x + offsetX;
+		this.y = y + offsetY;
 
-		buildforklifter();
+//		this.x += offsetX;
+//		this.y += offsetY;
+
+		initPath();
 	}
 
 	@Override
@@ -294,8 +310,14 @@ public class SimplePath extends MainObject implements SubjectShape {
 	@Override
 	public void chargeLoad(int direction, int sleepTime, Component component) {
 		
-//		ShapeMover shapeMover = new ShapeMover(forks, direction, sleepTime, component);
-	}
+		if(!isShapeLocked())
+		{
+			lockShape();
+			ShapeMover shapeMover = new ShapeMover(this, direction, sleepTime, component);
+			shapeMover.start();
+			try { shapeMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+		}	}
 
 	@Override
 	public void dischargeLoad() {
@@ -311,6 +333,44 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 	@Override
 	public void chargeLoad() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void reset() {
+		path.reset();
+	}
+
+	public void moveTo(double arg0, double arg1) {
+		path.moveTo(arg0, arg1);
+	}
+
+	public void lineTo(double arg0, double arg1) {
+		path.lineTo(arg0, arg1);
+	}
+
+	public void closePath() {
+		path.closePath();
+	}
+
+	public void append(SimplePath s, boolean b) {
+		path.append(s, b);
+	}
+
+	public void setOffsetX(double offsetX) {
+		this.offsetX = offsetX;
+		
+		initPath();
+	}
+
+	public void setOffsetY(double offsetY) {
+		this.offsetY = offsetY;
+
+		initPath();
+	}
+
+	@Override
+	public void updateObject() {
 		// TODO Auto-generated method stub
 		
 	}

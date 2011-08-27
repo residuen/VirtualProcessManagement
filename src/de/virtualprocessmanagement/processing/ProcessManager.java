@@ -54,6 +54,16 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 				moveObject(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
 		}
 		else
+		if(data.contains("?chargeobject="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		{
+			swap = data.substring(data.indexOf("=")+1).split(",");
+			
+			if(swap.length==2)
+				chargeObject(Integer.parseInt(swap[0]), swap[1]);
+			else
+				chargeObject(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
+		}
+		else
 		if(data.contains("?objectinfo="))	// moveObject=objectGroup,objectId,left/up/right/down  
 		{
 			getObjectInfo(data);
@@ -119,6 +129,22 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
 	}
 
+	@Override
+	public void chargeObject(int objectGroup, int objectMapId, String direction) {
+		
+		shapeManager.chargeObject(objectGroup, objectMapId, direction);
+		
+		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
+	}
+
+	@Override
+	public void chargeObject(int objectId, String direction) {
+		
+		shapeManager.chargeObject(objectId, direction);
+		
+		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
+	}
+
 	public void getObjectInfo(String data) {
 		
 		String[] swap = data.split("objectinfo=");
@@ -173,6 +199,4 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	public void setVisuComponent(Component visuComponent) {
 		shapeManager.setVisuComponent(visuComponent);
 	}
-
-
 }

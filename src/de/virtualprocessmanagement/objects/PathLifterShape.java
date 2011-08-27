@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.GeneralPath;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
+import de.virtualprocessmanagement.processing.ForkMover;
 import de.virtualprocessmanagement.processing.ShapeMover;
 
 public class PathLifterShape extends MainObject implements SubjectShape {
@@ -19,9 +20,17 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	protected double x_fork = 0;
 	protected double y_fork = 0;
 	
-	private GeneralPath vehicle = new GeneralPath();
-	private GeneralPath forks = new GeneralPath();
+	protected ExtendedPoint forkOffset = new ExtendedPoint(0, 0);
 	
+	private SimplePath vehicle = new SimplePath();
+	private SimplePath forks = new SimplePath();
+	
+	private boolean forkOuter = false;
+	
+	public SimplePath getForks() {
+		return forks;
+	}
+
 	private SubjectShape load = null;
 
 	public PathLifterShape() {
@@ -30,11 +39,17 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 
 	public PathLifterShape(double arg0, double arg1, int x_index, int y_index) {
 		
+		forks.setGroup(MainObject.FORK);
+		forks.setName("fork");
+		
 		init(arg0, arg1, DEFAULT_WIDTH, DEFAULT_HEIGHT, x_index, y_index);
 	}
 
 	public PathLifterShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
 		
+		forks.setGroup(MainObject.FORK);
+		forks.setName("fork");
+
 		init(arg0, arg1, arg2, arg3, x_index, y_index);
 	}
 	
@@ -42,8 +57,8 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		
 		this.x_vehicle = x;
 		this.y_vehicle = y;
-		this.x_fork = x;
-		this.y_fork = y;
+		this.x_fork = x + forkOffset.getX();
+		this.y_fork = y + forkOffset.getY();
 		
 		this.x_index = x_index;
 		this.y_index = y_index;
@@ -280,12 +295,12 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 
 	@Override
 	public double getCenterX() {
-		return vehicle.getBounds2D().getCenterX();
+		return x_vehicle +  0.5*width; //vehicle.getBounds2D().getCenterX();
 	}
 
 	@Override
 	public double getCenterY() {
-		return vehicle.getBounds2D().getCenterY();
+		return y_vehicle + 0.5*height; //vehicle.getBounds2D().getCenterY();
 	}
 
 	@Override
@@ -296,6 +311,16 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	@Override
 	public double getY() {
 		return y_vehicle; //vehicle.getBounds2D().getY();
+	}
+	
+	@Override
+	public void setX_index(int x_index) {
+		this.x_index = x_index;
+	}
+
+	@Override
+	public void setY_index(int y_index) {
+		this.y_index = y_index;
 	}
 
 	@Override
@@ -324,7 +349,18 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	@Override
 	public void chargeLoad(int direction, int sleepTime, Component component) {
 		
-//		ShapeMover shapeMover = new ShapeMover(forks, direction, sleepTime, component);
+		System.out.println("Gabel ausfahren!");
+		
+		if(!forks.isShapeLocked()) // && !forkOuter)
+		{
+			forkOuter = true;
+			forks.lockShape();
+			ForkMover forkMover = new ForkMover(forkOffset, this, forks, direction, component);
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+		}
+		
 	}
 
 	@Override
@@ -343,6 +379,11 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	public void chargeLoad() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updateObject() {
+		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
 	}
 
 }
