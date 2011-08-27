@@ -287,7 +287,7 @@ public class RectShape extends MainObject implements SubjectShape {	// Rectangle
 	@Override
 	public double getY() {
 
-		return shape.getX();
+		return shape.getY();
 	}
 
 	@Override

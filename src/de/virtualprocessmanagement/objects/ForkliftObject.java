@@ -2,7 +2,7 @@ package de.virtualprocessmanagement.objects;
 
 import java.awt.Color;
 
-public class ForkliftObject extends PathShape { // RectShape {
+public class ForkliftObject extends PathLifterShape {
 
 	public ForkliftObject() {
 		super();
