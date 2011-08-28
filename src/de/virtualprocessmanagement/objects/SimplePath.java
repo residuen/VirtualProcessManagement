@@ -18,6 +18,9 @@ public class SimplePath extends MainObject implements SubjectShape {
 	
 	private double offsetX = 0;
 	private double offsetY = 0;
+	
+	protected double x = 0;
+	protected double y = 0;
 
 	public SimplePath() {
 //		super();
@@ -195,7 +198,7 @@ public class SimplePath extends MainObject implements SubjectShape {
 	
 	@Override
 	public String toString() {
-		return "[id="+id+",group="+group+",name="+name+",groupId="+groupId+",x_index="+x_index+",y_index="+y_index+"]";
+		return "[id="+id+",group="+group+",name="+name+",groupId="+groupId+",x="+this.x+",y="+this.y+",x_index="+x_index+",y_index="+y_index+"]";
 	}
 
 	@Override
@@ -275,12 +278,12 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 	@Override
 	public double getX() {
-		return x; //vehicle.getBounds2D().getX();
+		return path.getBounds2D().getX();
 	}
 
 	@Override
 	public double getY() {
-		return y; //vehicle.getBounds2D().getY();
+		return path.getBounds2D().getY();
 	}
 
 	@Override
@@ -290,7 +293,7 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 		this.x = x + offsetX;
 		this.y = y + offsetY;
-
+		
 //		this.x += offsetX;
 //		this.y += offsetY;
 
@@ -310,14 +313,15 @@ public class SimplePath extends MainObject implements SubjectShape {
 	@Override
 	public void chargeLoad(int direction, int sleepTime, Component component) {
 		
-		if(!isShapeLocked())
-		{
-			lockShape();
-			ShapeMover shapeMover = new ShapeMover(this, direction, sleepTime, component);
-			shapeMover.start();
-			try { shapeMover.join(); }
-			catch (InterruptedException e) { e.printStackTrace(); }
-		}	}
+//		if(!isShapeLocked())
+//		{
+//			lockShape();
+//			ShapeMover shapeMover = new ShapeMover(this, direction, sleepTime, component);
+//			shapeMover.start();
+//			try { shapeMover.join(); }
+//			catch (InterruptedException e) { e.printStackTrace(); }
+//		}
+	}
 
 	@Override
 	public void dischargeLoad() {

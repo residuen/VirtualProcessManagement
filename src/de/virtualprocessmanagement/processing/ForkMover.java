@@ -19,7 +19,7 @@ public class ForkMover extends Thread {
 	
 	private int sleepTime = 100;
 	
-	private int direction = RectShape.UP;
+	private int direction = MainObject.UP;
 	
 	private Component component = null;
 	
@@ -51,36 +51,41 @@ public class ForkMover extends Thread {
 			shape.setX_index(shape.getX_index() - 1);
 		}
 		else
-			if(direction==RectShape.RIGHT)
-			{
-				x = RectShape.DEFAULT_WIDTH / (double)sleepTime;	// s.o.
-				x_new = shape.getBounds2D().getX() + RectShape.DEFAULT_WIDTH;// s.o.
-				y_new = shape.getBounds2D().getY();// s.o.
+		if(direction==RectShape.RIGHT)
+		{
+			x = RectShape.DEFAULT_WIDTH / (double)sleepTime;	// s.o.
+			x_new = shape.getBounds2D().getX() + RectShape.DEFAULT_WIDTH;// s.o.
+			y_new = shape.getBounds2D().getY();// s.o.
 
-				shape.setX_index(shape.getX_index() + 1);
-			}
-			else
-				if(direction==RectShape.UP)
-				{
-					y = -RectShape.DEFAULT_HEIGHT / (double)sleepTime;	// vergl. oben
-					y_new = shape.getBounds2D().getY() - RectShape.DEFAULT_HEIGHT;	// vergl. oben
-					x_new = shape.getBounds2D().getX();	// vergl. oben
+			shape.setX_index(shape.getX_index() + 1);
+		}
+		else
+		if(direction==RectShape.UP)
+		{
+			y = -RectShape.DEFAULT_HEIGHT / (double)sleepTime;	// vergl. oben
+			y_new = shape.getBounds2D().getY() - RectShape.DEFAULT_HEIGHT;	// vergl. oben
+			x_new = shape.getBounds2D().getX();	// vergl. oben
 
-					shape.setY_index(shape.getY_index() - 1);
-				}
-				else
-					if(direction==RectShape.DOWN)
-					{
-						y = RectShape.DEFAULT_HEIGHT / (double)sleepTime;	// vergl. oben
-						y_new = shape.getBounds2D().getY() + RectShape.DEFAULT_HEIGHT;	// vergl. oben
-						x_new = shape.getBounds2D().getX();	// vergl. oben
+			shape.setY_index(shape.getY_index() - 1);
+		}
+		else
+		if(direction==RectShape.DOWN)
+		{
+			y = RectShape.DEFAULT_HEIGHT / (double)sleepTime;	// vergl. oben
+			y_new = shape.getBounds2D().getY() + RectShape.DEFAULT_HEIGHT;	// vergl. oben
+			x_new = shape.getBounds2D().getX();	// vergl. oben
 
-						shape.setY_index(shape.getY_index() + 1);
-					}
+			shape.setY_index(shape.getY_index() + 1);
+		}
+		
+//		System.out.println("1. ForMover-Schleife");
+//		System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+shape.getX()+" shape->y="+shape.getY());
 		
 		while(!isInterrupted() && testRectValues(shape))
         {
-//			System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+(shape).getX()+" shape->y="+(shape).getY());
+//			System.out.println("2. ForMover-Schleife");
+
+//			System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+shape.getX()+" shape->y="+shape.getY());
     		
 			forkOffset.setLocation(forkOffset.getX() + x, forkOffset.getY() + y);
 			

@@ -10,7 +10,7 @@ import de.virtualprocessmanagement.connection.ClientConnector;
 public class Client extends ClientConnector {
 
 //	String[] testDirections = new String[] { "up", "up", "right", "up", "right", "right", "right", "right" };
-	String[] testDirections = new String[] { "up", "down" }; // , "up", "down" };
+	String[] testDirections = new String[] { "up" }; //, "down" }; // , "up", "down" };
 	
 	int count = 0; 
 	
@@ -32,7 +32,7 @@ public class Client extends ClientConnector {
 			{
 	//			cmd = "client?moveobject=2,0,"+testDirections[count];	// Objekt ueber group & id bewegen 
 	//			cmd = "client?moveobject=33,"+testDirections[count];	// objekt dirket ueber id bewegen
-	//			cmd = "client?moveobject=43,"+testDirections[count]; 	// Den Gabelstapler bewegen
+//				cmd = "client?moveobject=43,"+testDirections[count]; 	// Den Gabelstapler bewegen
 				cmd = "client?chargeobject=43,"+testDirections[count];	// Die Gabel des Staplers ausfahren & beladen
 				count++;
 			}

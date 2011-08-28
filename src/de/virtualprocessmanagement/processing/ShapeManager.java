@@ -40,32 +40,24 @@ public class ShapeManager implements ShapeHandler {
 	@Override
 	public void chargeObject(int objectGroup, int objectMapId, String direction) {
 
-		direction = direction.toLowerCase();
-		
-		int dirAsInt = 0;
-		
-		if(direction.equals("up"))
-			dirAsInt = RectShape.UP;
-		else if(direction.equals("down"))
-			dirAsInt = RectShape.DOWN;
-		else if(direction.equals("left"))
-			dirAsInt = RectShape.LEFT;
-		else if(direction.equals("right"))
-			dirAsInt = RectShape.RIGHT;
-
 		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectMapId);
-	
-		if(shape.getGroup() == MainObject.FORKLIFT)
-			((PathLifterShape)shape).chargeLoad(dirAsInt, 1000, visuComponent);
-//			objectMover(((PathLifterShape)shape).getForks(), direction);
+		
+		objectCharger(shape, direction);
 	}
 
 	@Override
 	public void chargeObject(int objectId, String direction) {
 
+		SubjectShape shape =  processMap.getAllObjects().get(objectId);
+			
+		objectCharger(shape, direction);
+	}
+	
+	private void objectCharger(SubjectShape shape, String direction) {
+		
 		direction = direction.toLowerCase();
 		
-		int dirAsInt = 0;
+		int dirAsInt = -1;
 		
 			if(direction.equals("up"))
 				dirAsInt = RectShape.UP;
@@ -75,12 +67,9 @@ public class ShapeManager implements ShapeHandler {
 				dirAsInt = RectShape.LEFT;
 			else if(direction.equals("right"))
 				dirAsInt = RectShape.RIGHT;
-
-			SubjectShape shape =  processMap.getAllObjects().get(objectId);
 	
-		if(shape.getGroup() == MainObject.FORKLIFT)
+		if(shape.getGroup() == MainObject.FORKLIFT && dirAsInt >= 0)
 			((PathLifterShape)shape).chargeLoad(dirAsInt, 1000, visuComponent);
-//			objectMover(((PathLifterShape)shape).getForks(), direction);
 	}
 
 	/**

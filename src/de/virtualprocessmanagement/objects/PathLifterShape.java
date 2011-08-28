@@ -67,6 +67,8 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		this.height = h;
 		
 		buildforklifter();
+		
+//		System.out.println("forks.toString()"+forks.toString());
 	}
 	
 	private void buildforklifter() {
@@ -221,13 +223,6 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		this.showId = showId;
 	}
 
-
-	
-	@Override
-	public String toString() {
-		return "[id="+id+",group="+group+",name="+name+",groupId="+groupId+",x_index="+x_index+",y_index="+y_index+"]";
-	}
-
 	@Override
 	public void lockShape() {
 		lock = true;
@@ -349,13 +344,35 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	@Override
 	public void chargeLoad(int direction, int sleepTime, Component component) {
 		
-		System.out.println("Gabel ausfahren!");
-		
 		if(!forks.isShapeLocked()) // && !forkOuter)
 		{
-			forkOuter = true;
+//			forkOuter = true;
 			forks.lockShape();
 			ForkMover forkMover = new ForkMover(forkOffset, this, forks, direction, component);
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+			
+			switch(direction) {
+			
+				case MainObject.UP:
+					direction = MainObject.DOWN;
+					break;
+					
+				case MainObject.DOWN:
+					direction = MainObject.UP;
+					break;
+					
+				case MainObject.LEFT:
+					direction = MainObject.RIGHT;
+					break;
+					
+				default:
+					direction = MainObject.LEFT;
+					break;				
+			}
+			
+			forkMover = new ForkMover(forkOffset, this, forks, direction, component);
 			forkMover.start();
 			try { forkMover.join(); }
 			catch (InterruptedException e) { e.printStackTrace(); }
@@ -383,6 +400,9 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 
 	@Override
 	public void updateObject() {
+		
+//		System.out.println("PathLifterShape: updateObject()");
+		
 		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
 	}
 
