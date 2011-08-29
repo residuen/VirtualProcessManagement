@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.interfaces.ShapeHandler;
 import de.virtualprocessmanagement.interfaces.SubjectShape;

@@ -3,7 +3,7 @@ package de.virtualprocessmanagement.interfaces;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 
-import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 
 public interface HTTPServer {
 

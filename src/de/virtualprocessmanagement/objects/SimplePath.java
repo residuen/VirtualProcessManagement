@@ -4,13 +4,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
-import de.virtualprocessmanagement.processing.ShapeMover;
 
 public class SimplePath extends MainObject implements SubjectShape {
 
@@ -18,9 +17,6 @@ public class SimplePath extends MainObject implements SubjectShape {
 	
 	private double offsetX = 0;
 	private double offsetY = 0;
-	
-	protected double x = 0;
-	protected double y = 0;
 
 	public SimplePath() {
 //		super();
@@ -193,8 +189,6 @@ public class SimplePath extends MainObject implements SubjectShape {
 	public void setShowId(boolean showId) {
 		this.showId = showId;
 	}
-
-
 	
 	@Override
 	public String toString() {
@@ -293,9 +287,6 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 		this.x = x + offsetX;
 		this.y = y + offsetY;
-		
-//		this.x += offsetX;
-//		this.y += offsetY;
 
 		initPath();
 	}
@@ -325,20 +316,17 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 	@Override
 	public void dischargeLoad() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
 	public void setAdditionalShape(SubjectShape shape) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
 	public void chargeLoad() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	public void reset() {
@@ -375,8 +363,17 @@ public class SimplePath extends MainObject implements SubjectShape {
 
 	@Override
 	public void updateObject() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
+	}
+	
+	@Override
+	public int getDirection() {
+		return direction;
+	}
+
+	@Override
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 }

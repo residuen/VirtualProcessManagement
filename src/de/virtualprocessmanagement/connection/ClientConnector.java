@@ -2,7 +2,6 @@ package de.virtualprocessmanagement.connection;
 
 import java.util.Vector;
 
-import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.server.Server;
 
@@ -15,7 +14,7 @@ public class ClientConnector extends Thread implements HTTPClient {
 	
 	private boolean runMode = true;
 	
-	private int sleepTime = 1000;
+	private int sleepTime = 25; // 1000;
 	
 	protected String command = "";
 	

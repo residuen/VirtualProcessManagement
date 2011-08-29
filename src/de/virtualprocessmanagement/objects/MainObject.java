@@ -46,6 +46,8 @@ public class MainObject {
 	
 	protected String name = null;
 
+	protected int direction = MainObject.UP;
+	
 	protected int x_index = 0, y_index = 0;
 	
 	protected int groupId = STORAGE_OBJECT;

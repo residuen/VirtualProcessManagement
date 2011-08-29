@@ -1,4 +1,4 @@
-package de.virtualprocessmanagement.controller;
+package de.virtualprocessmanagement.connection;
 
 import java.io.DataOutputStream;
 import java.net.InetAddress;

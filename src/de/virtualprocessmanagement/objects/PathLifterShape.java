@@ -27,10 +27,6 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	
 	private boolean forkOuter = false;
 	
-	public SimplePath getForks() {
-		return forks;
-	}
-
 	private SubjectShape load = null;
 
 	public PathLifterShape() {
@@ -84,20 +80,40 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		vehicle.lineTo(x_vehicle, y_vehicle);
 		vehicle.closePath();
 		
-		// Ausfahrbare Teile des Staplers: Linke Gabel
-		forks.moveTo(x_fork, y_fork);
-		forks.lineTo(x_fork+0.333*width, y_fork);
-		forks.lineTo(x_fork+0.333*width, y_fork+height);
-		forks.lineTo(x_fork, y_fork+height);
-		forks.lineTo(x_fork, y_fork);
-
-		// Ausfahrbare Teile des Staplers: Linke Gabel
-		forks.moveTo(x_fork+width - 0.333*width, y_fork);
-		forks.lineTo(x_fork+width, y_fork);
-		forks.lineTo(x_fork+width, y_fork+height);
-		forks.lineTo(x_fork+width - 0.333*width, y_fork+height);
-		forks.lineTo(x_fork+width - 0.333*width, y_fork);
-		forks.closePath();
+		if(direction==MainObject.UP || direction==MainObject.DOWN) {
+			
+			// Ausfahrbare Teile des Staplers: Linke Gabel
+			forks.moveTo(x_fork, y_fork);
+			forks.lineTo(x_fork+0.333*width, y_fork);
+			forks.lineTo(x_fork+0.333*width, y_fork+height);
+			forks.lineTo(x_fork, y_fork+height);
+			forks.lineTo(x_fork, y_fork);
+	
+			// Ausfahrbare Teile des Staplers: Rechte Gabel
+			forks.moveTo(x_fork+width - 0.333*width, y_fork);
+			forks.lineTo(x_fork+width, y_fork);
+			forks.lineTo(x_fork+width, y_fork+height);
+			forks.lineTo(x_fork+width - 0.333*width, y_fork+height);
+			forks.lineTo(x_fork+width - 0.333*width, y_fork);
+			forks.closePath();
+		}
+		else {
+			
+			// Ausfahrbare Teile des Staplers: Obere Gabel
+			forks.moveTo(x_fork, y_fork);
+			forks.lineTo(x_fork+width, y_fork);
+			forks.lineTo(x_fork+width, y_fork+0.333*height);
+			forks.lineTo(x_fork, y_fork+0.333*height);
+			forks.lineTo(x_fork, y_fork);
+	
+			// Ausfahrbare Teile des Staplers: Untere Gabel
+			forks.moveTo(x_fork, y_fork+0.666*height);
+			forks.lineTo(x_fork+width, y_fork+0.666*height);
+			forks.lineTo(x_fork+width, y_fork+height);
+			forks.lineTo(x_fork, y_fork+height);
+			forks.lineTo(x_fork, y_fork+0.666*height);
+			forks.closePath();
+		}
 		
 		vehicle.append(forks, true);		
 	}
@@ -344,6 +360,8 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	@Override
 	public void chargeLoad(int direction, int sleepTime, Component component) {
 		
+		this.direction = direction;
+		
 		if(!forks.isShapeLocked()) // && !forkOuter)
 		{
 //			forkOuter = true;
@@ -404,6 +422,20 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 //		System.out.println("PathLifterShape: updateObject()");
 		
 		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
+	}
+	
+	@Override
+	public int getDirection() {
+		return direction;
+	}
+
+	@Override
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	public SimplePath getForks() {
+		return forks;
 	}
 
 }

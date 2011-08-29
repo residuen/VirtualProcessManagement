@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.connection.HTTPClientConnection;
-import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
 import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessManager;

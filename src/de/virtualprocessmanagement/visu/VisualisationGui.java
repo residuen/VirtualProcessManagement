@@ -21,7 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
-import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
 import de.virtualprocessmanagement.objects.RectShape;

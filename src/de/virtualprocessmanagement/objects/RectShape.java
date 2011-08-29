@@ -3,7 +3,6 @@ package de.virtualprocessmanagement.objects;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
@@ -11,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 
-public class RectShape extends MainObject implements SubjectShape {	// Rectangle2D.Double 
+public class RectShape extends MainObject implements SubjectShape {
 
 	Rectangle2D.Double shape = new Rectangle2D.Double();
 	
@@ -20,7 +19,7 @@ public class RectShape extends MainObject implements SubjectShape {	// Rectangle
 	}
 
 	public RectShape(double arg0, double arg1, int x_index, int y_index) {
-//		super();
+
 		shape.setRect(arg0, arg1, arg0+DEFAULT_WIDTH, arg1+DEFAULT_HEIGHT);
 		
 		this.x_index = x_index;
@@ -28,7 +27,7 @@ public class RectShape extends MainObject implements SubjectShape {	// Rectangle
 	}
 
 	public RectShape(double arg0, double arg1, double arg2, double arg3, int x_index, int y_index) {
-//		super(arg0, arg1, arg2, arg3);
+
 		shape.setRect(arg0, arg1, arg2, arg3);
 		
 		this.x_index = x_index;
@@ -92,10 +91,6 @@ public class RectShape extends MainObject implements SubjectShape {	// Rectangle
 			case ROBOT:
 				fillColor = Color.ORANGE;
 				break;
-				
-//			default:
-//				fillColor = Color.RED;
-//				break;
 		}
 	}
 
@@ -315,6 +310,16 @@ public class RectShape extends MainObject implements SubjectShape {	// Rectangle
 	public void updateObject() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getDirection() {
+		return direction;
+	}
+
+	@Override
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 }

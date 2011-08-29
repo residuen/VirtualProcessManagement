@@ -84,4 +84,8 @@ public interface SubjectShape extends Shape {
 	public void chargeLoad();
 	
 	public void updateObject();
+	
+	public int getDirection();
+
+	public void setDirection(int direction);
 }

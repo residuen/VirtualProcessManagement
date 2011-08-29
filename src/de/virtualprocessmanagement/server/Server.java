@@ -20,7 +20,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import de.virtualprocessmanagement.controller.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
