@@ -362,9 +362,8 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		
 		this.direction = direction;
 		
-		if(!forks.isShapeLocked()) // && !forkOuter)
+		if(!forks.isShapeLocked())
 		{
-//			forkOuter = true;
 			forks.lockShape();
 			ForkMover forkMover = new ForkMover(forkOffset, this, forks, direction, component);
 			forkMover.start();
