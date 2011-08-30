@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
+import de.virtualprocessmanagement.objects.ChargeObject;
 import de.virtualprocessmanagement.objects.ForkliftObject;
 import de.virtualprocessmanagement.objects.MoveableObject;
 import de.virtualprocessmanagement.objects.RectShape;
@@ -33,6 +34,9 @@ public class ProcessMap {
 		
 		this.cellWidth = cellWidth;
 		this.cellHeight = cellHeight;
+		
+		objectList.clear();
+		objectMap.clear();
 		
 		loadMap(filename);
 		
@@ -160,26 +164,27 @@ public class ProcessMap {
 			else
 				if(entry.equals("fl"))
 				{
-//					typ = Integer.toString(RectShape.FORKLIFT);
-					
 					shape = new ForkliftObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 					shape.setGroup(RectShape.FORKLIFT);
 					shape.setName("forklift");
 				}
 				else
-					if(entry.equals("m"))
+					if(entry.equals("cl"))
 					{
-//						typ = Integer.toString(RectShape.MACHINE_WAY_OBJECT);
-						
-						shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-						shape.setGroup(RectShape.MACHINE_WAY_OBJECT);
-						shape.setName("machineway");
+						shape = new ChargeObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+						shape.setGroup(RectShape.CHARGE_OBJECT);
+						shape.setName("charge");
 					}
 					else
-						if(true) // entry.equals("h"))
+						if(entry.equals("m"))
 						{
-//							typ = Integer.toString(RectShape.HUMAN_WAY_OBJECT);
-							
+							shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+							shape.setGroup(RectShape.MACHINE_WAY_OBJECT);
+							shape.setName("machineway");
+						}
+						else
+//						if(true)
+						{
 							shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 							shape.setGroup(RectShape.HUMAN_WAY_OBJECT);
 							shape.setName("humanway");

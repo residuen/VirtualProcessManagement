@@ -15,7 +15,7 @@ public class ShapeMover extends Thread {
 	
 	private SubjectShape shape = null;
 	
-	private int sleepTime = 1000;
+	private int sleepTime = 100;
 	
 	private int direction = RectShape.UP;
 	
@@ -27,14 +27,10 @@ public class ShapeMover extends Thread {
 		
 		this.shape = shape;
 		this.direction = direction;
-		this.sleepTime = sleepTime / 10;
+//		this.sleepTime = sleepTime / 10;
 		this.component = component;
 	}
 	
-	public ShapeMover(GeneralPath path, int direction2, int sleepTime2, Component component2) {
-		// TODO Auto-generated constructor stub
-	}
-
 	public void run() {
 		
 		if(direction==RectShape.LEFT)

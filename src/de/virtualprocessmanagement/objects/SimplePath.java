@@ -302,20 +302,7 @@ public class SimplePath extends MainObject implements SubjectShape {
 	}
 
 	@Override
-	public void chargeLoad(int direction, int sleepTime, Component component) {
-		
-//		if(!isShapeLocked())
-//		{
-//			lockShape();
-//			ShapeMover shapeMover = new ShapeMover(this, direction, sleepTime, component);
-//			shapeMover.start();
-//			try { shapeMover.join(); }
-//			catch (InterruptedException e) { e.printStackTrace(); }
-//		}
-	}
-
-	@Override
-	public void dischargeLoad() {
+	public void dischargeLoad(int direction, Component component) {
 		// TODO Auto-generated method stub		
 	}
 

@@ -199,7 +199,7 @@ public class RectShape extends MainObject implements SubjectShape {
 	public void chargeLoad() { }
 
 	@Override
-	public void dischargeLoad() { }
+	public void dischargeLoad(int direction, Component component) { }
 
 	@Override
 	public boolean contains(Point2D p) {
@@ -289,11 +289,6 @@ public class RectShape extends MainObject implements SubjectShape {
 	public void setRect(double x, double y, double width, double height) {
 		
 		shape.setRect(x, y, width, height);
-	}
-
-	@Override
-	public void chargeLoad(int direction, int sleepTime, Component component) {
-		
 	}
 
 	@Override

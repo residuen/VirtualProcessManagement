@@ -2,6 +2,7 @@ package de.virtualprocessmanagement.processing;
 
 import java.awt.Component;
 import java.awt.geom.GeneralPath;
+import java.util.Vector;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 import de.virtualprocessmanagement.objects.*;
@@ -15,7 +16,7 @@ public class ForkMover extends Thread {
 	
 	private SubjectShape mainShape = null;
 	
-	private SubjectShape shape = null;
+	private Vector<SubjectShape> shapeList = new Vector<SubjectShape>();
 	
 	private int sleepTime = 100;
 	
@@ -31,12 +32,24 @@ public class ForkMover extends Thread {
 		
 		this.forkOffset = forkOffset;
 		this.mainShape = mainShape;
-		this.shape = shape;
 		this.direction = direction;
 		this.component = component;
+
+		this.shapeList.add(shape);
 	}
 	
-//	public ForkMover(GeneralPath path, int direction2, int sleepTime2, Component component2) {
+	public ForkMover(ExtendedPoint forkOffset, SubjectShape mainShape, SubjectShape shape, SubjectShape load, int direction, Component component) {
+		
+		this.forkOffset = forkOffset;
+		this.mainShape = mainShape;
+		this.direction = direction;
+		this.component = component;
+
+		this.shapeList.add(shape);
+		this.shapeList.add(load);
+	}
+
+	//	public ForkMover(GeneralPath path, int direction2, int sleepTime2, Component component2) {
 //		// TODO Auto-generated constructor stub
 //	}
 
@@ -45,43 +58,58 @@ public class ForkMover extends Thread {
 		if(direction==RectShape.LEFT)
 		{
 			x = -RectShape.DEFAULT_WIDTH / (double)sleepTime; // Verschiebung in x-Richtung
-			x_new = shape.getBounds2D().getX() - RectShape.DEFAULT_WIDTH; // Endwert x
-			y_new = shape.getBounds2D().getY();	// Endwert y
 			
-			shape.setX_index(shape.getX_index() - 1);
+			for(SubjectShape shape : shapeList)
+			{
+				x_new = shape.getBounds2D().getX() - RectShape.DEFAULT_WIDTH; // Endwert x
+				y_new = shape.getBounds2D().getY();	// Endwert y
+			
+				shape.setX_index(shape.getX_index() - 1);
+			}
 		}
 		else
 		if(direction==RectShape.RIGHT)
 		{
 			x = RectShape.DEFAULT_WIDTH / (double)sleepTime;	// s.o.
-			x_new = shape.getBounds2D().getX() + RectShape.DEFAULT_WIDTH;// s.o.
-			y_new = shape.getBounds2D().getY();// s.o.
-
-			shape.setX_index(shape.getX_index() + 1);
+			
+			for(SubjectShape shape : shapeList)
+			{
+				x_new = shape.getBounds2D().getX() + RectShape.DEFAULT_WIDTH;// s.o.
+				y_new = shape.getBounds2D().getY();// s.o.
+	
+				shape.setX_index(shape.getX_index() + 1);
+			}
 		}
 		else
 		if(direction==RectShape.UP)
 		{
 			y = -RectShape.DEFAULT_HEIGHT / (double)sleepTime;	// vergl. oben
-			y_new = shape.getBounds2D().getY() - RectShape.DEFAULT_HEIGHT;	// vergl. oben
-			x_new = shape.getBounds2D().getX();	// vergl. oben
-
-			shape.setY_index(shape.getY_index() - 1);
+			for(SubjectShape shape : shapeList)
+			{
+				y_new = shape.getBounds2D().getY() - RectShape.DEFAULT_HEIGHT;	// vergl. oben
+				x_new = shape.getBounds2D().getX();	// vergl. oben
+	
+				shape.setY_index(shape.getY_index() - 1);
+			}
 		}
 		else
 		if(direction==RectShape.DOWN)
 		{
 			y = RectShape.DEFAULT_HEIGHT / (double)sleepTime;	// vergl. oben
-			y_new = shape.getBounds2D().getY() + RectShape.DEFAULT_HEIGHT;	// vergl. oben
-			x_new = shape.getBounds2D().getX();	// vergl. oben
-
-			shape.setY_index(shape.getY_index() + 1);
+			
+			for(SubjectShape shape : shapeList)
+			{
+				y_new = shape.getBounds2D().getY() + RectShape.DEFAULT_HEIGHT;	// vergl. oben
+				x_new = shape.getBounds2D().getX();	// vergl. oben
+	
+				shape.setY_index(shape.getY_index() + 1);
+			}
 		}
 		
 //		System.out.println("1. ForMover-Schleife");
 //		System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+shape.getX()+" shape->y="+shape.getY());
 		
-		while(!isInterrupted() && testRectValues(shape))
+		while(!isInterrupted() && testRectValues(shapeList.get(shapeList.size()-1)))
         {
 //			System.out.println("2. ForMover-Schleife");
 
@@ -92,28 +120,34 @@ public class ForkMover extends Thread {
 //			System.out.println("shape.getBounds2D().getX() + x="+(shape.getBounds2D().getX()+" + " + x));
 			
 			// Zeichnen er neuen x-y-Koordinaten
-			shape.setRect(shape.getBounds2D().getX() + x,shape.getBounds2D().getY() + y, shape.getWidth(), shape.getHeight());			
-			mainShape.updateObject();
+			for(SubjectShape shape : shapeList)
+			{
+				shape.setRect(shape.getBounds2D().getX() + x,shape.getBounds2D().getY() + y, shape.getWidth(), shape.getHeight());			
 			
-			component.repaint();
-
-    		try {
-    			Thread.sleep(sleepTime / 10);
-    		} catch (InterruptedException e) {
-    			shape.unlockShape();
-    			System.out.println(e.getMessage());
-    		}
-        }
+				mainShape.updateObject();
+				
+				component.repaint();
+	
+	    		try {
+	    			Thread.sleep(sleepTime / 10);
+	    		} catch (InterruptedException e) {
+	    			shape.unlockShape();
+	    			System.out.println(e.getMessage());
+	    		}
+			}
+		}
 		
 		finalizeShape();
     }
 	
 	private void finalizeShape() {
 		
-		shape.setRect( x_new, y_new, shape.getWidth(), shape.getHeight());
-
-		shape.unlockShape();
-
+		for(SubjectShape shape : shapeList)
+		{
+			shape.setRect( x_new, y_new, shape.getWidth(), shape.getHeight());
+	
+			shape.unlockShape();
+		}
 	}
 	
 	private boolean testRectValues(SubjectShape shape) {

@@ -37,23 +37,54 @@ public class ShapeManager implements ShapeHandler {
 		objectMover(shape, direction);
 	}
 	
+	/**
+	 * MUSS NOCH ERWEIERT WERDEN
+	 */
 	@Override
-	public void chargeObject(int objectGroup, int objectMapId, String direction) {
+	public void chargeObjectByGroup(int objectGroup, int objectMapId, String direction) {
 
-		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectMapId);
+//		SubjectShape shape = processMap.getObjectList(objectGroup).get(objectMapId);
 		
-		objectCharger(shape, direction);
+//		objectCharger(shape, direction);
 	}
 
 	@Override
-	public void chargeObject(int objectId, String direction) {
+	public void chargeObjectById(int objectIdLifter, int objectIdCharge, String direction) {
 
-		SubjectShape shape =  processMap.getAllObjects().get(objectId);
-			
-		objectCharger(shape, direction);
+		SubjectShape lifterShape =  processMap.getAllObjects().get(objectIdLifter);
+		SubjectShape chargeShape =  processMap.getAllObjects().get(objectIdCharge);
+
+		objectCharger(lifterShape, chargeShape, direction);
 	}
 	
-	private void objectCharger(SubjectShape shape, String direction) {
+	@Override
+	public void dischargeObjectById(int lifterObjectId, String direction) {
+		
+		SubjectShape lifterShape =  processMap.getAllObjects().get(lifterObjectId);
+
+		objectDischarger(lifterShape, direction);
+	}
+	
+	private void objectDischarger(SubjectShape shape, String direction) {
+	
+		direction = direction.toLowerCase();
+		
+		int dirAsInt = -1;
+		
+			if(direction.equals("up"))
+				dirAsInt = RectShape.UP;
+			else if(direction.equals("down"))
+				dirAsInt = RectShape.DOWN;
+			else if(direction.equals("left"))
+				dirAsInt = RectShape.LEFT;
+			else if(direction.equals("right"))
+				dirAsInt = RectShape.RIGHT;
+//	
+//		if(shape.getGroup() == MainObject.FORKLIFT && dirAsInt >= 0)
+			((PathLifterShape)shape).dischargeLoad(dirAsInt, visuComponent);
+	}
+
+	private void objectCharger(SubjectShape shape, SubjectShape charge, String direction) {
 		
 		direction = direction.toLowerCase();
 		
@@ -69,7 +100,7 @@ public class ShapeManager implements ShapeHandler {
 				dirAsInt = RectShape.RIGHT;
 	
 		if(shape.getGroup() == MainObject.FORKLIFT && dirAsInt >= 0)
-			((PathLifterShape)shape).chargeLoad(dirAsInt, 1000, visuComponent);
+			((PathLifterShape)shape).chargeLoad(dirAsInt, charge, visuComponent);
 	}
 
 	/**

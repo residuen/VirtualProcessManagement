@@ -77,9 +77,11 @@ public interface SubjectShape extends Shape {
 	
 	public void setAdditionalShape(SubjectShape shape);
 	
-	public void chargeLoad(int direction, int sleepTime, Component component);
+	public boolean hasLifterCharge();
 	
-	public void dischargeLoad();
+	public void chargeLoad(int direction, SubjectShape load, Component component);
+	
+	public void dischargeLoad(int direction, Component component);
 	
 	public void chargeLoad();
 	

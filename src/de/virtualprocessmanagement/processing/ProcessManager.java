@@ -54,14 +54,25 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 				moveObject(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
 		}
 		else
-		if(data.contains("?chargeobject="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		if(data.contains("?chargeobjectbygroup="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		{
+			swap = data.substring(data.indexOf("=")+1).split(",");
+
+			chargeObjectByGroup(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
+		}
+		else
+		if(data.contains("?chargeobjectbyid="))	// moveObject=objectGroup,objectId,left/up/right/down  
 		{
 			swap = data.substring(data.indexOf("=")+1).split(",");
 			
-			if(swap.length==2)
-				chargeObject(Integer.parseInt(swap[0]), swap[1]);
-			else
-				chargeObject(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
+			chargeObjectById(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
+		}
+		else
+		if(data.contains("?dischargeobjectbyid="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		{
+			swap = data.substring(data.indexOf("=")+1).split(",");
+			
+			dischargeObjectById(Integer.parseInt(swap[0]), swap[1]);
 		}
 		else
 		if(data.contains("?objectinfo="))	// moveObject=objectGroup,objectId,left/up/right/down  
@@ -130,18 +141,26 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 
 	@Override
-	public void chargeObject(int objectGroup, int objectMapId, String direction) {
+	public void chargeObjectByGroup(int objectGroup, int objectMapId, String direction) {
 		
-		shapeManager.chargeObject(objectGroup, objectMapId, direction);
+		shapeManager.chargeObjectByGroup(objectGroup, objectMapId, direction);
 		
 		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
 	}
 
 	@Override
-	public void chargeObject(int objectId, String direction) {
+	public void chargeObjectById(int objectId, int chargeId, String direction) {
 		
-		shapeManager.chargeObject(objectId, direction);
+		shapeManager.chargeObjectById(objectId, chargeId, direction);
 		
+		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
+	}
+
+	@Override
+	public void dischargeObjectById(int lifterObjectId,  String direction) {
+		
+		shapeManager.dischargeObjectById(lifterObjectId, direction);
+//		
 		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
 	}
 
@@ -157,33 +176,31 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		if(swap[1].toLowerCase().equals("getall"))
 			objectList = processMap.getAllObjects();
 		else
-			if(swap[1].toLowerCase().equals("getallstatic"))
-				objectList = processMap.getObjectList(RectShape.STORAGE_OBJECT);
+		if(swap[1].toLowerCase().equals("getallstatic"))
+			objectList = processMap.getObjectList(RectShape.STORAGE_OBJECT);
+		else
+		if(swap[1].toLowerCase().equals("getallmoveable"))
+			objectList = processMap.getObjectList(RectShape.MOVEABLE_OBJECT);
+		else
+		if(swap[1].toLowerCase().equals("getallpartialmoveable"))
+			objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_OBJECT);
+		else
+		if(swap[1].toLowerCase().equals("getallcharge"))
+			objectList = processMap.getObjectList(RectShape.CHARGE_OBJECT);
+		else
+		if(swap[1].toLowerCase().contains("getbygroup"))
+		{
+			swap2 = swap[1].toLowerCase().split("getbygroup:");
+			
+			if(swap2[1].contains(","))
+			{
+				swapList = new ArrayList<SubjectShape>();
+				swapList.add(processMap.getObjectList(swap2[1].split(",")[0]).get(Integer.parseInt(swap2[1].split(",")[1])));
+				objectList = new ArrayList<SubjectShape>(swapList);
+			}
 			else
-				if(swap[1].toLowerCase().equals("getallmoveable"))
-					objectList = processMap.getObjectList(RectShape.MOVEABLE_OBJECT);
-				else
-					if(swap[1].toLowerCase().equals("getallpartialmoveable"))
-						objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_OBJECT);
-					else
-						if(swap[1].toLowerCase().equals("getallpartialmoveable"))
-							objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_OBJECT);
-						else
-							if(swap[1].toLowerCase().contains("getbygroup"))
-							{
-								swap2 = swap[1].toLowerCase().split("getbygroup:");
-								
-//								System.out.println("Wotts app?"+swap2[0]+" "+swap2[1]);
-								
-								if(swap2[1].contains(","))
-								{
-									swapList = new ArrayList<SubjectShape>();
-									swapList.add(processMap.getObjectList(swap2[1].split(",")[0]).get(Integer.parseInt(swap2[1].split(",")[1])));
-									objectList = new ArrayList<SubjectShape>(swapList);
-								}
-								else
-									objectList = processMap.getObjectList(swap2[1]);
-							}
+				objectList = processMap.getObjectList(swap2[1]);
+		}
 		
 		objects = new String[objectList.size()+1];
 		

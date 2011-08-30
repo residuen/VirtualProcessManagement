@@ -11,14 +11,16 @@ public class Client extends ClientConnector {
 
 //	String[] testDirections = new String[] { "up", "up", "right", "up", "right", "right", "right", "right" };
 //	String[] testDirections = new String[] { "up" }; //, "down" }; // , "up", "down" };
-	String[] testDirections = new String[] { "moveobject=43,up",
+	String[] testDirections = new String[] { "moveobject=43,down",
+											 "chargeobjectbyid=43,51,left",
+											 "moveobject=43,up",
+											 "moveobject=43,up",
 											 "moveobject=43,up",
 											 "moveobject=43,up",
 											 "moveobject=43,up",
 											 "moveobject=43,right",
 											 "moveobject=43,right",
-											 "chargeobject=43,right",
-											 "chargeobject=43,up",
+											 "dischargeobjectbyid=43,up",
 											 "moveobject=43,left",
 											 "moveobject=43,left",
 											 "moveobject=43,down",
@@ -39,7 +41,7 @@ public class Client extends ClientConnector {
 			
 	//		cmd = "client?objectinfo=getall";
 	//		cmd = "client?objectinfo=getallstatic";
-	//		cmd = "client?objectinfo=getallmoveable";
+//			cmd = "client?objectinfo=getallcharge";
 	//		cmd = "client?objectinfo=getbygroup:2,0";
 			
 			if(count < testDirections.length)

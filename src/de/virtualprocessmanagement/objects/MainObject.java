@@ -1,6 +1,9 @@
 package de.virtualprocessmanagement.objects;
 
 import java.awt.Color;
+import java.awt.Component;
+
+import de.virtualprocessmanagement.interfaces.SubjectShape;
 
 public class MainObject {
 	
@@ -18,7 +21,7 @@ public class MainObject {
 	public static final int ROBOT = 8;
 	
 	public static final int[] staticShapeKeysNumbers = new int[] { STORAGE_OBJECT, MACHINE_WAY_OBJECT, HUMAN_WAY_OBJECT };
-	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_OBJECT, MOVEABLE_OBJECT, CHARGE_OBJECT, FORKLIFT, ROBOT };
+	public static final int[] moveableShapeKeysNumbers = new int[]{ PARTIAL_MOVEABLE_OBJECT, MOVEABLE_OBJECT, FORKLIFT, ROBOT, CHARGE_OBJECT };
 
 	public static final String[] staticShapeKeys = new String[] { Integer.toString(STORAGE_OBJECT),
 																  Integer.toString(MACHINE_WAY_OBJECT),
@@ -26,9 +29,9 @@ public class MainObject {
 	
 	public static final String[] moveableShapeKeys = new String[]{ Integer.toString(PARTIAL_MOVEABLE_OBJECT),
 															  	   Integer.toString(MOVEABLE_OBJECT),
-															  	   Integer.toString(CHARGE_OBJECT),
 															  	   Integer.toString(FORKLIFT),
-																   Integer.toString(ROBOT) };
+																   Integer.toString(ROBOT),
+															  	   Integer.toString(CHARGE_OBJECT) };
 	
 	public static int NO_DIRECTION = 9;
 	public static int X_DIRECTION = 10;
@@ -66,4 +69,13 @@ public class MainObject {
 	protected boolean lock = false;
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
+	
+	public boolean hasLifterCharge() {
+		return false;
+	}
+	
+	public void chargeLoad(int direction, SubjectShape load, Component component) {
+		
+	}
+
 }

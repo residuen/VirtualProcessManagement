@@ -25,9 +25,9 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	private SimplePath vehicle = new SimplePath();
 	private SimplePath forks = new SimplePath();
 	
-	private boolean forkOuter = false;
+//	private boolean forkOuter = false;
 	
-	private SubjectShape load = null;
+	private SubjectShape charge = null;
 
 	public PathLifterShape() {
 		super();
@@ -343,6 +343,9 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		this.y_vehicle = y;
 		this.x_fork = x;
 		this.y_fork = y;
+		
+		if(hasLifterCharge())
+			charge.setRect(x, y, charge.getWidth(), charge.getHeight());
 
 		buildforklifter();
 	}
@@ -358,9 +361,10 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	}
 
 	@Override
-	public void chargeLoad(int direction, int sleepTime, Component component) {
+	public void chargeLoad(int direction, SubjectShape charge, Component component) {
 		
 		this.direction = direction;
+		this.charge = charge;
 		
 		if(!forks.isShapeLocked())
 		{
@@ -389,7 +393,7 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 					break;				
 			}
 			
-			forkMover = new ForkMover(forkOffset, this, forks, direction, component);
+			forkMover = new ForkMover(forkOffset, this, forks, charge, direction, component);
 			forkMover.start();
 			try { forkMover.join(); }
 			catch (InterruptedException e) { e.printStackTrace(); }
@@ -398,8 +402,44 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	}
 
 	@Override
-	public void dischargeLoad() {
-		// TODO Auto-generated method stub
+	public void dischargeLoad(int direction, Component component) {
+
+		this.direction = direction;
+
+		if(hasLifterCharge() &&  !forks.isShapeLocked())
+		{
+			forks.lockShape();
+			ForkMover forkMover = new ForkMover(forkOffset, this, forks, charge, direction, component);
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+			
+			switch(direction) {
+			
+				case MainObject.UP:
+					direction = MainObject.DOWN;
+					break;
+					
+				case MainObject.DOWN:
+					direction = MainObject.UP;
+					break;
+					
+				case MainObject.LEFT:
+					direction = MainObject.RIGHT;
+					break;
+					
+				default:
+					direction = MainObject.LEFT;
+					break;				
+			}
+			
+			forkMover = new ForkMover(forkOffset, this, forks, direction, component);
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+			
+			charge = null; // Referenz auf Ladung von Stapler-Object entfernen
+		}
 		
 	}
 
@@ -437,4 +477,16 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		return forks;
 	}
 
+	@Override
+	public boolean hasLifterCharge() {
+		return charge != null;
+	}
+	
+	public void setLoad(SubjectShape load) {
+		this.charge = load;
+	}
+	
+//	public SubjectShape getLoad() {
+//		return load;
+//	}
 }
