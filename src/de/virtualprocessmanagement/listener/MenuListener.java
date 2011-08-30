@@ -150,7 +150,7 @@ public class MenuListener implements ActionListener, MouseListener
 						}
 						else
 							if(event.equals("about"))
-							new About();
+								new About();
 	}
 	
 	public void startClient(JButton button) {
@@ -161,8 +161,7 @@ public class MenuListener implements ActionListener, MouseListener
 			
 			if(serverClientConnector != null)
 			{
-				client.setServerClientConnectionLayer(serverClientConnector, ((JTextField)inputComponents.get("serveradress")).getText());
-//				client.setServerClientConnectionLayer(serverClientConnector, "localhost");
+				client.setHostAdress(((JTextField)inputComponents.get("serveradress")).getText());
 				serverClientConnector.setClient(client);
 			}
 			

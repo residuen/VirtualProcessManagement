@@ -25,8 +25,6 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	private SimplePath vehicle = new SimplePath();
 	private SimplePath forks = new SimplePath();
 	
-//	private boolean forkOuter = false;
-	
 	private SubjectShape charge = null;
 
 	public PathLifterShape() {
@@ -115,7 +113,7 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 			forks.closePath();
 		}
 		
-		vehicle.append(forks, true);		
+		vehicle.append(forks, true);
 	}
 
 	public Color getFillColor() {
@@ -438,7 +436,7 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 			try { forkMover.join(); }
 			catch (InterruptedException e) { e.printStackTrace(); }
 			
-			charge = null; // Referenz auf Ladung von Stapler-Object entfernen
+			charge = null; // Referenz auf Ladung vom Stapler-Object entfernen
 		}
 		
 	}
@@ -457,9 +455,7 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 
 	@Override
 	public void updateObject() {
-		
-//		System.out.println("PathLifterShape: updateObject()");
-		
+
 		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
 	}
 	
@@ -485,8 +481,4 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	public void setLoad(SubjectShape load) {
 		this.charge = load;
 	}
-	
-//	public SubjectShape getLoad() {
-//		return load;
-//	}
 }

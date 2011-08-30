@@ -49,10 +49,6 @@ public class ForkMover extends Thread {
 		this.shapeList.add(load);
 	}
 
-	//	public ForkMover(GeneralPath path, int direction2, int sleepTime2, Component component2) {
-//		// TODO Auto-generated constructor stub
-//	}
-
 	public void run() {
 		
 		if(direction==RectShape.LEFT)
@@ -106,18 +102,9 @@ public class ForkMover extends Thread {
 			}
 		}
 		
-//		System.out.println("1. ForMover-Schleife");
-//		System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+shape.getX()+" shape->y="+shape.getY());
-		
 		while(!isInterrupted() && testRectValues(shapeList.get(shapeList.size()-1)))
         {
-//			System.out.println("2. ForMover-Schleife");
-
-//			System.out.println("name="+shape.getName()+" x="+x+" x_neu="+x_new+" y="+y+" y_neu="+y_new+" shape->x="+shape.getX()+" shape->y="+shape.getY());
-    		
 			forkOffset.setLocation(forkOffset.getX() + x, forkOffset.getY() + y);
-			
-//			System.out.println("shape.getBounds2D().getX() + x="+(shape.getBounds2D().getX()+" + " + x));
 			
 			// Zeichnen er neuen x-y-Koordinaten
 			for(SubjectShape shape : shapeList)

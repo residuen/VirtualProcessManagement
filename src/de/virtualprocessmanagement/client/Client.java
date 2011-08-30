@@ -1,5 +1,7 @@
 package de.virtualprocessmanagement.client;
 
+import java.util.Scanner;
+
 import de.virtualprocessmanagement.connection.ClientConnector;
 
 /**
@@ -9,8 +11,6 @@ import de.virtualprocessmanagement.connection.ClientConnector;
  */
 public class Client extends ClientConnector {
 
-//	String[] testDirections = new String[] { "up", "up", "right", "up", "right", "right", "right", "right" };
-//	String[] testDirections = new String[] { "up" }; //, "down" }; // , "up", "down" };
 	String[] testDirections = new String[] { "moveobject=43,down",
 											 "chargeobjectbyid=43,51,left",
 											 "moveobject=43,up",
@@ -23,10 +23,22 @@ public class Client extends ClientConnector {
 											 "dischargeobjectbyid=43,up",
 											 "moveobject=43,left",
 											 "moveobject=43,left",
+											 "moveobject=43,left",
+											 "moveobject=43,up",
 											 "moveobject=43,down",
-											 "moveobject=43,down",
-											 "moveobject=43,down",
-											 "moveobject=43,down",};
+											 "moveobject=43,right",
+											 "moveobject=43,right",
+											 "moveobject=43,right",
+											 "chargeobjectbyid=43,51,up",
+											 "moveobject=43,right",
+											 "moveobject=43,right",
+											 "dischargeobjectbyid=43,up",
+											 "moveobject=43,left",
+											 "moveobject=43,left",
+											 "moveobject=43,left",
+											 "moveobject=43,left",
+											 "moveobject=43,left",
+											 "moveobject=43,up",};
 	
 	int count = 0; 
 	
@@ -67,9 +79,21 @@ public class Client extends ClientConnector {
 		}
 	}
 
-//	public static void main(String[] arg0)
-//	{
-//		new Client().start();
-//	}
+	public static void main(String[] arg0)
+	{
+		Scanner input = new Scanner(System.in);
+		String hostAdress;
+		Client myClient;
+		
+		System.out.println("Geben Sie die Adresse des Host-Servers ein:");
+		
+		hostAdress = input.nextLine();
+		
+		myClient = new Client();
+		
+		myClient.setHostAdress(hostAdress);
+		
+		myClient.start();
+	}
 
 }

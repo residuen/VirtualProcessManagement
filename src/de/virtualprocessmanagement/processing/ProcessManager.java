@@ -216,4 +216,9 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	public void setVisuComponent(Component visuComponent) {
 		shapeManager.setVisuComponent(visuComponent);
 	}
+
+	@Override
+	public void setHostAdress(String host) {
+
+	}
 }

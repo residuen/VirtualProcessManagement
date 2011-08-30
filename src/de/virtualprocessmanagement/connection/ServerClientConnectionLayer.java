@@ -27,12 +27,7 @@ public class ServerClientConnectionLayer {
 		this.server = server;
 		this.output = output;
 		
-//		processManager = new ProcessManager(this);
-		/*
-		 * Hier kommt der Algorithmus fuer die Verarbeitung der Anfragedaten hin ...
-		 */
-		
-		System.out.println("ServerClientConnectionLayer: Request from Client:"+text);
+	System.out.println("ServerClientConnectionLayer: Request from Client:"+text);
 		
 		if(text.toLowerCase().contains("client?"))
 			processManager.loop(text);
