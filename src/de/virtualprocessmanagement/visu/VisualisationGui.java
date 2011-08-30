@@ -1,15 +1,10 @@
 package de.virtualprocessmanagement.visu;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,20 +16,10 @@ import javax.swing.JTextArea;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
-import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
-import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
-import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessMap;
-import de.virtualprocessmanagement.server.Server;
-import de.virtualprocessmanagement.test.TestSubjects;
 
 /**
- * The Server ist based on the Webserver coded by "Jon Berg"
- * You find ist at http://fragments.turtlemeat.com/javawebserver.php
- * I added some interfaces and extensions
- * Thanks to Jon for the basic-works
- * 
  * Copyright: 2011
  * @author: Karsten Bettray
  * @version 0.1
@@ -53,6 +38,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 //	private ServerClientConnectionLayer serverClientConnector = null;
 
 	   //declare some panel, scrollpanel, textarea for gui
+	private JPanel contentPanel = new JPanel(new BorderLayout());
 	private JPanel jPanel1 = new JPanel();
 	private JScrollPane jScrollPane1 = new JScrollPane();
 	private JTextArea jTextArea2 = new JTextArea();
@@ -104,8 +90,6 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
-		//oh the pretty colors
-//		setUndecorated(true);
 	  
 		visuPanel.setProcessMap(processMap);
 		
@@ -125,8 +109,10 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		
 //		centerPanel.add(jPanel1);
 		centerPanel.add(visuPanel);
-		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		this.getContentPane().add(button, BorderLayout.SOUTH);
+		contentPanel.add(centerPanel, BorderLayout.CENTER);
+		contentPanel.add(button, BorderLayout.SOUTH);
+		
+		this.getContentPane().add(contentPanel);
 		
 		//tweak the apearance
 		this.setSize(420, 560);
@@ -138,6 +124,8 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		
 		//make sure it is drawn
 		this.validate();
+		
+		System.out.println("Gerendert?");
 	}
 
 	//this is a method to get messages from the actual
@@ -184,4 +172,37 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 
 	@Override
 	public void internalFrameOpened(InternalFrameEvent e) { }
+	
+	
+	public static void main(String[] arg0)
+	{
+		Scanner input = new Scanner(System.in);
+		String hostAdress, map;
+		VisualisationGui myVisu;
+		JFrame frame = new JFrame();
+		
+		System.out.println("Geben Sie die Adresse des Host-Servers ein:");
+		
+		hostAdress = input.nextLine();
+		
+		if(hostAdress == null || hostAdress.length() == 0)
+			hostAdress = "localhost";
+
+		System.out.println("Geben Sie Pfad und Name der Map-Datei ein:");
+		
+		map = input.nextLine();
+		
+		if(map == null || map.length() == 0)
+			map = "map.csv";
+
+		myVisu = new VisualisationGui(new ProcessMap(map, 25, 25), hostAdress);
+		
+		frame.getContentPane().add(myVisu.contentPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Visualisation");
+		frame.setSize(420, 560);
+		frame.setLocation(0, 10);
+		frame.setResizable(true);
+		frame.setVisible(true);
+	}
 }

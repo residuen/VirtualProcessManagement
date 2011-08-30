@@ -30,7 +30,6 @@ public class ProcessMap {
 	protected int fieldsX = 0, fieldsY = 0, cellWidth = 0, cellHeight = 0;
 	
 	public ProcessMap(String filename, int cellWidth, int cellHeight) {
-//	public ProcessMap(String filename) {
 		
 		this.cellWidth = cellWidth;
 		this.cellHeight = cellHeight;
