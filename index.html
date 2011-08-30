@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -46,62 +46,81 @@
     </div>
 
     <h1><a href="http://github.com/residuen/VirtualProcessManagement">OpenEdu-VirtualProcessManagement</a>
-      <span class="small"><i>(version v 0.1 beta)</i><br />
+      <span class="small"><i>(version v 0.1 beta)</i>
       by <a href="http://github.com/residuen">residuen</a></span></h1>
+	
+   <p>
+    	<br/>
+    	<h2>Das Programm</h2>
+		OpenEdu-VirtualProcessManagement ist ein OpenSource-Tool, welches die Simulation einer automatisierten Anlage ermoeglicht.
+		Dies kann z.B. ein Lager- oder ein Warenhaus mit Wareneingang und Ausgang sein, oder aber auch eine Fertigungsstraße mit Robotern.
+		<br/>
+		Derzeit besteht die Moeglichkeit, Hallen mittels eine CSV-Datei zu generieren, welche Wege fuer Maschinen und Menschen, Stapler,
+		einfache Fahrzeuge, Ladung bzw. Ware und Lagerflaechen beinhalten.
+		<br/>
+ 
+   	 	<h2>Der HTTP-Server</h2>
+    	Eine einfache HTTP-Anfrage an den Server veranlasst z.B. Bewegungen oder Lade-Entladevorgänge:<br/>
+		<i>http://192.168.1.2/client?chargeobjectbyid=43,51,left</i>  z.B. veranlasst den Stapler mit der ID <b>43</b>
+		Objekt <b>51</b> aufzuladen.<br/>
+		Der in Java geschriebene Server laeuft entweder auf dem lokalen Rechner, oder man startet den Server auf einem Server-PC
+		auf den dann verschiedene Clients Zugriff haben.
+		<br/>
+ 
+   	 	<h2>Intention</h2>
+		Ziel ist das Planen und Entwickeln von simulierten Steuerungs- bzw. Warenmanagementanlagen. Aufgaben koennen sowohl selbststaendig,
+		als auch in Teams in kooperativen Projektaufgaben durchgefuehrt werden.<br/>
+		Ein wesentlicher Vorteil bei der Implementierung per HTTP-Server ist, das die Loesung von Aufgaben <b>Programmiersprachenunabhaengig</b> ist.
+		Auch die Anbindung einer Datenbank für eine Lagerverwaltung ist als Aufgabe moeglich, sowie die Eigenentwicklung einer textbasierten
+		oder auch grafischen Benutzeroberflaeche fuer Steuerungs- und/oder Lagerlogistikaufgaben.
+	</p>
 
-    <div class="description">
-      <!-- Solving and painting simple mathematical equations -->
-    </div>
+	<h2>Gallerie</h2>
+	<p>
+	<a href="http://it-host.de/images/vpm/gui.jpg" target="_blank"><img src="http://it-host.de/images/vpm/gui_thumb.jpg" border="0" /></a>
+	<br/>
+	</p>
+	
+	<h2>Filmsequenz</h2>
+	<p>
+	<a href="http://it-host.de/muviz/movie.webm" target="_blank">Filmsequenz, WebM-Kodiert.</a>
+	<br/>
+	</p>
 
-    <p>
-     <!--
-     With this tool it will be able to write down simple equations like x^2 +2*x -2 or for example 1+sin(x)/x and so on. The solver builds the results between a given range and a given step-size. A double-array will be returned.<br />
-This Java-program uses the JavaScripting-Engine to connect the JScript-Method <i>solve()</i> to solve the results of the functions. JFreeChart ist the Java-API to plot the xy-charts.</br>
-An interface, to be able implement an own solver, will be implemented soon. So VirtualProcessManagement will be a nice application to use in the IT-education.
-	-->
-</p>
-
-<h2>Gallery</h2>
-<p>
-<a href="http://it-host.de/images/vpm/gui.jpg" target="_blank"><img src="http://it-host.de/images/vpm/gui_thumb.jpg" border="0" /></a>
-<br/>
-</p>
-
-<h2>Download</h2>
-<p>Get an executeable jar (last update 11.06.2011): <a href="http://it-host.de/jar/VirtualProcessManagement.zip"><b>VirtualProcessManagement.jar</b></a><br />
-<i>(Tested with Windows XP and Windows 7)</i>
-</p>
-
-<h2>Dependencies</h2>
-<p>
-Java Runtime - get it from <a href="http://www.java.com/de/download/" target="_blank"><b>Java&trade;</b></a><br />
-JFreeChart - it's also implemented as jar (very good and fast charting API for Java)
-</p>
-
-<h2>License</h2>
-<p>GPL 3.0</p>
-<h2>Authors</h2>
-<p>residuen (k.bettray@uni-duisburg.de)
-<br/>
-<br/>      </p>
-<h2>Contact</h2>
-<p>residuen (k.bettray@uni-duisburg.de)
-<br/>      </p>
+	<h2>Download</h2>
+	<p>Eine ausfuehrbare Version liegt in der folgenden ZIP-Datei bereit (letztes Update 31.08.2011): <a href="http://it-host.de/jar/VirtualProcessManagement.zip"><b>VirtualProcessManagement.zip</b></a><br />
+	<i>(Getested mit Windows XP und Windows 7)</i>
+	</p>
+	
+	<h2>Abhaengigkeiten</h2>
+	<p>
+	Java Runtime - Erhaeltlich unter <a href="http://www.java.com/de/download/" target="_blank"><b>Java&trade;</b></a><br />
+	</p>
+	
+	<h2>Lizenz</h2>
+	<p>GPL 3.0, mehr dazu unter <a href="http://www.gnu.de/documents/gpl.de.html" target="_blank">http://www.gnu.de/documents/gpl.de.html</a></p>
+	<h2>Author</h2>
+	<p>residuen (k.bettray@uni-duisburg.de)
+	<br/>
+	<br/>      </p>
+	<h2>Kontakt</h2>
+	<p>residuen (k.bettray@uni-duisburg.de)
+	<br/>      </p>
 
 
     <h2>Download</h2>
     <p>
       You can download this project in either
-      <a href="http://github.com/residuen/OpenEdu-VirtualProcessManagement/zipball/master">zip</a> or
-      <a href="http://github.com/residuen/OpenEdu-VirtualProcessManagement/tarball/master">tar</a> formats.
+      <a href="http://github.com/residuen/VirtualProcessManagement/zipball/master">zip</a> or
+      <a href="http://github.com/residuen/VirtualProcessManagement/tarball/master">tar</a> formats.
     </p>
     <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
       by running:
-      <pre>$ git clone git://github.com/residuen/OpenEdu-VirtualProcessManagement</pre>
+      <pre>$ git clone git://github.com/residuen/VirtualProcessManagement</pre>
     </p>
 
     <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/residuen/OpenEdu-VirtualProcessManagement">residuen/OpenEdu-VirtualProcessManagement</a>
+      get the source code on GitHub : <a href="http://github.com/residuen/VirtualProcessManagement">residuen/VirtualProcessManagement</a>
     </div>
 
   </div>
