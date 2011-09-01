@@ -93,14 +93,9 @@ public class MenuListener implements ActionListener, MouseListener
 			if(event.equals("startserver"))
 				if(webserverGui == null)
 				{
-					if(processManager == null)
-					{
-						processManager = new ProcessManager("map.csv");
-					}
+					initClientEnvironment();
 					
-					serverClientConnector = new ServerClientConnectionLayer(processManager);
-					processManager.setConnectionLayer(serverClientConnector);
-					webserverGui = new WebserverGui(serverClientConnector); // inputComponents.get("plotprop").setVisible(true);
+					webserverGui = new WebserverGui(serverClientConnector);
 					((JDesktopPane)inputComponents.get("mdiframe")).add(webserverGui);
 					((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
 				}
@@ -109,8 +104,7 @@ public class MenuListener implements ActionListener, MouseListener
 					webserverGui.dispose();
 					webserverGui = null;
 					
-					serverClientConnector.closeClient();
-					serverClientConnector = null;
+					clearClientEnvironment();
 					
 					if(client != null)
 						stopClient((JButton)arg0.getSource());
@@ -131,6 +125,8 @@ public class MenuListener implements ActionListener, MouseListener
 							if(visualisationGui == null)
 							{
 //								System.out.println(objectList);
+								
+								 initClientEnvironment();
 								
 								// get new visuGui and add the map and the hostname
 								visualisationGui = new VisualisationGui(processManager.getProcessMap(), ((JTextField)inputComponents.get("serveradress")).getText());
@@ -159,6 +155,8 @@ public class MenuListener implements ActionListener, MouseListener
 		{
 			client = new Client();
 			
+			initClientEnvironment();
+			
 			if(serverClientConnector != null)
 			{
 				client.setHostAdress(((JTextField)inputComponents.get("serveradress")).getText());
@@ -180,6 +178,31 @@ public class MenuListener implements ActionListener, MouseListener
 			serverClientConnector.closeClient();
 		
 		((JButton)inputComponents.get("startclient")).setText("<html>start<br/>client</html>");
+	}
+	
+	/**
+	 * Initialisiert die notwendigen Verbindungen, falls notwendig
+	 */
+	private void initClientEnvironment() {
+		
+		if(processManager == null)
+		{
+			processManager = new ProcessManager("map.csv");
+		}
+		
+		if(serverClientConnector == null)
+		{
+			serverClientConnector = new ServerClientConnectionLayer(processManager);
+			processManager.setConnectionLayer(serverClientConnector);
+		}
+	}
+	
+	private void clearClientEnvironment() {
+		
+		processManager.getProcessMap().getAllObjects().clear();
+		processManager = null;
+		serverClientConnector.closeClient();
+		
 	}
 
 	@Override

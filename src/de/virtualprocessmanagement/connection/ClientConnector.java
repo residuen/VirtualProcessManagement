@@ -67,6 +67,8 @@ public class ClientConnector extends Thread implements HTTPClient {
 		
 		this.hostAdress = host;
 		
+		System.out.println("ClientCOnnector:host="+host);
+		
 		connection = new HTTPClientConnection(host);
 	}
 
@@ -101,7 +103,8 @@ public class ClientConnector extends Thread implements HTTPClient {
   
     		if(commandList.size() > 0)
     		{
-    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelsen und anschliessend geloescht
+    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelesen und anschliessend geloescht
+    			System.out.println("http://"+hostAdress+"/"+commandList.get(0));
     			data = connection.sendRequest("http://"+hostAdress+"/"+commandList.get(0));
     			commandList.remove(0);	// Loeschen des gesendeten Kommandos
     		}
