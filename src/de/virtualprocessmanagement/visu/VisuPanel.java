@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -19,10 +18,23 @@ public class VisuPanel extends JPanel {
 	
 	private ProcessMap processMap = null;
 	
-	private Shape boundary = null;
+	private boolean hasMap = true;
+	
+	private IndependenceObjectReader objectReader = null;
+	
+	private String host = null;
 
-	public void setProcessMap(ProcessMap processMap) {
+	public void setProcessMap(ProcessMap processMap, String host) {
+		
 		this.processMap = processMap;
+		this.host = host;
+		
+		if(processMap == null) {
+			hasMap = false;
+			
+			objectReader = new IndependenceObjectReader(host);
+			objectReader.start();
+		}
 	}
 
 	public void paint(Graphics g) {
@@ -35,23 +47,27 @@ public class VisuPanel extends JPanel {
 		
 		g2d.clearRect(0, 0, getWidth(), getHeight());
 		
-		
-		// Zuerst die statischen Objekte zeichnen
-		for(String key : RectShape.staticShapeKeys)
-		{
-			objectList = processMap.getObjectList(key);
-			
-			if(objectList != null)
-				paintShapes(g2d);
+		if(hasMap) {
+			// Zuerst die statischen Objekte zeichnen
+			for(String key : RectShape.staticShapeKeys)
+			{
+				objectList = processMap.getObjectList(key);
+				
+				if(objectList != null)
+					paintShapes(g2d);
+			}
+	
+			// ... anschliessend werden die beweglichen Objekte gezeichnet
+			for(String key : RectShape.moveableShapeKeys)
+			{
+				objectList = processMap.getObjectList(key);
+				
+				if(objectList != null)
+					paintShapes(g2d);
+			}
 		}
-
-		// ... anschliessend werden die beweglichen Objekte gezeichnet
-		for(String key : RectShape.moveableShapeKeys)
-		{
-			objectList = processMap.getObjectList(key);
+		else {
 			
-			if(objectList != null)
-				paintShapes(g2d);
 		}
 	}
 	
@@ -92,6 +108,4 @@ public class VisuPanel extends JPanel {
 					  (int)(shape).getCenterX() - fontMetrics.stringWidth(str)/2,
 					  (int)(shape).getCenterY() + fontMetrics.getHeight()/2);
 	}
-	
-
 }

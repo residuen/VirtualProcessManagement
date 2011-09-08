@@ -111,11 +111,8 @@ public class ClientConnector extends Thread implements HTTPClient {
 
     		loop(data);
     		
-    		try {
-    			Thread.sleep(sleepTime);
-    		} catch (InterruptedException e) {
-    			System.out.println(e.getMessage());
-    		}
+//    		try { Thread.sleep(sleepTime); } 
+//    		catch (InterruptedException e) { System.out.println(e.getMessage()); }
         }
     }
 }

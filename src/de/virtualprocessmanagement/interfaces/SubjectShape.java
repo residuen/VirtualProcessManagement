@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Shape;
 
+import de.virtualprocessmanagement.processing.Mover;
+
 public interface SubjectShape extends Shape {
 	
 	public Color getFillColor();
@@ -90,4 +92,6 @@ public interface SubjectShape extends Shape {
 	public int getDirection();
 
 	public void setDirection(int direction);
+	
+	public void addMover(Mover mover);
 }

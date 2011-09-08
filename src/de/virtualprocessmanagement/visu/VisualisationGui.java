@@ -91,7 +91,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
 	  
-		visuPanel.setProcessMap(processMap);
+		visuPanel.setProcessMap(processMap, host);
 		
 		jTextArea2.setBorder(BorderFactory.createLoweredBevelBorder());
 		jTextArea2.setEditable(false);

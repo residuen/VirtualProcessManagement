@@ -2,8 +2,10 @@ package de.virtualprocessmanagement.objects;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
+import de.virtualprocessmanagement.processing.Mover;
 
 public class MainObject {
 	
@@ -70,6 +72,8 @@ public class MainObject {
 
 	protected Color fillColor = Color.RED, collisionsColor = Color.CYAN, frameColor = Color.BLACK;
 	
+	protected ArrayList<Mover> movers = new ArrayList<Mover>();
+
 	public boolean hasLifterCharge() {
 		return false;
 	}
@@ -77,5 +81,38 @@ public class MainObject {
 	public void chargeLoad(int direction, SubjectShape load, Component component) {
 		
 	}
+	
+	public void addMover(Mover mover) {
+		
+		movers.add(mover);
+		
+//		if(!movers.get(0).isMoverRunMode())
+			runMovers();
+		
+	}
+	
+	private void runMovers() {
 
+//		System.out.println("movers.get(0).isMoverRunMode()="+movers.get(0).isMoverRunMode());
+
+		while(movers.size() > 0) {
+			
+//			System.out.println("movers.get(0).isMoverRunMode()="+movers.get(0).isMoverRunMode());
+			
+			if(!movers.get(0).isMoverRunMode())
+			{
+				System.out.println("movers.get(0).isMoverRunMode()="+movers.get(0).isMoverRunMode());
+
+				movers.get(0).setMoverRunMode(true);
+				movers.get(0).start();
+				
+				while(movers.get(0).isMoverRunMode())
+				{
+//					System.out.println("movers.get(0).isMoverRunMode()="+movers.get(0).isMoverRunMode());
+				}
+				
+				movers.remove(0);
+			}
+		}
+	}
 }

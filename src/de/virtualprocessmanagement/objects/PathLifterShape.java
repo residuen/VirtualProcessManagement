@@ -11,6 +11,7 @@ import java.awt.geom.GeneralPath;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 import de.virtualprocessmanagement.processing.ForkMover;
+import de.virtualprocessmanagement.processing.Mover;
 import de.virtualprocessmanagement.processing.ShapeMover;
 
 public class PathLifterShape extends MainObject implements SubjectShape {
@@ -26,7 +27,9 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	private SimplePath forks = new SimplePath();
 	
 	private SubjectShape charge = null;
-
+	
+	private boolean hasCharge = false;
+	
 	public PathLifterShape() {
 		super();
 	}
@@ -253,6 +256,173 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 	}
 
 	@Override
+	public void setX_index(int x_index) {
+		this.x_index = x_index;
+	}
+
+	@Override
+	public void setY_index(int y_index) {
+		this.y_index = y_index;
+	}
+
+	@Override
+	public void setRect(double x, double y, double width, double height) {
+		
+//		System.out.println("PathShape: setRect-> x="+x+" y="+y+" width="+width+" height"+height);
+
+		this.x_vehicle = x;
+		this.y_vehicle = y;
+		this.x_fork = x;
+		this.y_fork = y;
+		
+		if(hasLifterCharge())
+			charge.setRect(x, y, charge.getWidth(), charge.getHeight());
+
+		buildforklifter();
+	}
+
+	@Override
+	public boolean hasMoveableAdditionalShape() {
+		return false;
+	}
+
+	@Override
+	public SubjectShape getAdditionalShape() {
+		return null;
+	}
+
+	@Override
+	public void chargeLoad(int direction, SubjectShape charge, Component component) {
+		
+		this.direction = direction;
+		this.charge = charge;
+		
+		if(charge != null)
+			hasCharge = true;
+		
+		if(!forks.isShapeLocked())
+		{
+			forks.lockShape();
+			Mover forkMover = new ForkMover(forkOffset, this, forks, direction, component);
+			
+//			addMover(forkMover);
+//			forks.addMover(forkMover);
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+			
+			switch(direction) {
+			
+				case MainObject.UP:
+					direction = MainObject.DOWN;
+					break;
+					
+				case MainObject.DOWN:
+					direction = MainObject.UP;
+					break;
+					
+				case MainObject.LEFT:
+					direction = MainObject.RIGHT;
+					break;
+					
+				default:
+					direction = MainObject.LEFT;
+					break;				
+			}
+			
+			forkMover = new ForkMover(forkOffset, this, charge, direction, component);
+//			addMover(forkMover);
+//			forkMover = new ForkMover(forkOffset, this, forks, charge, direction, component);
+//			forks.addMover(forkMover); // !!
+//			charge.addMover(forkMover); // !!
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+		}
+		
+	}
+
+	@Override
+	public void dischargeLoad(int direction, Component component) {
+
+		this.direction = direction;
+
+		if(hasLifterCharge() &&  !forks.isShapeLocked())
+		{
+			forks.lockShape();
+			Mover forkMover = new ForkMover(forkOffset, this, charge, direction, component);
+//			forks.addMover(forkMover); // !!
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+			
+			switch(direction) {
+			
+				case MainObject.UP:
+					direction = MainObject.DOWN;
+					break;
+					
+				case MainObject.DOWN:
+					direction = MainObject.UP;
+					break;
+					
+				case MainObject.LEFT:
+					direction = MainObject.RIGHT;
+					break;
+					
+				default:
+					direction = MainObject.LEFT;
+					break;				
+			}
+			
+			forkMover = new ForkMover(forkOffset, this, forks, direction, component);
+//			forks.addMover(forkMover); // !!
+			forkMover.start();
+			try { forkMover.join(); }
+			catch (InterruptedException e) { e.printStackTrace(); }
+			
+			charge = null; // Referenz auf Ladung vom Stapler-Object entfernen
+			
+			hasCharge = false;
+		}
+		
+	}
+
+	@Override
+	public void updateObject() {
+
+		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
+	}
+	
+	@Override
+	public int getDirection() {
+		return direction;
+	}
+
+	@Override
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	public SimplePath getForks() {
+		return forks;
+	}
+
+	@Override
+	public boolean hasLifterCharge() {
+		return hasCharge;
+	}
+	
+	public void setLoad(SubjectShape charge) {
+		this.charge = charge;
+		
+		if(charge != null)
+			hasCharge = true;
+		else
+			hasCharge = false;
+	}
+	
+	@Override
 	public boolean contains(Point2D arg0) {
 		return vehicle.contains(arg0);
 	}
@@ -304,181 +474,37 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 
 	@Override
 	public double getCenterX() {
-		return x_vehicle +  0.5*width; //vehicle.getBounds2D().getCenterX();
+		return x_vehicle +  0.5*width;
 	}
 
 	@Override
 	public double getCenterY() {
-		return y_vehicle + 0.5*height; //vehicle.getBounds2D().getCenterY();
+		return y_vehicle + 0.5*height;
 	}
 
 	@Override
 	public double getX() {
-		return x_vehicle; //vehicle.getBounds2D().getX();
+		return x_vehicle;
 	}
 
 	@Override
 	public double getY() {
-		return y_vehicle; //vehicle.getBounds2D().getY();
+		return y_vehicle;
 	}
 	
 	@Override
-	public void setX_index(int x_index) {
-		this.x_index = x_index;
+	public String toString() {
+		return "[id="+id+",group="+group+",name="+name+",x="+vehicle.getX()+",y="+vehicle.getY()+",groupId="+groupId+",x_index="+x_index+",y_index="+y_index+"]";
 	}
-
-	@Override
-	public void setY_index(int y_index) {
-		this.y_index = y_index;
-	}
-
-	@Override
-	public void setRect(double x, double y, double width, double height) {
-		
-//		System.out.println("PathShape: setRect-> x="+x+" y="+y+" width="+width+" height"+height);
-
-		this.x_vehicle = x;
-		this.y_vehicle = y;
-		this.x_fork = x;
-		this.y_fork = y;
-		
-		if(hasLifterCharge())
-			charge.setRect(x, y, charge.getWidth(), charge.getHeight());
-
-		buildforklifter();
-	}
-
-	@Override
-	public boolean hasMoveableAdditionalShape() {
-		return false;
-	}
-
-	@Override
-	public SubjectShape getAdditionalShape() {
-		return null;
-	}
-
-	@Override
-	public void chargeLoad(int direction, SubjectShape charge, Component component) {
-		
-		this.direction = direction;
-		this.charge = charge;
-		
-		if(!forks.isShapeLocked())
-		{
-			forks.lockShape();
-			ForkMover forkMover = new ForkMover(forkOffset, this, forks, direction, component);
-			forkMover.start();
-			try { forkMover.join(); }
-			catch (InterruptedException e) { e.printStackTrace(); }
-			
-			switch(direction) {
-			
-				case MainObject.UP:
-					direction = MainObject.DOWN;
-					break;
-					
-				case MainObject.DOWN:
-					direction = MainObject.UP;
-					break;
-					
-				case MainObject.LEFT:
-					direction = MainObject.RIGHT;
-					break;
-					
-				default:
-					direction = MainObject.LEFT;
-					break;				
-			}
-			
-			forkMover = new ForkMover(forkOffset, this, forks, charge, direction, component);
-			forkMover.start();
-			try { forkMover.join(); }
-			catch (InterruptedException e) { e.printStackTrace(); }
-		}
-		
-	}
-
-	@Override
-	public void dischargeLoad(int direction, Component component) {
-
-		this.direction = direction;
-
-		if(hasLifterCharge() &&  !forks.isShapeLocked())
-		{
-			forks.lockShape();
-			ForkMover forkMover = new ForkMover(forkOffset, this, forks, charge, direction, component);
-			forkMover.start();
-			try { forkMover.join(); }
-			catch (InterruptedException e) { e.printStackTrace(); }
-			
-			switch(direction) {
-			
-				case MainObject.UP:
-					direction = MainObject.DOWN;
-					break;
-					
-				case MainObject.DOWN:
-					direction = MainObject.UP;
-					break;
-					
-				case MainObject.LEFT:
-					direction = MainObject.RIGHT;
-					break;
-					
-				default:
-					direction = MainObject.LEFT;
-					break;				
-			}
-			
-			forkMover = new ForkMover(forkOffset, this, forks, direction, component);
-			forkMover.start();
-			try { forkMover.join(); }
-			catch (InterruptedException e) { e.printStackTrace(); }
-			
-			charge = null; // Referenz auf Ladung vom Stapler-Object entfernen
-		}
-		
-	}
-
+	
 	@Override
 	public void setAdditionalShape(SubjectShape shape) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void chargeLoad() {
 		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
-	public void updateObject() {
-
-		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
-	}
-	
-	@Override
-	public int getDirection() {
-		return direction;
-	}
-
-	@Override
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
-
-	public SimplePath getForks() {
-		return forks;
-	}
-
-	@Override
-	public boolean hasLifterCharge() {
-		return charge != null;
-	}
-	
-	public void setLoad(SubjectShape load) {
-		this.charge = load;
-	}
 }

@@ -166,6 +166,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 
 	public void getObjectInfo(String data) {
 		
+//		new Thread() { public void run() {
+			
 		String[] swap = data.split("objectinfo=");
 		String[] swap2 = null;
 		String[] objects = null;
@@ -211,6 +213,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		}
 		
 		dataResponseEvent(objects);
+		
+//		} }.start();
 	}
 	
 	public void setVisuComponent(Component visuComponent) {

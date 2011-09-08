@@ -40,7 +40,6 @@ public class HTTPClientConnection {
 	
 	private String nextServerRequest()
 	{
-//		String str = "";
 		StringBuffer str = new StringBuffer();
 		
 		try {
@@ -64,9 +63,9 @@ public class HTTPClientConnection {
 		return str.toString();
 	}
 	
-	public static void main(String[] arg0)
-	{
-//		new HTTPBytePacketConnection("localhost");
-		new HTTPClientConnection("127.0.0.1");
-	}
+//	public static void main(String[] arg0)
+//	{
+////		new HTTPBytePacketConnection("localhost");
+//		new HTTPClientConnection("127.0.0.1");
+//	}
 }

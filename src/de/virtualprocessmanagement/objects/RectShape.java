@@ -157,12 +157,10 @@ public class RectShape extends MainObject implements SubjectShape {
 	public void setShowId(boolean showId) {
 		this.showId = showId;
 	}
-
-
 	
 	@Override
 	public String toString() {
-		return "[id="+id+",group="+group+",name="+name+",groupId="+groupId+",x_index="+x_index+",y_index="+y_index+"]";
+		return "[id="+id+",group="+group+",name="+name+",x="+shape.getX()+",y="+shape.getY()+",groupId="+groupId+",x_index="+x_index+",y_index="+y_index+"]";
 	}
 
 	@Override

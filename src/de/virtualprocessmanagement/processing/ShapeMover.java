@@ -11,7 +11,7 @@ import de.virtualprocessmanagement.objects.*;
  * @author bettray
  *
  */
-public class ShapeMover extends Thread {
+public class ShapeMover extends Mover {
 	
 	private SubjectShape shape = null;
 	
@@ -31,8 +31,10 @@ public class ShapeMover extends Thread {
 		this.component = component;
 	}
 	
-	public void run() {
+	public void run() {	
 		
+		setMoverRunMode(true);
+
 		if(direction==RectShape.LEFT)
 		{
 			x = -RectShape.DEFAULT_WIDTH / (double)sleepTime; // Verschiebung in x-Richtung
@@ -89,6 +91,8 @@ public class ShapeMover extends Thread {
         }
 		
 		finalizeShape();
+		
+		setMoverRunMode(false);
     }
 	
 	private void finalizeShape() {
@@ -115,5 +119,4 @@ public class ShapeMover extends Thread {
 
 		return true;
 	}
-
 }

@@ -38,7 +38,17 @@ public class Client extends ClientConnector {
 											 "moveobject=43,left",
 											 "moveobject=43,left",
 											 "moveobject=43,left",
-											 "moveobject=43,up",};
+											 "moveobject=43,up"};
+	
+//	String[] testDirections = new String[] { "moveobject=33,down",
+//			 "moveobject=33,up",
+//			 "moveobject=33,up",
+//			 "moveobject=33,up",
+//			 "moveobject=33,up",
+//			 "moveobject=33,down",
+//			 "moveobject=33,down",
+//			 "moveobject=33,down"};
+
 	
 	int count = 0; 
 	

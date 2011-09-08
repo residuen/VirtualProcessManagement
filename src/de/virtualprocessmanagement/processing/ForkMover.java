@@ -12,7 +12,7 @@ import de.virtualprocessmanagement.objects.*;
  * @author bettray
  *
  */
-public class ForkMover extends Thread {
+public class ForkMover extends Mover {
 	
 	private SubjectShape mainShape = null;
 	

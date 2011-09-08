@@ -24,6 +24,7 @@ import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.WebserverGui;
 import de.virtualprocessmanagement.test.TestVisu;
+import de.virtualprocessmanagement.tools.Dialog;
 import de.virtualprocessmanagement.visu.VisualisationGui;
 
 public class MenuListener implements ActionListener, MouseListener
@@ -129,12 +130,16 @@ public class MenuListener implements ActionListener, MouseListener
 								 initClientEnvironment();
 								
 								// get new visuGui and add the map and the hostname
-								visualisationGui = new VisualisationGui(processManager.getProcessMap(), ((JTextField)inputComponents.get("serveradress")).getText());
-								processManager.setVisuComponent(visualisationGui.getVisuPanel());
-								((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
-								visualisationGui.getReadServerData().start();
+								 if(new Integer(((JTextField)inputComponents.get("guimode")).getText()) == Dialog.CLIENT_MODE)
+									 visualisationGui = new VisualisationGui(null, ((JTextField)inputComponents.get("serveradress")).getText());
+								 else
+									 visualisationGui = new VisualisationGui(processManager.getProcessMap(), ((JTextField)inputComponents.get("serveradress")).getText());
+								 
+								 processManager.setVisuComponent(visualisationGui.getVisuPanel());
+								 ((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
+								 visualisationGui.getReadServerData().start();
 								
-								((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
+								 ((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
 							}
 							else {
 								visualisationGui.setVisible(false);

@@ -118,7 +118,7 @@ public class ShapeManager implements ShapeHandler {
 		
 //		System.out.println("ShapeManager: Move Object: "+objectGroup+" "+objectId+" "+direction);
 		
-		ShapeMover mover = null;
+		Mover mover = null;
 		
 		int dirAsInt = 0;
 		
@@ -136,6 +136,8 @@ public class ShapeManager implements ShapeHandler {
 			mover = new ShapeMover(shape, dirAsInt, 1000, visuComponent);
 			
 			shape.lockShape();
+			
+//			shape.addMover(mover);
 		
 			if(mover!=null)
 			{
