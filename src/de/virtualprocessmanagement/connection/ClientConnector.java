@@ -76,13 +76,11 @@ public class ClientConnector extends Thread implements HTTPClient {
 	 * fuegt Kommando-Queue den BEfehlstext fuer die naechste Serveranfrage 
 	 */
 	@Override
-	public void sendNextRequest(String command) {
+	public synchronized void sendNextRequest(String command) {
 		
-		synchronized (command) {
-			this.command = command;
+		this.command = command;
 			
-			commandList.add(command);	
-		}
+		commandList.add(command);	
 	}
 	
 	@Override
@@ -111,8 +109,8 @@ public class ClientConnector extends Thread implements HTTPClient {
 
     		loop(data);
     		
-//    		try { Thread.sleep(sleepTime); } 
-//    		catch (InterruptedException e) { System.out.println(e.getMessage()); }
+    		try { Thread.sleep(sleepTime); } 
+    		catch (InterruptedException e) { System.out.println(e.getMessage()); }
         }
     }
 }

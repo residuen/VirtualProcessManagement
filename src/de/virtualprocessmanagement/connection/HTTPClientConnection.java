@@ -28,7 +28,7 @@ public class HTTPClientConnection {
 		this.hostname = hostname;
 	}
 	
-	public String sendRequest(String cmd) {
+	public synchronized String sendRequest(String cmd) {
 		
 		try {
 			url = new URL("http://"+hostname+":"+port+"/"+cmd);
@@ -38,7 +38,7 @@ public class HTTPClientConnection {
 		return nextServerRequest();
 	}
 	
-	private String nextServerRequest()
+	private synchronized String nextServerRequest()
 	{
 		StringBuffer str = new StringBuffer();
 		

@@ -7,6 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 
@@ -286,7 +288,13 @@ public class RectShape extends MainObject implements SubjectShape {
 	@Override
 	public void setRect(double x, double y, double width, double height) {
 		
+//		final Lock lock = new ReentrantLock();
+//
+//		lock.lock();
+		
 		shape.setRect(x, y, width, height);
+		
+//		lock.unlock();
 	}
 
 	@Override

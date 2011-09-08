@@ -29,9 +29,9 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		
 		shapeManager = new ShapeManager(processMap);
 	}
-
+	
 	@Override
-	public void loop(String data) {
+	public synchronized void loop(String data) {
 		
 		this.data = data;
 		
@@ -125,7 +125,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 
 	@Override
-	public void moveObject(int objectGroup, int objectMapId, String direction) {
+	public synchronized void moveObject(int objectGroup, int objectMapId, String direction) {
 
 		shapeManager.moveObject(objectGroup, objectMapId, direction);
 				
@@ -133,7 +133,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 	
 	@Override
-	public void moveObject(int objectId, String direction) {
+	public synchronized void moveObject(int objectId, String direction) {
 
 		shapeManager.moveObject(objectId, direction);
 				
@@ -141,7 +141,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 
 	@Override
-	public void chargeObjectByGroup(int objectGroup, int objectMapId, String direction) {
+	public synchronized void chargeObjectByGroup(int objectGroup, int objectMapId, String direction) {
 		
 		shapeManager.chargeObjectByGroup(objectGroup, objectMapId, direction);
 		
@@ -149,7 +149,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 
 	@Override
-	public void chargeObjectById(int objectId, int chargeId, String direction) {
+	public synchronized void chargeObjectById(int objectId, int chargeId, String direction) {
 		
 		shapeManager.chargeObjectById(objectId, chargeId, direction);
 		
@@ -157,14 +157,14 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	}
 
 	@Override
-	public void dischargeObjectById(int lifterObjectId,  String direction) {
+	public synchronized void dischargeObjectById(int lifterObjectId,  String direction) {
 		
 		shapeManager.dischargeObjectById(lifterObjectId, direction);
 //		
 		dataResponseEvent(new String[] {"server?acknowledge="+this.data+";"+true});
 	}
 
-	public void getObjectInfo(String data) {
+	public synchronized void getObjectInfo(String data) {
 		
 //		new Thread() { public void run() {
 			

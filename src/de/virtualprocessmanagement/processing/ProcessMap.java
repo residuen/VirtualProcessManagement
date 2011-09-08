@@ -141,7 +141,7 @@ public class ProcessMap {
 		
 //		System.out.println("entry="+entry);
 		
-		String typ = null;
+//		String typ = null;
 		
 		if(entry.equals("s"))
 		{
@@ -220,7 +220,7 @@ public class ProcessMap {
 	 * Liefert alle Shapes zurueck
 	 * @return
 	 */
-	public ArrayList<SubjectShape> getAllObjects() {
+	public synchronized ArrayList<SubjectShape> getAllObjects() {
 		return objectList;
 	}
 	
@@ -229,7 +229,7 @@ public class ProcessMap {
 	 * @param objectGroup
 	 * @return
 	 */
-	public  ArrayList<SubjectShape> getObjectList(int objectGroup) {
+	public synchronized ArrayList<SubjectShape> getObjectList(int objectGroup) {
 		return objectMap.get(Integer.toString(objectGroup));
 	}
 	
@@ -238,11 +238,11 @@ public class ProcessMap {
 	 * @param objectGroup
 	 * @return
 	 */
-	public  ArrayList<SubjectShape> getObjectList(String objectGroup) {
+	public synchronized ArrayList<SubjectShape> getObjectList(String objectGroup) {
 		return objectMap.get(objectGroup);
 	}
 
-	public Shape getBoundary() {
+	public synchronized Shape getBoundary() {
 		return boundary;
 	}
 

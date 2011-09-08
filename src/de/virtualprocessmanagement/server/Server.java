@@ -256,8 +256,10 @@ public class Server extends Thread implements HTTPServer {
 	* Sending the data to the client
 	*/
 	@Override
-	public void sendResponseText(String[] text, DataOutputStream output) {
+	public void sendResponseText(final String[] text, final DataOutputStream output) {
 	  
+//		new Thread() { public void run() {
+		
 		//happy day scenario
 		try {
     	
@@ -279,6 +281,8 @@ public class Server extends Thread implements HTTPServer {
 	    }
 
 	    catch (Exception e) {}
+	    
+//		} }.start();
   }
 
 	/**
