@@ -20,6 +20,7 @@ public class HTTPClientConnection {
 	private Scanner scan = null;
 	private String hostname = "localhost";
 	private int port = 80;
+	private String cmd = null;
 	
 //	private String command = "?client=foo&cmd=info";
 	
@@ -30,8 +31,13 @@ public class HTTPClientConnection {
 	
 	public synchronized String sendRequest(String cmd) {
 		
+		this.cmd = cmd;
+		
+		System.out.println("cmdCLIENTCONNECTOR="+cmd);
+		
 		try {
-			url = new URL("http://"+hostname+":"+port+"/"+cmd);
+			url = new URL(cmd);
+//			url = new URL("http://"+hostname+":"+port+"/"+cmd);
 		}
 		catch (MalformedURLException e) { e.printStackTrace(); } 
 		
@@ -43,6 +49,13 @@ public class HTTPClientConnection {
 		StringBuffer str = new StringBuffer();
 		
 		try {
+			url = new URL(cmd);
+//			url = new URL("http://"+hostname+":"+port+"/"+cmd);
+		}
+		catch (MalformedURLException e) { e.printStackTrace(); } 
+		try {
+			System.out.println("url="+url.toString());
+			
 			con = url.openConnection();
 			
 			scan = new Scanner(con.getInputStream());
@@ -53,13 +66,13 @@ public class HTTPClientConnection {
 		
 		while(scan.hasNext())
 		{
-//			str += scan.nextLine();
 			str.append(scan.nextLine());
 		}
 		
 		scan.close();
 		
-//		return str;
+		con = null;
+
 		return str.toString();
 	}
 	

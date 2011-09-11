@@ -9,17 +9,17 @@ import de.virtualprocessmanagement.interfaces.HTTPClient;
  * @author bettray
  *
  */
-public class ClientConnector extends Thread implements HTTPClient {
+public class ClientConnector extends Thread implements HTTPClient {	// extends Thread 
 	
 	private boolean runMode = true;
 	
-	private int sleepTime = 25; // 1000;
+	private int sleepTime = 5;
 	
 	protected String command = "";
 	
 	private String data = null;
 	
-	private HTTPClientConnection connection = null;
+//	private HTTPClientConnection connection = null;
 	
 	protected String hostAdress = null;
 	
@@ -34,6 +34,8 @@ public class ClientConnector extends Thread implements HTTPClient {
 			this.command = command;
 			
 			commandList.add(command);
+			
+			new WorkerThread().start();
 		}
 	}
 	
@@ -67,9 +69,9 @@ public class ClientConnector extends Thread implements HTTPClient {
 		
 		this.hostAdress = host;
 		
-		System.out.println("ClientCOnnector:host="+host);
+		System.out.println("ClientConnector:host="+host);
 		
-		connection = new HTTPClientConnection(host);
+//		connection = new HTTPClientConnection(host);
 	}
 
 	/**
@@ -92,25 +94,64 @@ public class ClientConnector extends Thread implements HTTPClient {
 	public void setConnectionLayer(ServerClientConnectionLayer connectionLayer) {
 
 	}
+	
 	public void run() {
-    	
+//    	
+		new WorkerThread().start();
+		
     	while(!isInterrupted() && runMode)
         {
-//    		if(this.command != null && this.command.length()>0)
-//    			data = connection.sendRequest("http://"+hostAdress+"/"+this.command);
-  
-    		if(commandList.size() > 0)
-    		{
-    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelesen und anschliessend geloescht
-    			System.out.println("http://"+hostAdress+"/"+commandList.get(0));
-    			data = connection.sendRequest("http://"+hostAdress+"/"+commandList.get(0));
-    			commandList.remove(0);	// Loeschen des gesendeten Kommandos
-    		}
-
-    		loop(data);
-    		
+//    		System.out.println("blubb");
+////    		if(this.command != null && this.command.length()>0)
+////    			data = connection.sendRequest("http://"+hostAdress+"/"+this.command);
+//  
+//    		if(commandList.size() > 0)
+//    		{
+//    			connection = new HTTPClientConnection(hostAdress);
+//    			
+//    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelesen und anschliessend geloescht
+//    			System.out.println("http://"+hostAdress+"/"+commandList.get(0));
+//    			data = connection.sendRequest("http://"+hostAdress+"/"+commandList.get(0));
+//    			commandList.remove(0);	// Loeschen des gesendeten Kommandos
+//    			connection.notify();
+//    			connection = null;
+//    		}
+//
+//    		loop(data);
+//    		
     		try { Thread.sleep(sleepTime); } 
     		catch (InterruptedException e) { System.out.println(e.getMessage()); }
         }
     }
+	
+	public class WorkerThread extends Thread {
+		
+		private HTTPClientConnection connection = null;
+		
+		public void run() {
+	    	
+	    	while(!isInterrupted() && runMode)
+	        {
+//	    		if(this.command != null && this.command.length()>0)
+//	    			data = connection.sendRequest("http://"+hostAdress+"/"+this.command);
+	  
+	    		if(commandList.size() > 0)
+	    		{
+	    			connection = new HTTPClientConnection(hostAdress);
+	    			
+	    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelesen und anschliessend geloescht
+	    			System.out.println("http://"+hostAdress+"/"+commandList.get(0));
+	    			data = connection.sendRequest("http://"+hostAdress+"/"+commandList.get(0));
+	    			commandList.remove(0);	// Loeschen des gesendeten Kommandos
+//	    			connection.notify();
+	    			connection = null;
+	    		}
+
+	    		loop(data);
+	    		
+	    		try { Thread.sleep(sleepTime); } 
+	    		catch (InterruptedException e) { System.out.println(e.getMessage()); }
+	        }
+	    }	
+	}
 }

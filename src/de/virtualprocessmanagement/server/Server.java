@@ -16,6 +16,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -43,7 +44,7 @@ public class Server extends Thread implements HTTPServer {
 	
     private ServerSocket serversocket = null;
     
-    private ServerClientConnectionLayer simulationController = null;
+    private ServerClientConnectionLayer connectionLayer = null;
     
     private ServerInfos serverInfos = new ServerInfos();
     
@@ -119,7 +120,7 @@ public class Server extends Thread implements HTTPServer {
 				//Prepare a outputstream from us to the client,
 				//this will be used sending back our response
 				//(header + requested file) to the client.
-				DataOutputStream output = new DataOutputStream(connectionsocket.getOutputStream());
+				OutputStreamWriter output = new OutputStreamWriter(connectionsocket.getOutputStream());
 
 				//as the name suggest this method handles the http request, see further down.
 				//abstraction rules
@@ -134,7 +135,7 @@ public class Server extends Thread implements HTTPServer {
 
 	// our implementation of the hypertext transfer protocol
 	// its very basic and stripped down
-	private void http_handler(BufferedReader input, DataOutputStream output) {
+	private void http_handler(BufferedReader input, OutputStreamWriter output) {
 	  
 		int method = 0; //1 get, 2 head, 0 not supported
 
@@ -165,7 +166,8 @@ public class Server extends Thread implements HTTPServer {
 
 			if (method == 0) { // not supported
 				try {
-					output.writeBytes(construct_http_header(501, 0));
+					output.write(construct_http_header(501, 0));
+//					output.writeBytes(construct_http_header(501, 0));
 					output.close();
 					return;
 				}
@@ -208,7 +210,7 @@ public class Server extends Thread implements HTTPServer {
 		serverMessage("\nClient requested: requestText=" + requestText + "\n");
     
 		//happy day scenario
-		simulationController.clientRequest(requestText, this, output);
+		connectionLayer.clientRequest(requestText, this, output);
 //		sendResponseText(requestText, output);	// Periodisches Senden an den Client
 
 	}
@@ -256,7 +258,7 @@ public class Server extends Thread implements HTTPServer {
 	* Sending the data to the client
 	*/
 	@Override
-	public void sendResponseText(final String[] text, final DataOutputStream output) {
+	public void sendResponseText(final String[] text, final OutputStreamWriter output) {
 	  
 //		new Thread() { public void run() {
 		
@@ -264,11 +266,13 @@ public class Server extends Thread implements HTTPServer {
 		try {
     	
 			// Die Server-Antwort an den Client 
-			output.writeBytes(construct_http_header(200, 5));
+			output.write(construct_http_header(200, 5));
+//			output.writeBytes(construct_http_header(200, 5));
 			
 			for(String s : text)
 			{
-				output.writeBytes(s+"\n");
+				output.write(s+"\n");
+//				output.writeBytes(s+"\n");
 
 				// Infotext fuer WebserverGui
 				serverMessage("message to client:"+s);
@@ -311,10 +315,10 @@ public class Server extends Thread implements HTTPServer {
 		return requestText;
 	}
 
-	public void setSimulationController( ServerClientConnectionLayer simulationController) {
-		this.simulationController = simulationController;
+	public void setSimulationController( ServerClientConnectionLayer connectionLayer) {
+		this.connectionLayer = connectionLayer;
 		
-		simulationController.setServer(this);
+		connectionLayer.setServer(this);
 	}
 
 }

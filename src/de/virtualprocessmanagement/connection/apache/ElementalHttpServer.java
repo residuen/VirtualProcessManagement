@@ -27,6 +27,7 @@
 
 package de.virtualprocessmanagement.connection.apache;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -70,6 +71,11 @@ import org.apache.http.protocol.ResponseDate;
 import org.apache.http.protocol.ResponseServer;
 import org.apache.http.util.EntityUtils;
 
+import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.interfaces.HTTPServer;
+import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.tools.ServerInfos;
+
 /**
  * Basic, yet fully functional and spec compliant, HTTP/1.1 file server.
  * <p>
@@ -78,28 +84,47 @@ import org.apache.http.util.EntityUtils;
  * 
  *
  */
-public class ElementalHttpServer {
+public class ElementalHttpServer implements HTTPServer {
 
-    public static void main(String[] args) throws Exception {
-    	
-    	args = new String[] { new File("").toString() };
-    	
-        if (args.length < 1) {
-            System.err.println("Please specify document root directory");
-            System.exit(1);
-        }
-        Thread t = new RequestListenerThread(8080, args[0]);
-        t.setDaemon(false);
-        t.start();
-    }
+    private ServerSocket serversocket = null;
     
-    static class HttpFileHandler implements HttpRequestHandler  {
+    private static ServerClientConnectionLayer connectionLayer = null;
+    
+    private ServerInfos serverInfos = new ServerInfos();
+    
+	private static Message message_to; //the starter class, needed for gui
+	private int port; //port we are going to listen to
+
+	// Strings fuer die Anfrage-URI des Clients
+    private String requestPath = "";
+    private String requestText = "";
+
+	public ElementalHttpServer(int listen_port, Message to_send_message_to) {
+		  
+		message_to = to_send_message_to;
+		port = 80; // listen_port;
+
+        Thread t = null;
+		try {
+			t = new RequestListenerThread(80, new File("").toString(), this);
+	        t.setDaemon(false);
+	        t.start();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	static class HttpFileHandler implements HttpRequestHandler  {
         
         private final String docRoot;
+        private final HTTPServer httpServer;
         
-        public HttpFileHandler(final String docRoot) {
+        public HttpFileHandler(final String docRoot, final HTTPServer httpServer) {
             super();
             this.docRoot = docRoot;
+            this.httpServer = httpServer;
         }
         
         public void handle(
@@ -111,7 +136,19 @@ public class ElementalHttpServer {
             if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
                 throw new MethodNotSupportedException(method + " method not supported"); 
             }
-            String target = request.getRequestLine().getUri();
+            
+            final String target = request.getRequestLine().getUri();
+            
+            System.out.println("target="+target);
+            
+    		// path do now have the filename to what to the file it wants to open
+//    		serverMessage("\nClient requested: requestPath=" + requestPath);
+    		serverMessage("\nClient requested: requestText=" + target + "\n");
+        
+    		//happy day scenario
+ 
+//    		sendResponseText(requestText, output);	// Periodisches Senden an den Client
+
 
             if (request instanceof HttpEntityEnclosingRequest) {
                 HttpEntity entity = ((HttpEntityEnclosingRequest) request).getEntity();
@@ -120,52 +157,63 @@ public class ElementalHttpServer {
             }
             
             final File file = new File(this.docRoot, URLDecoder.decode(target));
-            if (!file.exists()) {
+//            if (!file.exists())
+            {
 
                 response.setStatusCode(HttpStatus.SC_NOT_FOUND);
                 EntityTemplate body = new EntityTemplate(new ContentProducer() {
                     
                     public void writeTo(final OutputStream outstream) throws IOException {
                         OutputStreamWriter writer = new OutputStreamWriter(outstream, "UTF-8"); 
-                        writer.write("<html><body><h1>");
-                        writer.write("File ");
-                        writer.write(file.getPath());
-                        writer.write(" not found");
-                        writer.write("</h1></body></html>");
+//                        writer.write("<html><body><h1>");
+//                        writer.write("File ");
+//                        writer.write(file.getPath());
+//                        writer.write(" not found");
+//                        writer.write(target);
+//                        writer.write("</h1></body></html>");
+                        
+//                        writer.write(target);
+//                        writer.flush();
+                        
+                   		connectionLayer.clientRequest(file.getName(), httpServer, writer);
                         writer.flush();
+
                     }
                     
                 });
-                body.setContentType("text/html; charset=UTF-8");
+//                body.setContentType("text/html; charset=UTF-8");
                 response.setEntity(body);
-                System.out.println("File " + file.getPath() + " not found");
-                
-            } else if (!file.canRead() || file.isDirectory()) {
-                
-                response.setStatusCode(HttpStatus.SC_FORBIDDEN);
-                EntityTemplate body = new EntityTemplate(new ContentProducer() {
-                    
-                    public void writeTo(final OutputStream outstream) throws IOException {
-                        OutputStreamWriter writer = new OutputStreamWriter(outstream, "UTF-8"); 
-                        writer.write("<html><body><h1>");
-                        writer.write("Access denied");
-                        writer.write("</h1></body></html>");
-                        writer.flush();
-                    }
-                    
-                });
-                body.setContentType("text/html; charset=UTF-8");
-                response.setEntity(body);
-                System.out.println("Cannot read file " + file.getPath());
-                
-            } else {
-                
-                response.setStatusCode(HttpStatus.SC_OK);
-                FileEntity body = new FileEntity(file, "text/html");
-                response.setEntity(body);
-                System.out.println("Serving file " + file.getPath());
+//                System.out.println("File " + file.getPath() + " not found");
                 
             }
+            
+//            else if (!file.canRead() || file.isDirectory()) {
+//                
+//                response.setStatusCode(HttpStatus.SC_FORBIDDEN);
+//                EntityTemplate body = new EntityTemplate(new ContentProducer() {
+//                    
+//                    public void writeTo(final OutputStream outstream) throws IOException {
+//                        OutputStreamWriter writer = new OutputStreamWriter(outstream, "UTF-8"); 
+//                        writer.write("<html><body><h1>");
+//                        writer.write("Access denied");
+//                        writer.write("</h1></body></html>");
+//                        writer.flush();
+//                    }
+//                    
+//                });
+//                body.setContentType("text/html; charset=UTF-8");
+//                response.setEntity(body);
+//                System.out.println("Cannot read file " + file.getPath());
+//                
+//            }
+//            else {
+//                
+//                response.setStatusCode(HttpStatus.SC_OK);
+//                FileEntity body = new FileEntity(file, "text/html");
+//                response.setEntity(body);
+//                System.out.println("Serving file " + file.getPath());
+//                
+//            }
         }
         
     }
@@ -176,7 +224,7 @@ public class ElementalHttpServer {
         private final HttpParams params; 
         private final HttpService httpService;
         
-        public RequestListenerThread(int port, final String docroot) throws IOException {
+        public RequestListenerThread(int port, final String docroot, final HTTPServer httpServer) throws IOException {
             this.serversocket = new ServerSocket(port);
             this.params = new SyncBasicHttpParams();
             this.params
@@ -196,7 +244,7 @@ public class ElementalHttpServer {
             
             // Set up request handlers
             HttpRequestHandlerRegistry reqistry = new HttpRequestHandlerRegistry();
-            reqistry.register("*", new HttpFileHandler(docroot));
+            reqistry.register("*", new HttpFileHandler(docroot, httpServer));
             
             // Set up the HTTP service
             this.httpService = new HttpService(
@@ -264,7 +312,72 @@ public class ElementalHttpServer {
                 } catch (IOException ignore) {}
             }
         }
-
     }
+
+	/**
+	* Return of the Jedis ... sorry, the ServerSocket
+	*/
+	@Override
+	public ServerSocket getServersocket() {
+		return serversocket;
+	}
+
+	public void setSimulationController( ServerClientConnectionLayer connectionLayer) {
+		this.connectionLayer = connectionLayer;
+		
+		connectionLayer.setServer(this);
+	}
+
+	/**
+	 * Der Pfad der HTTP-Anfrage
+	 * @return
+	 */
+	@Override
+	public String getRequestPath() {
+		return requestPath;
+	}
+
+	/**
+	 * Name der angefragten Datei
+	 * @return
+	 */
+	@Override
+	public String getRequestText() {
+		return requestText;
+	}
+
+	@Override
+	public void interrupt() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * Sendet eine Nachricht an die ServerGui
+	 * @param msg
+	 */
+	private static void serverMessage(String msg) { //an alias to avoid typing so much!
+		message_to.message(msg);
+	}
+
+	@Override
+	public void sendResponseText(String[] text, OutputStreamWriter output) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+//    public static void main(String[] args) throws Exception {
+//    	
+//    	args = new String[] { new File("").toString() };
+//    	
+//        if (args.length < 1) {
+//            System.err.println("Please specify document root directory");
+//            System.exit(1);
+//        }
+//        Thread t = new RequestListenerThread(8080, args[0]);
+//        t.setDaemon(false);
+//        t.start();
+//    }
     
 }

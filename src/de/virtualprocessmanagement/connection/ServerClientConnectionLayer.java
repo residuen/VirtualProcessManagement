@@ -1,10 +1,12 @@
 package de.virtualprocessmanagement.connection;
 
 import java.io.DataOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import de.virtualprocessmanagement.client.Client;
+import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.Server;
 
@@ -12,9 +14,9 @@ public class ServerClientConnectionLayer {
 	
 	private Client client = null;
 	
-	private Server server = null;
+	private HTTPServer server = null;
 	
-	private DataOutputStream output = null;
+	private OutputStreamWriter output = null;	// DataOutputStream
 	
 	private ProcessManager processManager = null;
 	
@@ -22,7 +24,7 @@ public class ServerClientConnectionLayer {
 		this.processManager = processManager;
 	}
 	
-	public void clientRequest(String text, Server server, DataOutputStream output) {
+	public void clientRequest(String text, HTTPServer server, OutputStreamWriter output) {
 		
 		this.server = server;
 		this.output = output;
@@ -56,7 +58,7 @@ public class ServerClientConnectionLayer {
 		return client!=null;
 	}
 	
-	public void setServer(Server server) {
+	public void setServer(HTTPServer server) {
 		this.server = server;
 	}
 }

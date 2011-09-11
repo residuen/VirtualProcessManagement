@@ -21,6 +21,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
+import de.virtualprocessmanagement.connection.apache.ElementalHttpServer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
 import de.virtualprocessmanagement.tools.ServerInfos;
@@ -52,9 +53,9 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
     private ServerInfos serverInfos = new ServerInfos();
 
 	   //declare some panel, scrollpanel, textarea for gui
-	JPanel jPanel1 = new JPanel();
-	JScrollPane jScrollPane1 = new JScrollPane();
-	JTextArea jTextArea2 = new JTextArea();
+    private JPanel jPanel1 = new JPanel();
+    private JScrollPane jScrollPane1 = new JScrollPane();
+    private JTextArea jTextArea2 = new JTextArea();
 	
 	//basic class constructor
 	public WebserverGui(ServerClientConnectionLayer simulationController) {
@@ -131,6 +132,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		//create the actual serverstuff,
 		//all that is implemented in another class
 		server = new Server(listen_port.intValue(), this);
+//		server = new ElementalHttpServer(listen_port.intValue(), this);
 		server.setSimulationController(simulationController);
 	}
 
