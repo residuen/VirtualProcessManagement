@@ -13,7 +13,7 @@ public class IndependenceObjectReader extends Thread {
 	
 	private String host = null;
 	
-	private long count = 0;
+//	private long count = 0;
 	
 	public IndependenceObjectReader(String host) {
 		
@@ -38,7 +38,7 @@ public class IndependenceObjectReader extends Thread {
 			
 			getObjectsFromServer();
 			
-			try { sleep(100); }
+			try { sleep(35); }
 			catch (InterruptedException e) { e.printStackTrace(); }
 		}
 	}

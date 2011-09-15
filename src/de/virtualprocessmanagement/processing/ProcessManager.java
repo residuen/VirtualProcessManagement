@@ -54,28 +54,28 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 				moveObject(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
 		}
 		else
-		if(data.contains("?chargeobjectbygroup="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		if(data.contains("?chargeobjectbygroup="))
 		{
 			swap = data.substring(data.indexOf("=")+1).split(",");
 
 			chargeObjectByGroup(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
 		}
 		else
-		if(data.contains("?chargeobjectbyid="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		if(data.contains("?chargeobjectbyid="))
 		{
 			swap = data.substring(data.indexOf("=")+1).split(",");
 			
 			chargeObjectById(Integer.parseInt(swap[0]), Integer.parseInt(swap[1]), swap[2]);
 		}
 		else
-		if(data.contains("?dischargeobjectbyid="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		if(data.contains("?dischargeobjectbyid="))
 		{
 			swap = data.substring(data.indexOf("=")+1).split(",");
 			
 			dischargeObjectById(Integer.parseInt(swap[0]), swap[1]);
 		}
 		else
-		if(data.contains("?objectinfo="))	// moveObject=objectGroup,objectId,left/up/right/down  
+		if(data.contains("?objectinfo="))
 		{
 			getObjectInfo(data);
 		}
@@ -88,6 +88,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 
 	@Override
 	public void dataResponseEvent(String[] data) {
+		
+//		System.out.println("ProcessManager:dataResponseEvent");
 		connectionLayer.clientResponse(data);
 	}
 
@@ -167,6 +169,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	public synchronized void getObjectInfo(String data) {
 		
 //		new Thread() { public void run() {
+		
+//		System.out.println("ProcessManager:getObjectInfo: "+data);
 			
 		String[] swap = data.split("objectinfo=");
 		String[] swap2 = null;
@@ -174,6 +178,9 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		
 		ArrayList<SubjectShape> objectList = null; //processMap.getAllObjects();
 		ArrayList<SubjectShape> swapList = null;
+		
+//		System.out.println("ProcessManager:getObjectInfo:swap[0]="+swap[0]);
+//		System.out.println("ProcessManager:getObjectInfo:swap[1]="+swap[1]);
 		
 		if(swap[1].toLowerCase().equals("getall"))
 			objectList = processMap.getAllObjects();
@@ -187,7 +194,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		if(swap[1].toLowerCase().equals("getallpartialmoveable"))
 			objectList = processMap.getObjectList(RectShape.PARTIAL_MOVEABLE_OBJECT);
 		else
-		if(swap[1].toLowerCase().equals("getallcharge"))
+		if(swap[1].toLowerCase().equals("getallcharge") || swap[1].toLowerCase().equals("getallload"))
 			objectList = processMap.getObjectList(RectShape.CHARGE_OBJECT);
 		else
 		if(swap[1].toLowerCase().contains("getbygroup"))
@@ -204,12 +211,15 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 				objectList = processMap.getObjectList(swap2[1]);
 		}
 		
+//		System.out.println("ProcessManager:getObjectInfo:objectList.size()="+objectList.size());
+		
 		objects = new String[objectList.size()+1];
 		
 		objects[0] = "serveranswer?"+data+"\n";
 		
 		for(int i=0; i<objectList.size(); i++) {
 			objects[i+1] = objectList.get(i).toString()+"\n";
+//			System.out.print(objects[i+1]);
 		}
 		
 		dataResponseEvent(objects);

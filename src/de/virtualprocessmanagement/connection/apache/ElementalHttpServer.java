@@ -90,7 +90,7 @@ public class ElementalHttpServer implements HTTPServer {
     
     private static ServerClientConnectionLayer connectionLayer = null;
     
-    private ServerInfos serverInfos = new ServerInfos();
+//    private ServerInfos serverInfos = new ServerInfos();
     
 	private static Message message_to; //the starter class, needed for gui
 	private int port; //port we are going to listen to
@@ -122,12 +122,14 @@ public class ElementalHttpServer implements HTTPServer {
         private final HTTPServer httpServer;
         
         public HttpFileHandler(final String docRoot, final HTTPServer httpServer) {
+        	
             super();
             this.docRoot = docRoot;
             this.httpServer = httpServer;
         }
         
         public void handle(
+        		
                 final HttpRequest request, 
                 final HttpResponse response,
                 final HttpContext context) throws HttpException, IOException {
@@ -175,8 +177,9 @@ public class ElementalHttpServer implements HTTPServer {
 //                        writer.write(target);
 //                        writer.flush();
                         
+//                        System.out.println("ApacheServer-> "+file.getPath());
                    		connectionLayer.clientRequest(file.getName(), httpServer, writer);
-                        writer.flush();
+//                        writer.flush();
 
                     }
                     
@@ -186,36 +189,7 @@ public class ElementalHttpServer implements HTTPServer {
 //                System.out.println("File " + file.getPath() + " not found");
                 
             }
-            
-//            else if (!file.canRead() || file.isDirectory()) {
-//                
-//                response.setStatusCode(HttpStatus.SC_FORBIDDEN);
-//                EntityTemplate body = new EntityTemplate(new ContentProducer() {
-//                    
-//                    public void writeTo(final OutputStream outstream) throws IOException {
-//                        OutputStreamWriter writer = new OutputStreamWriter(outstream, "UTF-8"); 
-//                        writer.write("<html><body><h1>");
-//                        writer.write("Access denied");
-//                        writer.write("</h1></body></html>");
-//                        writer.flush();
-//                    }
-//                    
-//                });
-//                body.setContentType("text/html; charset=UTF-8");
-//                response.setEntity(body);
-//                System.out.println("Cannot read file " + file.getPath());
-//                
-//            }
-//            else {
-//                
-//                response.setStatusCode(HttpStatus.SC_OK);
-//                FileEntity body = new FileEntity(file, "text/html");
-//                response.setEntity(body);
-//                System.out.println("Serving file " + file.getPath());
-//                
-//            }
         }
-        
     }
     
     static class RequestListenerThread extends Thread {
@@ -322,7 +296,7 @@ public class ElementalHttpServer implements HTTPServer {
 		return serversocket;
 	}
 
-	public void setSimulationController( ServerClientConnectionLayer connectionLayer) {
+	public void setSimulationController(ServerClientConnectionLayer connectionLayer) {
 		this.connectionLayer = connectionLayer;
 		
 		connectionLayer.setServer(this);
@@ -362,9 +336,73 @@ public class ElementalHttpServer implements HTTPServer {
 
 	@Override
 	public void sendResponseText(String[] text, OutputStreamWriter output) {
-		// TODO Auto-generated method stub
-		
+
+		try {
+	    	
+			// Die Server-Antwort an den Client 
+//			output.write(construct_http_header(200, 5));
+//			output.writeBytes(construct_http_header(200, 5));
+			
+			for(String s : text)
+			{
+				output.write(s+"\n");
+//				output.writeBytes(s+"\n");
+
+				// Infotext fuer WebserverGui
+				serverMessage("message to client:"+s);
+				
+//				System.out.println("Text="+s);
+			}
+
+	        //clean up the files, close open handles
+			output.flush();
+	    	output.close();
+	    }
+
+	    catch (Exception e) {}
+	    
+//		} }.start();
+//  }
 	}
+
+	  //this method makes the HTTP header for the response
+	  //the headers job is to tell the browser the result of the request
+	  //among if it was successful or not.
+		private String construct_http_header(int return_code, int file_type) {
+			
+			String s = "HTTP/1.0 ";
+	    //you probably have seen these if you have been surfing the web a while
+			switch (return_code) {
+				case 200:
+					s = s + "200 OK";
+					break;
+				case 400:
+					s = s + "400 Bad Request";
+					break;
+				case 403:
+					s = s + "403 Forbidden";
+					break;
+				case 404:
+				  s = s + "404 Not Found";
+				  break;
+				case 500:
+					s = s + "500 Internal Server Error";
+					break;
+				case 501:
+					s = s + "501 Not Implemented";
+					break;
+			}
+
+			s = s + "\r\n"; //other header fields,
+			s = s + "Connection: close\r\n"; //we can't handle persistent connections
+			s = s + "Server: SimpleHTTPtutorial v0\r\n"; //server name
+			s = s + "Content-Type: text/html\r\n";
+			s = s + "\r\n"; //this marks the end of the httpheader
+			// and the start of the body
+			// ok return our newly created header!
+	    
+			return s;
+		}
 
 	
 //    public static void main(String[] args) throws Exception {

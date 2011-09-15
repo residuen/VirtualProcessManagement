@@ -1,4 +1,4 @@
-package de.virtualprocessmanagement.client;
+package de.virtualprocessmanagement.test;
 
 import java.util.Scanner;
 
@@ -40,16 +40,6 @@ public class Client extends ClientConnector {
 											 "moveobject=43,left",
 											 "moveobject=43,up"};
 	
-//	String[] testDirections = new String[] { "moveobject=33,down",
-//			 "moveobject=33,up",
-//			 "moveobject=33,up",
-//			 "moveobject=33,up",
-//			 "moveobject=33,up",
-//			 "moveobject=33,down",
-//			 "moveobject=33,down",
-//			 "moveobject=33,down"};
-
-	
 	int count = 0; 
 	
 	@Override
@@ -57,7 +47,7 @@ public class Client extends ClientConnector {
 		
 //		if(data != null) 
 		{
-			System.out.println(count+" LOOP:Client empfaengt:\n"+data);
+			System.out.println(count+" LOOP:Client empfaengt: "+data);
 		
 			String cmd = "";
 			
@@ -66,17 +56,22 @@ public class Client extends ClientConnector {
 //			cmd = "client?objectinfo=getallcharge";
 	//		cmd = "client?objectinfo=getbygroup:2,0";
 			
-			if(count < testDirections.length)
-			{
-	//			cmd = "client?moveobject=2,0,"+testDirections[count];	// Objekt ueber group & id bewegen 
-	//			cmd = "client?moveobject=33,"+testDirections[count];	// objekt dirket ueber id bewegen
-//				cmd = "client?moveobject=43,"+testDirections[count]; 	// Den Gabelstapler bewegen
-//				cmd = "client?chargeobject=43,"+testDirections[count];	// Die Gabel des Staplers ausfahren & beladen
-				cmd = "client?"+testDirections[count];					// Befehlskette
-				count++;
-			}
-			else
-				cmd = "";
+			sendNextRequest("objectinfo=getall");
+			
+			if(count==0)
+				for(String s : testDirections)
+					sendNextRequest(s);
+			count++;
+
+			
+//			if(count < testDirections.length)
+//			{
+//				cmd = testDirections[count];					// Befehlskette
+//				sendNextRequest(cmd);
+//				count++;
+//			}
+//			else
+//				cmd = "";
 	
 	
 			
@@ -84,8 +79,8 @@ public class Client extends ClientConnector {
 			
 	//		dataResponseEvent(new String[] { "Ueberraschungstext" });
 	//		sendNextRequest("client?getserverinfo");
-			
-			sendNextRequest(cmd);
+						
+//			sendNextRequest(cmd);
 		}
 	}
 

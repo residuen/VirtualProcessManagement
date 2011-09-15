@@ -1,14 +1,10 @@
 package de.virtualprocessmanagement.connection;
 
-import java.io.DataOutputStream;
 import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
-import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.processing.ProcessManager;
-import de.virtualprocessmanagement.server.Server;
+import de.virtualprocessmanagement.test.Client;
 
 public class ServerClientConnectionLayer {
 	
@@ -33,11 +29,11 @@ public class ServerClientConnectionLayer {
 		
 		if(text.toLowerCase().contains("client?"))
 			processManager.loop(text);
-//		else		
 	}
 
 	public void clientResponse(String[] text) {
 		
+//		System.out.println("ServerClientConnectionLayer:clientResponse");
 		server.sendResponseText(text, output);
 	}
 	

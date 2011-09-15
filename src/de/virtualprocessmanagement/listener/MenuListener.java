@@ -16,13 +16,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import de.virtualprocessmanagement.client.Client;
 import de.virtualprocessmanagement.connection.HTTPClientConnection;
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
 import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.server.WebserverGui;
+import de.virtualprocessmanagement.test.Client;
 import de.virtualprocessmanagement.test.TestVisu;
 import de.virtualprocessmanagement.tools.Dialog;
 import de.virtualprocessmanagement.visu.VisualisationGui;

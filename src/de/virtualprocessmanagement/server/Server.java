@@ -12,7 +12,6 @@
 package de.virtualprocessmanagement.server;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +21,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
-import de.virtualprocessmanagement.interfaces.HTTPClient;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
 import de.virtualprocessmanagement.tools.ServerInfos;
@@ -266,7 +264,7 @@ public class Server extends Thread implements HTTPServer {
 		try {
     	
 			// Die Server-Antwort an den Client 
-			output.write(construct_http_header(200, 5));
+//			output.write(construct_http_header(200, 5));
 //			output.writeBytes(construct_http_header(200, 5));
 			
 			for(String s : text)

@@ -1,14 +1,10 @@
 package de.virtualprocessmanagement.server;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -46,6 +42,8 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	
 	static Integer listen_port = null;
 
+	private final String SERVER_VERSION = "apache"; // use "apache" or "default"
+	
 	private HTTPServer server = null;
 	
 	private ServerClientConnectionLayer simulationController = null;
@@ -131,8 +129,11 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		
 		//create the actual serverstuff,
 		//all that is implemented in another class
-		server = new Server(listen_port.intValue(), this);
-//		server = new ElementalHttpServer(listen_port.intValue(), this);
+		if(SERVER_VERSION.equals("apache"))
+			server = new ElementalHttpServer(listen_port.intValue(), this);
+		else
+			server = new Server(listen_port.intValue(), this);
+		
 		server.setSimulationController(simulationController);
 	}
 
