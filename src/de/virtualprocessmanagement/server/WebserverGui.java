@@ -42,11 +42,11 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	
 	static Integer listen_port = null;
 
-	private final String SERVER_VERSION = "apache"; // use "apache" or "default"
+	private final String SERVER_VERSION = "default"; // use "apache" or "default"
 	
 	private HTTPServer server = null;
 	
-	private ServerClientConnectionLayer simulationController = null;
+	private ServerClientConnectionLayer clientConnection = null;
 	
     private ServerInfos serverInfos = new ServerInfos();
 
@@ -56,9 +56,9 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
     private JTextArea jTextArea2 = new JTextArea();
 	
 	//basic class constructor
-	public WebserverGui(ServerClientConnectionLayer simulationController) {
+	public WebserverGui(ServerClientConnectionLayer clientConnection) {
 	  
-		this.simulationController = simulationController;
+		this.clientConnection = clientConnection;
 		
 		listen_port = new Integer(80);
 
@@ -71,9 +71,9 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	}
   
 	//basic class constructor
-	public WebserverGui(String arg, ServerClientConnectionLayer simulationController) {
+	public WebserverGui(String arg, ServerClientConnectionLayer clientConnection) {
 	  
-		this.simulationController = simulationController;
+		this.clientConnection = clientConnection;
 		
 		try {
 			listen_port = new Integer(arg);
@@ -134,7 +134,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		else
 			server = new Server(listen_port.intValue(), this);
 		
-		server.setSimulationController(simulationController);
+		server.setConnectionLayer(clientConnection);
 	}
 
 	//this is a method to get messages from the actual
@@ -153,8 +153,8 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		jTextArea2.setText("<The VirtualProcessManagement-Server>\n<Type http://"+serverInfos.getServerIP()+"/client?getserverinfo in browser to test>\n\n");
 	}
 	
-	public void setSimulationController( ServerClientConnectionLayer simulationController) {
-		this.simulationController = simulationController;
+	public void setSimulationController( ServerClientConnectionLayer clientConnection) {
+		this.clientConnection = clientConnection;
 	}
 	
 	@Override

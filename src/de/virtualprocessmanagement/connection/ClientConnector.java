@@ -30,7 +30,7 @@ public class ClientConnector extends Thread implements HTTPClient {
 	
 	private boolean runMode = true;
 	
-	private int sleepTime = 5;
+	private int sleepTime = 25;
 	
 	protected String command = "";
 	

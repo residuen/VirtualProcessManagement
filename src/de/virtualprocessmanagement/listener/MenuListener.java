@@ -21,6 +21,7 @@ import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
 import de.virtualprocessmanagement.objects.RectShape;
 import de.virtualprocessmanagement.processing.ProcessManager;
+import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.server.WebserverGui;
 import de.virtualprocessmanagement.test.Client;
 import de.virtualprocessmanagement.test.TestVisu;
@@ -29,6 +30,8 @@ import de.virtualprocessmanagement.visu.VisualisationGui;
 
 public class MenuListener implements ActionListener, MouseListener
 {
+	public static final int CELL_WIDTH = 25, CELL_HEIGHT = 25;
+
 	private HashMap<String,Component> inputComponents = null;
 	
 	private TestVisu testVisu = null;
@@ -43,7 +46,8 @@ public class MenuListener implements ActionListener, MouseListener
 	
 	private ServerClientConnectionLayer serverClientConnector = null;
 	
-	private ProcessManager processManager = null;
+//	private ProcessManager processManager = null;
+	private ProcessMap processMap = null;
 	
 	private String lastOpenPath = "";
 	
@@ -81,7 +85,8 @@ public class MenuListener implements ActionListener, MouseListener
 			{
 				if(fc.getSelectedFile().getName().toLowerCase().contains(".csv"))
 				{
-					processManager = new ProcessManager(fc.getSelectedFile().getName());
+//					processManager = new ProcessManager(fc.getSelectedFile().getName());
+					processMap = new ProcessMap(fc.getSelectedFile().getName(), CELL_WIDTH, CELL_HEIGHT);
 					
 					lastOpenPath = fc.getSelectedFile().getPath();
 				}
@@ -133,9 +138,9 @@ public class MenuListener implements ActionListener, MouseListener
 								 if(new Integer(((JTextField)inputComponents.get("guimode")).getText()) == Dialog.CLIENT_MODE)
 									 visualisationGui = new VisualisationGui(null, ((JTextField)inputComponents.get("serveradress")).getText());
 								 else
-									 visualisationGui = new VisualisationGui(processManager.getProcessMap(), ((JTextField)inputComponents.get("serveradress")).getText());
+									 visualisationGui = new VisualisationGui(processMap, ((JTextField)inputComponents.get("serveradress")).getText());
 								 
-								 processManager.setVisuComponent(visualisationGui.getVisuPanel());
+//								 processManager.setVisuComponent(visualisationGui.getVisuPanel());
 								 ((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
 								 visualisationGui.getReadServerData().start();
 								
@@ -190,22 +195,22 @@ public class MenuListener implements ActionListener, MouseListener
 	 */
 	private void initClientEnvironment() {
 		
-		if(processManager == null)
+		if(processMap == null)
 		{
-			processManager = new ProcessManager("map.csv");
+			processMap = new ProcessMap("map.csv", CELL_WIDTH, CELL_HEIGHT);
 		}
 		
 		if(serverClientConnector == null)
 		{
-			serverClientConnector = new ServerClientConnectionLayer(processManager);
-			processManager.setConnectionLayer(serverClientConnector);
+			serverClientConnector = new ServerClientConnectionLayer(processMap);
+//			processManager.setConnectionLayer(serverClientConnector);
 		}
 	}
 	
 	private void clearClientEnvironment() {
 		
-		processManager.getProcessMap().getAllObjects().clear();
-		processManager = null;
+		processMap.getAllObjects().clear();
+		processMap = null;
 		serverClientConnector.closeClient();
 		
 	}

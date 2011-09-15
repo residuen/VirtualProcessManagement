@@ -4,6 +4,7 @@ import java.io.OutputStreamWriter;
 
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.processing.ProcessManager;
+import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.test.Client;
 
 public class ServerClientConnectionLayer {
@@ -14,10 +15,10 @@ public class ServerClientConnectionLayer {
 	
 	private OutputStreamWriter output = null;	// DataOutputStream
 	
-	private ProcessManager processManager = null;
+	private ProcessMap processMap = null;
 	
-	public ServerClientConnectionLayer(ProcessManager processManager) {
-		this.processManager = processManager;
+	public ServerClientConnectionLayer(ProcessMap processMap) {
+		this.processMap = processMap;
 	}
 	
 	public void clientRequest(String text, HTTPServer server, OutputStreamWriter output) {
@@ -25,15 +26,18 @@ public class ServerClientConnectionLayer {
 		this.server = server;
 		this.output = output;
 		
-	System.out.println("ServerClientConnectionLayer: Request from Client:"+text);
+//	System.out.println("ServerClientConnectionLayer:clientRequest:"+server+" "+text);
 		
-		if(text.toLowerCase().contains("client?"))
+		if(text.toLowerCase().contains("client?")) {
+			ProcessManager processManager = new ProcessManager(processMap);
+			processManager.setConnectionLayer(this);
 			processManager.loop(text);
+		}
 	}
 
 	public void clientResponse(String[] text) {
 		
-//		System.out.println("ServerClientConnectionLayer:clientResponse");
+		System.out.println("ServerClientConnectionLayer:clientResponse");
 		server.sendResponseText(text, output);
 	}
 	

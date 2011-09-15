@@ -27,7 +27,6 @@
 
 package de.virtualprocessmanagement.connection.apache;
 
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -50,16 +49,15 @@ import org.apache.http.HttpStatus;
 import org.apache.http.MethodNotSupportedException;
 import org.apache.http.entity.ContentProducer;
 import org.apache.http.entity.EntityTemplate;
-import org.apache.http.entity.FileEntity;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
 import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.DefaultHttpServerConnection;
 import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
 import org.apache.http.params.SyncBasicHttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpProcessor;
 import org.apache.http.protocol.HttpRequestHandler;
 import org.apache.http.protocol.HttpRequestHandlerRegistry;
@@ -74,7 +72,6 @@ import org.apache.http.util.EntityUtils;
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
-import de.virtualprocessmanagement.tools.ServerInfos;
 
 /**
  * Basic, yet fully functional and spec compliant, HTTP/1.1 file server.
@@ -88,11 +85,11 @@ public class ElementalHttpServer implements HTTPServer {
 
     private ServerSocket serversocket = null;
     
-    private static ServerClientConnectionLayer connectionLayer = null;
+    private ServerClientConnectionLayer connectionLayer = null;
     
 //    private ServerInfos serverInfos = new ServerInfos();
     
-	private static Message message_to; //the starter class, needed for gui
+	private Message message_to; //the starter class, needed for gui
 	private int port; //port we are going to listen to
 
 	// Strings fuer die Anfrage-URI des Clients
@@ -116,7 +113,7 @@ public class ElementalHttpServer implements HTTPServer {
 		}
 	}
 
-	static class HttpFileHandler implements HttpRequestHandler  {
+	class HttpFileHandler implements HttpRequestHandler  {
         
         private final String docRoot;
         private final HTTPServer httpServer;
@@ -124,12 +121,12 @@ public class ElementalHttpServer implements HTTPServer {
         public HttpFileHandler(final String docRoot, final HTTPServer httpServer) {
         	
             super();
+            
             this.docRoot = docRoot;
             this.httpServer = httpServer;
         }
         
-        public void handle(
-        		
+        public void handle(        		
                 final HttpRequest request, 
                 final HttpResponse response,
                 final HttpContext context) throws HttpException, IOException {
@@ -149,7 +146,7 @@ public class ElementalHttpServer implements HTTPServer {
         
     		//happy day scenario
  
-//    		sendResponseText(requestText, output);	// Periodisches Senden an den Client
+//    		sendResponseText(requestText, writer);	// Periodisches Senden an den Client
 
 
             if (request instanceof HttpEntityEnclosingRequest) {
@@ -178,6 +175,10 @@ public class ElementalHttpServer implements HTTPServer {
 //                        writer.flush();
                         
 //                        System.out.println("ApacheServer-> "+file.getPath());
+//                		sendResponseText(requestText, writer);	// Periodisches Senden an den Client
+                        System.out.println("Dude, did u find the connectionLayer??");
+                        serverMessage("\nDude, did u find the connectionLayer??");
+
                    		connectionLayer.clientRequest(file.getName(), httpServer, writer);
 //                        writer.flush();
 
@@ -192,11 +193,12 @@ public class ElementalHttpServer implements HTTPServer {
         }
     }
     
-    static class RequestListenerThread extends Thread {
+    class RequestListenerThread extends Thread {
 
         private final ServerSocket serversocket;
         private final HttpParams params; 
         private final HttpService httpService;
+        private final HTTPServer httpServer;
         
         public RequestListenerThread(int port, final String docroot, final HTTPServer httpServer) throws IOException {
             this.serversocket = new ServerSocket(port);
@@ -207,6 +209,7 @@ public class ElementalHttpServer implements HTTPServer {
                 .setBooleanParameter(CoreConnectionPNames.STALE_CONNECTION_CHECK, false)
                 .setBooleanParameter(CoreConnectionPNames.TCP_NODELAY, true)
                 .setParameter(CoreProtocolPNames.ORIGIN_SERVER, "HttpComponents/1.1");
+            this.httpServer = httpServer;
 
             // Set up the HTTP protocol processor
             HttpProcessor httpproc = new ImmutableHttpProcessor(new HttpResponseInterceptor[] {
@@ -230,63 +233,66 @@ public class ElementalHttpServer implements HTTPServer {
         }
         
         public void run() {
-            System.out.println("Listening on port " + this.serversocket.getLocalPort());
-            while (!Thread.interrupted()) {
-                try {
-                    // Set up HTTP connection
-                    Socket socket = this.serversocket.accept();
-                    DefaultHttpServerConnection conn = new DefaultHttpServerConnection();
-                    System.out.println("Incoming connection from " + socket.getInetAddress());
-                    conn.bind(socket, this.params);
+        	
+        	System.out.println("Listening on port " + this.serversocket.getLocalPort());
+            
+        	while (!Thread.interrupted()) {
+        		
+        		try {
+					// Set up HTTP connection
+					Socket socket = this.serversocket.accept();
+					DefaultHttpServerConnection conn = new DefaultHttpServerConnection();
+					System.out.println("Incoming connection from " + socket.getInetAddress());
+					conn.bind(socket, this.params);
 
-                    // Start worker thread
-                    Thread t = new WorkerThread(this.httpService, conn);
-                    t.setDaemon(true);
-                    t.start();
-                } catch (InterruptedIOException ex) {
-                    break;
-                } catch (IOException e) {
-                    System.err.println("I/O error initialising connection thread: " 
-                            + e.getMessage());
-                    break;
-                }
-            }
+					// Start worker thread
+					Thread t = new WorkerThread(this.httpService, conn);
+					t.setDaemon(true);
+					t.start();
+                    
+        		} catch (InterruptedIOException ex) {
+        			break;
+        		} catch (IOException e) {
+        			System.err.println("I/O error initialising connection thread: " + e.getMessage());
+        			break;
+        		}
+        	}
         }
-    }
+	}
     
-    static class WorkerThread extends Thread {
+    class WorkerThread extends Thread {
 
-        private final HttpService httpservice;
-        private final HttpServerConnection conn;
-        
-        public WorkerThread(
-                final HttpService httpservice, 
-                final HttpServerConnection conn) {
-            super();
-            this.httpservice = httpservice;
-            this.conn = conn;
+		private final HttpService httpservice;
+		private final HttpServerConnection conn;
+
+		public WorkerThread(final HttpService httpservice, final HttpServerConnection conn) {
+			
+					super();
+					this.httpservice = httpservice;
+					this.conn = conn;
         }
-        
-        public void run() {
-            System.out.println("New connection thread");
-            HttpContext context = new BasicHttpContext(null);
-            try {
-                while (!Thread.interrupted() && this.conn.isOpen()) {
-                    this.httpservice.handleRequest(this.conn, context);
-                }
-            } catch (ConnectionClosedException ex) {
-                System.err.println("Client closed connection");
-            } catch (IOException ex) {
-                System.err.println("I/O error: " + ex.getMessage());
-            } catch (HttpException ex) {
-                System.err.println("Unrecoverable HTTP protocol violation: " + ex.getMessage());
-            } finally {
-                try {
-                    this.conn.shutdown();
-                } catch (IOException ignore) {}
-            }
-        }
-    }
+
+		public void run() {
+			System.out.println("New connection thread");
+			HttpContext context = new BasicHttpContext(null);
+			
+			try {
+				while (!Thread.interrupted() && this.conn.isOpen()) {
+					this.httpservice.handleRequest(this.conn, context);
+				}
+			} catch (ConnectionClosedException ex) {
+				System.err.println("Client closed connection");
+			} catch (IOException ex) {
+				System.err.println("I/O error: " + ex.getMessage());
+			} catch (HttpException ex) {
+				System.err.println("Unrecoverable HTTP protocol violation: " + ex.getMessage());
+			} finally {
+				try {
+					this.conn.shutdown();
+				} catch (IOException ignore) {}
+			}
+		}
+	}
 
 	/**
 	* Return of the Jedis ... sorry, the ServerSocket
@@ -296,8 +302,10 @@ public class ElementalHttpServer implements HTTPServer {
 		return serversocket;
 	}
 
-	public void setSimulationController(ServerClientConnectionLayer connectionLayer) {
+	public void setConnectionLayer(ServerClientConnectionLayer connectionLayer) {
 		this.connectionLayer = connectionLayer;
+		
+		System.out.println("ElementalHttpServer:setSimulationController");
 		
 		connectionLayer.setServer(this);
 	}
@@ -330,39 +338,35 @@ public class ElementalHttpServer implements HTTPServer {
 	 * Sendet eine Nachricht an die ServerGui
 	 * @param msg
 	 */
-	private static void serverMessage(String msg) { //an alias to avoid typing so much!
+	private void serverMessage(String msg) { //an alias to avoid typing so much!
 		message_to.message(msg);
 	}
 
 	@Override
 	public void sendResponseText(String[] text, OutputStreamWriter output) {
 
+		System.out.println("ElementalHttpServer:sendResponseText");
+		
 		try {
 	    	
 			// Die Server-Antwort an den Client 
-//			output.write(construct_http_header(200, 5));
+			output.write(construct_http_header(200, 5));
 //			output.writeBytes(construct_http_header(200, 5));
 			
 			for(String s : text)
 			{
 				output.write(s+"\n");
-//				output.writeBytes(s+"\n");
 
 				// Infotext fuer WebserverGui
 				serverMessage("message to client:"+s);
-				
-//				System.out.println("Text="+s);
 			}
 
-	        //clean up the files, close open handles
+	        // Writer leerschreiben und schliessen
 			output.flush();
 	    	output.close();
 	    }
 
-	    catch (Exception e) {}
-	    
-//		} }.start();
-//  }
+	    catch (Exception e) {e.printStackTrace();}
 	}
 
 	  //this method makes the HTTP header for the response
@@ -370,38 +374,40 @@ public class ElementalHttpServer implements HTTPServer {
 	  //among if it was successful or not.
 		private String construct_http_header(int return_code, int file_type) {
 			
-			String s = "HTTP/1.0 ";
-	    //you probably have seen these if you have been surfing the web a while
-			switch (return_code) {
-				case 200:
-					s = s + "200 OK";
-					break;
-				case 400:
-					s = s + "400 Bad Request";
-					break;
-				case 403:
-					s = s + "403 Forbidden";
-					break;
-				case 404:
-				  s = s + "404 Not Found";
-				  break;
-				case 500:
-					s = s + "500 Internal Server Error";
-					break;
-				case 501:
-					s = s + "501 Not Implemented";
-					break;
-			}
-
-			s = s + "\r\n"; //other header fields,
-			s = s + "Connection: close\r\n"; //we can't handle persistent connections
-			s = s + "Server: SimpleHTTPtutorial v0\r\n"; //server name
-			s = s + "Content-Type: text/html\r\n";
-			s = s + "\r\n"; //this marks the end of the httpheader
-			// and the start of the body
-			// ok return our newly created header!
-	    
-			return s;
+//			String s = "HTTP/1.0 ";
+//	    //you probably have seen these if you have been surfing the web a while
+//			switch (return_code) {
+//				case 200:
+//					s = s + "200 OK";
+//					break;
+//				case 400:
+//					s = s + "400 Bad Request";
+//					break;
+//				case 403:
+//					s = s + "403 Forbidden";
+//					break;
+//				case 404:
+//				  s = s + "404 Not Found";
+//				  break;
+//				case 500:
+//					s = s + "500 Internal Server Error";
+//					break;
+//				case 501:
+//					s = s + "501 Not Implemented";
+//					break;
+//			}
+//
+//			s = s + "\r\n"; //other header fields,
+//			s = s + "Connection: close\r\n"; //we can't handle persistent connections
+//			s = s + "Server: SimpleHTTPtutorial v0\r\n"; //server name
+//			s = s + "Content-Type: text/html\r\n";
+//			s = s + "\r\n"; //this marks the end of the httpheader
+//			// and the start of the body
+//			// ok return our newly created header!
+//	    
+//			return s;
+			
+			return "";
 		}
 
 	

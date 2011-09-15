@@ -21,7 +21,9 @@ public class IndependenceObjectReader extends Thread {
 		
 		clientConnection = new HTTPClientConnection(host);
 		
-		getObjectsFromServer();
+		setPriority(1);
+		
+//		getObjectsFromServer();
 	}
 	
 	public void getObjectsFromServer()
@@ -38,7 +40,7 @@ public class IndependenceObjectReader extends Thread {
 			
 			getObjectsFromServer();
 			
-			try { sleep(35); }
+			try { sleep(1000); }
 			catch (InterruptedException e) { e.printStackTrace(); }
 		}
 	}

@@ -61,26 +61,6 @@ public class Client extends ClientConnector {
 			if(count==0)
 				for(String s : testDirections)
 					sendNextRequest(s);
-			count++;
-
-			
-//			if(count < testDirections.length)
-//			{
-//				cmd = testDirections[count];					// Befehlskette
-//				sendNextRequest(cmd);
-//				count++;
-//			}
-//			else
-//				cmd = "";
-	
-	
-			
-	//		System.out.println("nächste Anfrage des Client: "+cmd);
-			
-	//		dataResponseEvent(new String[] { "Ueberraschungstext" });
-	//		sendNextRequest("client?getserverinfo");
-						
-//			sendNextRequest(cmd);
 		}
 	}
 

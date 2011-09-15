@@ -24,10 +24,12 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	
 	private String data = null;
 
-	public ProcessManager(String mapName) {
-		processMap = new ProcessMap(mapName, CELL_WIDTH, CELL_HEIGHT);
+//	public ProcessManager(String mapName) {
+	public ProcessManager(ProcessMap processMap) {
+//		processMap = new ProcessMap(mapName, CELL_WIDTH, CELL_HEIGHT);
+		this.processMap = processMap;
 		
-		shapeManager = new ShapeManager(processMap);
+		shapeManager = new ShapeManager(this.processMap);
 	}
 	
 	@Override
@@ -35,7 +37,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		
 		this.data = data;
 		
-		System.out.println("ProcessManager:"+data);
+		System.out.println("ProcessManager: "+data);
 		
 		String[] swap = null;
 		
@@ -89,7 +91,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	@Override
 	public void dataResponseEvent(String[] data) {
 		
-//		System.out.println("ProcessManager:dataResponseEvent");
+		System.out.println("ProcessManager:dataResponseEvent");
 		connectionLayer.clientResponse(data);
 	}
 
@@ -168,9 +170,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 
 	public synchronized void getObjectInfo(String data) {
 		
-//		new Thread() { public void run() {
-		
-//		System.out.println("ProcessManager:getObjectInfo: "+data);
+		System.out.println("ProcessManager:getObjectInfo: "+data);
 			
 		String[] swap = data.split("objectinfo=");
 		String[] swap2 = null;
@@ -211,8 +211,6 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 				objectList = processMap.getObjectList(swap2[1]);
 		}
 		
-//		System.out.println("ProcessManager:getObjectInfo:objectList.size()="+objectList.size());
-		
 		objects = new String[objectList.size()+1];
 		
 		objects[0] = "serveranswer?"+data+"\n";
@@ -221,10 +219,11 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 			objects[i+1] = objectList.get(i).toString()+"\n";
 //			System.out.print(objects[i+1]);
 		}
+
+		System.out.println("ProcessManager:getObjectInfo:objects.length="+objects.length);
 		
+
 		dataResponseEvent(objects);
-		
-//		} }.start();
 	}
 	
 	public void setVisuComponent(Component visuComponent) {

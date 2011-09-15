@@ -60,7 +60,9 @@ public class Server extends Thread implements HTTPServer {
 	  
 		message_to = to_send_message_to;
 		port = 80; // listen_port;
-    
+		
+		this.setPriority(6);
+
 		this.start();
 	}
 
@@ -148,7 +150,6 @@ public class Server extends Thread implements HTTPServer {
 			try {
 				tmp = input.readLine();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} //read from the stream
 			
@@ -258,8 +259,6 @@ public class Server extends Thread implements HTTPServer {
 	@Override
 	public void sendResponseText(final String[] text, final OutputStreamWriter output) {
 	  
-//		new Thread() { public void run() {
-		
 		//happy day scenario
 		try {
     	
@@ -270,7 +269,6 @@ public class Server extends Thread implements HTTPServer {
 			for(String s : text)
 			{
 				output.write(s+"\n");
-//				output.writeBytes(s+"\n");
 
 				// Infotext fuer WebserverGui
 				serverMessage("message to client:"+s);
@@ -283,8 +281,6 @@ public class Server extends Thread implements HTTPServer {
 	    }
 
 	    catch (Exception e) {}
-	    
-//		} }.start();
   }
 
 	/**
@@ -313,7 +309,7 @@ public class Server extends Thread implements HTTPServer {
 		return requestText;
 	}
 
-	public void setSimulationController( ServerClientConnectionLayer connectionLayer) {
+	public void setConnectionLayer( ServerClientConnectionLayer connectionLayer) {
 		this.connectionLayer = connectionLayer;
 		
 		connectionLayer.setServer(this);
