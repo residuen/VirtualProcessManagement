@@ -1,6 +1,7 @@
 package de.virtualprocessmanagement.server;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.connection.apache.ElementalHttpServer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.tools.ServerInfos;
 
 /**
@@ -48,6 +50,10 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	
 	private ServerClientConnectionLayer clientConnection = null;
 	
+	private ProcessMap processMap = null;
+	
+	private Component component = null;
+	
     private ServerInfos serverInfos = new ServerInfos();
 
 	   //declare some panel, scrollpanel, textarea for gui
@@ -56,14 +62,15 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
     private JTextArea jTextArea2 = new JTextArea();
 	
 	//basic class constructor
-	public WebserverGui(ServerClientConnectionLayer clientConnection) {
+	public WebserverGui(ServerClientConnectionLayer clientConnection, ProcessMap processMap, Component component) {
 	  
 		this.clientConnection = clientConnection;
+//		this.processMap = processMap;
 		
 		listen_port = new Integer(80);
 
 		try {
-			jbInit();
+			jbInit(processMap, component);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -71,7 +78,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	}
   
 	//basic class constructor
-	public WebserverGui(String arg, ServerClientConnectionLayer clientConnection) {
+	public WebserverGui(String arg, ServerClientConnectionLayer clientConnection, ProcessMap processMap, Component component) {
 	  
 		this.clientConnection = clientConnection;
 		
@@ -84,7 +91,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		}
 
 		try {
-			jbInit();
+			jbInit(processMap, component);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +99,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	}
 
 	//set up the user interface
-	private void jbInit() throws Exception {
+	private void jbInit(ProcessMap processMap, Component component) throws Exception {
 	  
 		JButton button = new JButton("Clear");
 		button.addActionListener(this);
@@ -132,7 +139,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		if(SERVER_VERSION.equals("apache"))
 			server = new ElementalHttpServer(listen_port.intValue(), this);
 		else
-			server = new Server(listen_port.intValue(), this);
+			server = new Server(listen_port.intValue(), this, processMap, component);
 		
 		server.setConnectionLayer(clientConnection);
 	}

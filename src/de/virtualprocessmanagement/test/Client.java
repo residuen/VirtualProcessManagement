@@ -56,11 +56,14 @@ public class Client extends ClientConnector {
 //			cmd = "client?objectinfo=getallcharge";
 	//		cmd = "client?objectinfo=getbygroup:2,0";
 			
-			sendNextRequest("objectinfo=getall");
+			if(count==0)
+				sendNextRequest("objectinfo=getall");
 			
 			if(count==0)
 				for(String s : testDirections)
 					sendNextRequest(s);
+			
+			count = 1;
 		}
 	}
 

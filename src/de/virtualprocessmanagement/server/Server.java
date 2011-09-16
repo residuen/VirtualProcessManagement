@@ -11,6 +11,7 @@
 
 package de.virtualprocessmanagement.server;
 
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.net.Socket;
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
+import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.tools.ServerInfos;
 
 /**
@@ -42,7 +44,11 @@ public class Server extends Thread implements HTTPServer {
 	
     private ServerSocket serversocket = null;
     
-    private ServerClientConnectionLayer connectionLayer = null;
+//    private ServerClientConnectionLayer connectionLayer = null;
+    
+    private ProcessMap processMap = null;
+    
+    private Component component = null; // Das Panel in dem gezeichnet wird
     
     private ServerInfos serverInfos = new ServerInfos();
     
@@ -56,10 +62,12 @@ public class Server extends Thread implements HTTPServer {
 	//the constructor-parameters it takes is what port to bind to, the default tcp port
     //for a httpserver is port 80. the other parameter is a reference to
     //the gui, this is to pass messages to our nice interface
-	public Server(int listen_port, Message to_send_message_to) {
+	public Server(int listen_port, Message to_send_message_to, ProcessMap processMap, Component component) {
 	  
 		message_to = to_send_message_to;
 		port = 80; // listen_port;
+		this.processMap= processMap; 
+		this.component = component;
 		
 		this.setPriority(6);
 
@@ -133,8 +141,6 @@ public class Server extends Thread implements HTTPServer {
 		} //go back in loop, wait for next request
 	}
 
-	// our implementation of the hypertext transfer protocol
-	// its very basic and stripped down
 	private void http_handler(BufferedReader input, OutputStreamWriter output) {
 	  
 		int method = 0; //1 get, 2 head, 0 not supported
@@ -142,9 +148,6 @@ public class Server extends Thread implements HTTPServer {
 		String path = new String(); //the various things, what http v, what path,
 	  
 		try {
-//	      This is the two types of request we can handle
-//	      GET /index.html HTTP/1.0
-//	      HEAD /index.html HTTP/1.0
 			String tmp = null;
 			
 			try {
@@ -166,7 +169,6 @@ public class Server extends Thread implements HTTPServer {
 			if (method == 0) { // not supported
 				try {
 					output.write(construct_http_header(501, 0));
-//					output.writeBytes(construct_http_header(501, 0));
 					output.close();
 					return;
 				}
@@ -209,7 +211,9 @@ public class Server extends Thread implements HTTPServer {
 		serverMessage("\nClient requested: requestText=" + requestText + "\n");
     
 		//happy day scenario
-		connectionLayer.clientRequest(requestText, this, output);
+		
+		ServerClientConnectionLayer connectionLayer = new ServerClientConnectionLayer(processMap);
+		connectionLayer.clientRequest(requestText, this, output, component);
 //		sendResponseText(requestText, output);	// Periodisches Senden an den Client
 
 	}
@@ -310,7 +314,7 @@ public class Server extends Thread implements HTTPServer {
 	}
 
 	public void setConnectionLayer( ServerClientConnectionLayer connectionLayer) {
-		this.connectionLayer = connectionLayer;
+//		this.connectionLayer = connectionLayer;
 		
 		connectionLayer.setServer(this);
 	}

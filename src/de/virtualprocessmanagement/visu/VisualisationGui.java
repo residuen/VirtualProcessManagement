@@ -120,7 +120,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		this.setResizable(true);
 		this.setMaximizable(true);
 		this.setIconifiable(true);
-		this.setVisible(true);
+//		this.setVisible(true);
 		
 		//make sure it is drawn
 		this.validate();

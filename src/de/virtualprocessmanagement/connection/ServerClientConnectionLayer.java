@@ -1,5 +1,6 @@
 package de.virtualprocessmanagement.connection;
 
+import java.awt.Component;
 import java.io.OutputStreamWriter;
 
 import de.virtualprocessmanagement.interfaces.HTTPServer;
@@ -17,21 +18,30 @@ public class ServerClientConnectionLayer {
 	
 	private ProcessMap processMap = null;
 	
+	private Component component = null;
+	
 	public ServerClientConnectionLayer(ProcessMap processMap) {
 		this.processMap = processMap;
 	}
 	
-	public void clientRequest(String text, HTTPServer server, OutputStreamWriter output) {
+	public void clientRequest(final String text, HTTPServer server, OutputStreamWriter output, Component component) {
 		
 		this.server = server;
 		this.output = output;
+		this.component = component;
 		
 //	System.out.println("ServerClientConnectionLayer:clientRequest:"+server+" "+text);
 		
 		if(text.toLowerCase().contains("client?")) {
-			ProcessManager processManager = new ProcessManager(processMap);
+			
+			final ProcessManager processManager = new ProcessManager(processMap);
+			processManager.setVisuComponent(component);
 			processManager.setConnectionLayer(this);
-			processManager.loop(text);
+
+			new Thread() { public void run() {
+			
+				processManager.loop(text);
+			}}.start();
 		}
 	}
 
@@ -60,5 +70,9 @@ public class ServerClientConnectionLayer {
 	
 	public void setServer(HTTPServer server) {
 		this.server = server;
+	}
+	
+	public Component getComponent() {
+		return component;
 	}
 }

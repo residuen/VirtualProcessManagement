@@ -179,7 +179,7 @@ public class ElementalHttpServer implements HTTPServer {
                         System.out.println("Dude, did u find the connectionLayer??");
                         serverMessage("\nDude, did u find the connectionLayer??");
 
-                   		connectionLayer.clientRequest(file.getName(), httpServer, writer);
+                   		connectionLayer.clientRequest(file.getName(), httpServer, writer, null);
 //                        writer.flush();
 
                     }

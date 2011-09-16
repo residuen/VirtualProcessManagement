@@ -100,8 +100,9 @@ public class MenuListener implements ActionListener, MouseListener
 				if(webserverGui == null)
 				{
 					initClientEnvironment();
+					connectVisu();
 					
-					webserverGui = new WebserverGui(serverClientConnector);
+					webserverGui = new WebserverGui(serverClientConnector, processMap, visualisationGui.getVisuPanel());
 					((JDesktopPane)inputComponents.get("mdiframe")).add(webserverGui);
 					((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
 				}
@@ -129,34 +130,43 @@ public class MenuListener implements ActionListener, MouseListener
 						if(event.equals("connectvisu"))
 						{
 							if(visualisationGui == null)
-							{
-//								System.out.println(objectList);
+								connectVisu();
+							else
+								visualisationGui.setVisible(true);
 								
-								 initClientEnvironment();
-								
-								// get new visuGui and add the map and the hostname
-								 if(new Integer(((JTextField)inputComponents.get("guimode")).getText()) == Dialog.CLIENT_MODE)
-									 visualisationGui = new VisualisationGui(null, ((JTextField)inputComponents.get("serveradress")).getText());
-								 else
-									 visualisationGui = new VisualisationGui(processMap, ((JTextField)inputComponents.get("serveradress")).getText());
-								 
-//								 processManager.setVisuComponent(visualisationGui.getVisuPanel());
-								 ((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
-								 visualisationGui.getReadServerData().start();
-								
-								 ((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
-							}
-							else {
-								visualisationGui.setVisible(false);
-								visualisationGui.dispose();
-								visualisationGui = null;
-								
-								((JButton)inputComponents.get("connectvisu")).setText("<html>connect to<br/>visualisation</html>");
-							}
 						}
 						else
 							if(event.equals("about"))
 								new About();
+	}
+	
+	private void connectVisu() {
+		
+		if(visualisationGui == null)
+		{
+//			System.out.println(objectList);
+			
+			 initClientEnvironment();
+			
+			// get new visuGui and add the map and the hostname
+			 if(new Integer(((JTextField)inputComponents.get("guimode")).getText()) == Dialog.CLIENT_MODE)
+				 visualisationGui = new VisualisationGui(null, ((JTextField)inputComponents.get("serveradress")).getText());
+			 else
+				 visualisationGui = new VisualisationGui(processMap, ((JTextField)inputComponents.get("serveradress")).getText());
+			 
+//			 processManager.setVisuComponent(visualisationGui.getVisuPanel());
+			 ((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
+			 visualisationGui.getReadServerData().start();
+			
+			 ((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
+		}
+//		else {
+//			visualisationGui.setVisible(false);
+//			visualisationGui.dispose();
+//			visualisationGui = null;
+//			
+//			((JButton)inputComponents.get("connectvisu")).setText("<html>connect to<br/>visualisation</html>");
+//		}
 	}
 	
 	public void startClient(JButton button) {
