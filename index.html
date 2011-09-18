@@ -46,7 +46,7 @@
     </div>
 
     <h1><a href="http://github.com/residuen/VirtualProcessManagement">OpenEdu-VirtualProcessManagement</a>
-      <span class="small"><i>(version v 0.1 beta)</i>
+      <span class="small"><i>(version v 0.5 beta)</i>
       by <a href="http://github.com/residuen">residuen</a></span></h1>
 	
    <p>
@@ -88,8 +88,32 @@
 	<br/>
 	</p>
 
+	<h2>Befehls&uuml;bersicht</h2>
+	<p>
+	<table border="0" style="border-collapse: collapse; border-style: solid; border-width: 1px; border-color: black">
+	<tr>
+		<th style="border-style: solid; border-width: 1px; border-color: black; background: white">API-Befehl</th><th style="border-style: solid; border-width: 1px; border-color: black; background: white">HTTP-Befehl</th><th style="border-style: solid; border-width: 1px; border-color: black; background: white">Funktion</th><th style="border-style: solid; border-width: 1px; border-color: black; background: white">Server-Antwort</th>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black">getObjectInfo("getall")</td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getall"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach allen Objekten</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu allen Objekten</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black">getObjectInfo("getallstatic")</td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getallstatic"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach allen statischen Objekten</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu allen Objekten</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black">getObjectInfo("getallmoveable")</td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getallmoveable"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach allen beweglichen Objekten</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu allen beweglichen Objekten</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black">getObjectInfoByGroup(2)</td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getbygroup:2"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach allen Objekten einer Gruppe</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu allen Objekten einer Gruppe</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black"><nobr>getObjectInfoByGroup(2, 0)</nobr></td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getbygroup:2,0"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach einem Objekt ueber Gruppe und ID</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu einem Onjekt</td>
+	</tr>
+	</table>
+	</p>
+	
 	<h2>Download</h2>
-	<p>Eine ausfuehrbare Version liegt in der folgenden ZIP-Datei bereit (letztes Update 31.08.2011): <a href="https://github.com/residuen/VirtualProcessManagement/blob/master/VirtualProcessManagement.jar?raw=true"><b>VirtualProcessManagement.zip</b></a><br />
+	<p>Eine ausfuehrbare Version liegt in der folgenden ZIP-Datei bereit (letztes Update 19.09.2011): <a href="https://github.com/residuen/VirtualProcessManagement/blob/master/VirtualProcessManagement.jar?raw=true"><b>VirtualProcessManagement.zip</b></a><br />
 	<i>(Getested mit Windows XP und Windows 7)</i>
 	</p>
 	
