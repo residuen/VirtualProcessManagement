@@ -89,6 +89,10 @@ public class RectShape extends MainObject implements SubjectShape {
 			case FORKLIFT:
 				fillColor = Color.GREEN;
 				break;
+				
+			case CHARGE_OBJECT:
+				fillColor = Color.BLUE;
+				break;
 
 			case ROBOT:
 				fillColor = Color.ORANGE;

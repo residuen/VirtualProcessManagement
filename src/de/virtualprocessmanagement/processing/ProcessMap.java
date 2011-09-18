@@ -16,8 +16,8 @@ import de.virtualprocessmanagement.tools.FileHandler;
 
 public class ProcessMap {
  
-	private final int OFFSET_X = 25;
-	private final int OFFSET_Y = 25;
+	public static final int OFFSET_X = 25;
+	public static final int OFFSET_Y = 25;
 	
 	protected String[][] mapAsStringArray = null;
 	
@@ -182,7 +182,6 @@ public class ProcessMap {
 							shape.setName("machineway");
 						}
 						else
-//						if(true)
 						{
 							shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 							shape.setGroup(RectShape.HUMAN_WAY_OBJECT);

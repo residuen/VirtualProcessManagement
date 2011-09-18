@@ -4,22 +4,22 @@
 <b>Objektanfragen</b><br>
 <table border="1">
 <tr>
-	<th>Befehl</th><th>Funktion</th><th>Server-Antwort</th>
+	<th>API-Befehl</th><th>HTTP-Befehl</th><th>Funktion</th><th>Server-Antwort</th>
 </tr>
 <tr>
-	<td>"http://localhost/client?objects=getall"</td><td>Anfrage nach allen Objekten</td><td>Details zu allen Objekten</td>
+	<td>getObjectInfo("getall")</td><td>"http://localhost/client?objectinfo=getall"</td><td>Anfrage nach allen Objekten</td><td>Details zu allen Objekten</td>
 </tr>
 <tr>
-	<td>"http://localhost/client?objects=getallstatic"</td><td>Anfrage nach allen statischen Objekten</td><td>Details zu allen Objekten</td>
+	<td>getObjectInfo("getallstatic")</td><td>"http://localhost/client?objectinfo=getallstatic"</td><td>Anfrage nach allen statischen Objekten</td><td>Details zu allen Objekten</td>
 </tr>
 <tr>
-	<td>"http://localhost/client?objects=getallmoveable"</td><td>Anfrage nach allen beweglichen Objekten</td><td>Details zu allen beweglichen Objekten</td>
+	<td>getObjectInfo("getallmoveable")</td><td>"http://localhost/client?objectinfo=getallmoveable"</td><td>Anfrage nach allen beweglichen Objekten</td><td>Details zu allen beweglichen Objekten</td>
 </tr>
 <tr>
-	<td>"http://localhost/client?objects=getbygroup:2"</td><td>Anfrage nach allen Objekten einer Gruppe</td><td>Details zu allen Objekten einer Gruppe</td>
+	<td>getObjectInfoByGroup(2)</td><td>"http://localhost/client?objectinfo=getbygroup:2"</td><td>Anfrage nach allen Objekten einer Gruppe</td><td>Details zu allen Objekten einer Gruppe</td>
 </tr>
 <tr>
-	<td>"http://localhost/client?objects=getbygroupandid:2,0"</td><td>Anfrage nach einem Objekt ueber Gruppe und ID</td><td>Details zu einem Onjekt</td>
+	<td>getObjectInfoByGroup(2, 0)</td><td>"http://localhost/client?objectinfo=getbygroup:2,0"</td><td>Anfrage nach einem Objekt ueber Gruppe und ID</td><td>Details zu einem Onjekt</td>
 </tr>
 </table>
 <br>

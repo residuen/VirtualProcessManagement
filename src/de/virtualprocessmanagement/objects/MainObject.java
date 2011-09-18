@@ -47,9 +47,9 @@ public class MainObject {
 	
 	public static final double DEFAULT_WIDTH = 25, DEFAULT_HEIGHT = 25;
 	
-	protected int id = 0;
+	protected int id = 0;		// the overall id in arraylist
 	
-	protected int group = 0;
+	protected int group = 0;	// number of object in the group
 	
 	protected String name = null;
 

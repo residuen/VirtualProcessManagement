@@ -119,9 +119,14 @@ public class ClientConnector extends Thread implements HTTPClient {
 		sendNextRequest("objectinfo="+objectKey.toLowerCase());
 	}
 	
+	public void getObjectInfoByGroup(int objectGroup) {
+		
+		sendNextRequest("objectinfo=getbygroup:"+objectGroup);
+	}
+
 	public void getObjectInfoByGroup(int objectGroup, int objectId) {
 		
-		sendNextRequest("objectinfo=getbygroup:"+objectGroup+","+objectId);
+		sendNextRequest("objectinfo=getbygroupandid:"+objectGroup+","+objectId);
 	}
 	
 	public void run() {

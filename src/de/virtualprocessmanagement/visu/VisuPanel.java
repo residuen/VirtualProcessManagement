@@ -32,7 +32,9 @@ public class VisuPanel extends JPanel {
 		if(processMap == null) {
 			hasMap = false;
 			
-			objectReader = new IndependenceObjectReader(host);
+			objectList = new ArrayList<SubjectShape>();
+			
+			objectReader = new IndependenceObjectReader(host, objectList, this);
 			objectReader.start();
 		}
 	}
@@ -66,6 +68,9 @@ public class VisuPanel extends JPanel {
 					paintShapes(g2d);
 			}
 		}
+		else
+			paintShapes(g2d);
+			
 	}
 	
 	/**
@@ -86,10 +91,13 @@ public class VisuPanel extends JPanel {
 			if(shape.isShowId())
 				paintId(g2d, shape);
 			
-			g2d.setColor(Color.BLACK);
-			g2d.draw(processMap.getBoundary());
+			if(hasMap) {
+				g2d.setColor(Color.BLACK);
+				g2d.draw(processMap.getBoundary());
+			}
 		}
 	}
+	
 	/**
 	 * Zeichne die Object-Id, wenn showId  = true ist
 	 * @param g2d

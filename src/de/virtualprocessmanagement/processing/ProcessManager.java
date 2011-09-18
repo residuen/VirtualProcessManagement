@@ -217,8 +217,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 //			System.out.print(objects[i+1]);
 		}
 
-		System.out.println("ProcessManager:getObjectInfo:objects.length="+objects.length);
-		
+//		System.out.println("ProcessManager:getObjectInfo:objects.length="+objects.length);
 
 		dataResponseEvent(objects);
 	}
