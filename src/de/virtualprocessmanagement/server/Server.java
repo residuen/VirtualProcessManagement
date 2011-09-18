@@ -42,9 +42,9 @@ import de.virtualprocessmanagement.tools.ServerInfos;
 
 public class Server extends Thread implements HTTPServer {
 	
+	private final boolean DO_MESSAGE = true;
+	
     private ServerSocket serversocket = null;
-    
-//    private ServerClientConnectionLayer connectionLayer = null;
     
     private ProcessMap processMap = null;
     
@@ -69,7 +69,7 @@ public class Server extends Thread implements HTTPServer {
 		this.processMap= processMap; 
 		this.component = component;
 		
-		this.setPriority(6);
+//		this.setPriority(6);
 
 		this.start();
 	}
@@ -79,6 +79,7 @@ public class Server extends Thread implements HTTPServer {
 	 * @param msg
 	 */
 	private void serverMessage(String msg) { //an alias to avoid typing so much!
+		
 		message_to.message(msg);
 	}
 
@@ -90,7 +91,7 @@ public class Server extends Thread implements HTTPServer {
 		// To easily pick up lots of girls, change this to your name!!!
 		serverMessage("<The VirtualProzessManagement-Server>\n");
 		serverMessage("<Type http://"+serverInfos.getServerIP()+"/client?getserverinfo in browser to test>\n\n");
-    
+
 		//Pay attention, this is where things starts to cook!
 		try {
 			//print/send message to the guiwindow
@@ -109,17 +110,18 @@ public class Server extends Thread implements HTTPServer {
 		//go in a infinite loop, wait for connections, process request, send response
 		while (!isInterrupted() && !serversocket.isClosed()) {
 			
-			serverMessage("\nReady, Waiting for requests...\n");
+			if(DO_MESSAGE)
+				serverMessage("\nReady, Waiting for requests...\n");
+			
 			try {
 				//this call waits/blocks until someone connects to the port we are listening to
-//				serverMessage("connectionsocket");
 				Socket connectionsocket = serversocket.accept();
-//		     	serverMessage("connectionsocket");
      	        
 				//figure out what ipaddress the client commes from, just for show!
 				InetAddress client = connectionsocket.getInetAddress();
 				//and print it to gui
-				serverMessage(client.getHostName() + " connected to server.\n");
+				if(DO_MESSAGE)
+					serverMessage(client.getHostName() + " connected to server.\n");
         
 				//Read the http request from the client from the socket interface
 				//into a buffer.
@@ -135,7 +137,8 @@ public class Server extends Thread implements HTTPServer {
 				http_handler(input, output);
 			}
 			catch (Exception e) { //catch any errors, and print them
-				serverMessage("\n1: Error:" + e.getMessage());
+				if(DO_MESSAGE)
+					serverMessage("\n1: Error:" + e.getMessage());
 			}
 
 		} //go back in loop, wait for next request
@@ -173,7 +176,8 @@ public class Server extends Thread implements HTTPServer {
 					return;
 				}
 				catch (Exception e3) { //if some error happened catch it
-					serverMessage("2: error:" + e3.getMessage());
+					if(DO_MESSAGE)
+						serverMessage("2: error:" + e3.getMessage());
 				} //and display error
 			}
 	
@@ -199,23 +203,22 @@ public class Server extends Thread implements HTTPServer {
 			path = tmp2.substring(start + 2, end); //fill in the path
 		}
 		catch (Exception e) {
-			serverMessage("3: error " + e.getMessage());
-			serverMessage(e.getLocalizedMessage());
+			if(DO_MESSAGE) {
+				serverMessage("3: error " + e.getMessage());
+				serverMessage(e.getLocalizedMessage());
+			}
 		} //catch any exception
 
 		requestText = new File(path).getName();
-//		requestPath = new File(path).getAbsolutePath().replace(requestText, "");
     
 		// path do now have the filename to what to the file it wants to open
-//		serverMessage("\nClient requested: requestPath=" + requestPath);
-		serverMessage("\nClient requested: requestText=" + requestText + "\n");
+		if(DO_MESSAGE)
+			serverMessage("\nClient requested: requestText=" + requestText + "\n");
     
 		//happy day scenario
 		
 		ServerClientConnectionLayer connectionLayer = new ServerClientConnectionLayer(processMap);
 		connectionLayer.clientRequest(requestText, this, output, component);
-//		sendResponseText(requestText, output);	// Periodisches Senden an den Client
-
 	}
   
   //this method makes the HTTP header for the response
@@ -275,9 +278,8 @@ public class Server extends Thread implements HTTPServer {
 				output.write(s+"\n");
 
 				// Infotext fuer WebserverGui
-				serverMessage("message to client:"+s);
-				
-//				System.out.println("Text="+s);
+//				if(DO_MESSAGE)
+//					serverMessage("message to client:"+s);
 			}
 
 	        //clean up the files, close open handles
@@ -313,10 +315,10 @@ public class Server extends Thread implements HTTPServer {
 		return requestText;
 	}
 
-	public void setConnectionLayer( ServerClientConnectionLayer connectionLayer) {
+//	public void setConnectionLayer( ServerClientConnectionLayer connectionLayer) {
 //		this.connectionLayer = connectionLayer;
-		
-		connectionLayer.setServer(this);
-	}
+//		
+//		connectionLayer.setServer(this);
+//	}
 
 }

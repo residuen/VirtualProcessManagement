@@ -14,7 +14,7 @@ public class ServerClientConnectionLayer {
 	
 	private HTTPServer server = null;
 	
-	private OutputStreamWriter output = null;	// DataOutputStream
+	private OutputStreamWriter output = null;
 	
 	private ProcessMap processMap = null;
 	
@@ -45,10 +45,14 @@ public class ServerClientConnectionLayer {
 		}
 	}
 
-	public void clientResponse(String[] text) {
+	public void clientResponse(final String[] text) {
 		
-		System.out.println("ServerClientConnectionLayer:clientResponse");
-		server.sendResponseText(text, output);
+//		System.out.println("ServerClientConnectionLayer:clientResponse");
+		
+		new Thread() { public void run() {
+			
+			server.sendResponseText(text, output);
+		}}.start();
 	}
 	
 	public void setClient(Client client) {

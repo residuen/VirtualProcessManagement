@@ -66,9 +66,6 @@ public class VisuPanel extends JPanel {
 					paintShapes(g2d);
 			}
 		}
-		else {
-			
-		}
 	}
 	
 	/**

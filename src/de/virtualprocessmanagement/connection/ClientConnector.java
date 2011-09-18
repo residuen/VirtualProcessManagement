@@ -44,16 +44,6 @@ public class ClientConnector extends Thread implements HTTPClient {
 		this.runMode = runMode;
 	}
     
-//    protected void setCommand(String command) {
-//		synchronized (command) {
-//			this.command = command;
-//			
-//			commandList.add(command);
-//			
-//			new WorkerThread().start();
-//		}
-//	}
-	
     /**
      * Uebergibt Daten an Child-Objekt
      */
@@ -85,8 +75,6 @@ public class ClientConnector extends Thread implements HTTPClient {
 		this.hostAdress = host;
 		
 //		System.out.println("ClientConnector:host="+host);
-		
-//		connection = new HTTPClientConnection(host);
 	}
 
 	/**
@@ -97,7 +85,7 @@ public class ClientConnector extends Thread implements HTTPClient {
 		
 		this.command = "client?"+command;
 			
-		commandList.add( "client?"+command);	
+		commandList.add(this.command); //  "client?"+command);	
 	}
 	
 	@Override

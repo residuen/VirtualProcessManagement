@@ -18,7 +18,6 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
-import de.virtualprocessmanagement.connection.apache.ElementalHttpServer;
 import de.virtualprocessmanagement.interfaces.HTTPServer;
 import de.virtualprocessmanagement.interfaces.Message;
 import de.virtualprocessmanagement.processing.ProcessMap;
@@ -44,7 +43,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	
 	static Integer listen_port = null;
 
-	private final String SERVER_VERSION = "default"; // use "apache" or "default"
+//	private final String SERVER_VERSION = "default"; // use "apache" or "default"
 	
 	private HTTPServer server = null;
 	
@@ -136,12 +135,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 		
 		//create the actual serverstuff,
 		//all that is implemented in another class
-		if(SERVER_VERSION.equals("apache"))
-			server = new ElementalHttpServer(listen_port.intValue(), this);
-		else
-			server = new Server(listen_port.intValue(), this, processMap, component);
-		
-		server.setConnectionLayer(clientConnection);
+		server = new Server(listen_port.intValue(), this, processMap, component);
 	}
 
 	//this is a method to get messages from the actual
@@ -174,10 +168,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	}
 
 	@Override
-	public void internalFrameActivated(InternalFrameEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void internalFrameActivated(InternalFrameEvent arg0) { }
 
 	@Override
 	public void internalFrameClosing(InternalFrameEvent arg0) { }
@@ -193,34 +184,6 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 
 	@Override
 	public void internalFrameOpened(InternalFrameEvent arg0) { }
-	
-//	@Override
-//	public void windowClosed(WindowEvent arg0) {
-//		  
-////		  System.out.println("Server beenden!");
-//		  
-//		  try { server.getServersocket().close(); }
-//		  catch (IOException e) { e.printStackTrace(); }
-//		  
-//		  server.interrupt();
-//	}
-	
-//	@Override
-//	public void windowActivated(WindowEvent arg0) { }
-//
-//	@Override
-//	public void windowClosing(WindowEvent arg0) { }
-//	
-//	@Override
-//	public void windowDeactivated(WindowEvent arg0) { }
-//	
-//	@Override
-//	public void windowDeiconified(WindowEvent arg0) { }
-//	@Override
-//	public void windowIconified(WindowEvent arg0) { }
-//	
-//	@Override
-//	public void windowOpened(WindowEvent arg0) { }
 
 	//the JavaAPI entry point
 	//where it starts this class if run

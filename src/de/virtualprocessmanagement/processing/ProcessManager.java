@@ -1,8 +1,6 @@
 package de.virtualprocessmanagement.processing;
 
 import java.awt.Component;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
@@ -24,9 +22,8 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 	
 	private String data = null;
 
-//	public ProcessManager(String mapName) {
 	public ProcessManager(ProcessMap processMap) {
-//		processMap = new ProcessMap(mapName, CELL_WIDTH, CELL_HEIGHT);
+
 		this.processMap = processMap;
 		
 		shapeManager = new ShapeManager(this.processMap);
@@ -37,7 +34,7 @@ public class ProcessManager implements HTTPClient, ShapeHandler  {
 		
 		this.data = data;
 		
-		System.out.println("ProcessManager: "+data);
+//		System.out.println("ProcessManager: "+data);
 		
 		String[] swap = null;
 		

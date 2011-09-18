@@ -17,13 +17,10 @@ public class SimpleExample extends ClientConnector {
 	public void loop(String data) {
 		
 		System.out.println(count+" LOOP:Client empfaengt: "+data);
-		sendNextRequest("objectinfo=getall");
 
 		if(count==0) {
 			
-//			getObjectInfo("getall");
-			
-			sendNextRequest("objectinfo=getall");
+			getObjectInfo("getall");
 
 			moveObject(43, "down");
 			chargeObjectById(43, 51, "left");

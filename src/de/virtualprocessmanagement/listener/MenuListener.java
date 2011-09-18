@@ -34,11 +34,7 @@ public class MenuListener implements ActionListener, MouseListener
 
 	private HashMap<String,Component> inputComponents = null;
 	
-	private TestVisu testVisu = null;
-	
 	private Client client = null;
-	
-//	private JDesktopPane mdiFrame = null;
 	
 	private WebserverGui webserverGui = null;
 	

@@ -13,25 +13,23 @@ public class IndependenceObjectReader extends Thread {
 	
 	private String host = null;
 	
-//	private long count = 0;
+	private long count = 0;
 	
 	public IndependenceObjectReader(String host) {
 		
 		this.host = host;
 		
 		clientConnection = new HTTPClientConnection(host);
-		
-//		setPriority(1);
-		
-//		getObjectsFromServer();
 	}
 	
 	public void getObjectsFromServer()
 	{
-		for(String s : clientConnection.sendRequest("http://"+host+"/client?objectinfo=getall").split("\\["))
-			System.out.println(s.replace("]", ""));
+		String[] answer = clientConnection.sendRequest("http://"+host+"/client?objectinfo=getall").split("\\[");
 		
-//		System.out.println((count++)+": Abfrage durchgefuehrt");
+		for(String s : answer);
+//			System.out.println(s.replace("]", ""));
+		
+		System.out.println((count++)+": Abfrage durchgefuehrt");
 	}
 	
 	public void run() {

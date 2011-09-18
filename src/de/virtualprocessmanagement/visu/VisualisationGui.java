@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -99,7 +98,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		//change this to impress your friends
 		this.setTitle("Visualisation");
 
-		this.addInternalFrameListener(this); // WindowListener(this);
+		this.addInternalFrameListener(this);
 
 		//add the various to the proper containers
 		setLayout(new BorderLayout());
@@ -120,12 +119,14 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		this.setResizable(true);
 		this.setMaximizable(true);
 		this.setIconifiable(true);
-//		this.setVisible(true);
+		
+		if(processMap == null)
+			this.setVisible(true);
 		
 		//make sure it is drawn
 		this.validate();
 		
-		System.out.println("Gerendert?");
+//		System.out.println("Gerendert?");
 	}
 
 	//this is a method to get messages from the actual
@@ -174,35 +175,35 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	public void internalFrameOpened(InternalFrameEvent e) { }
 	
 	
-	public static void main(String[] arg0)
-	{
-		Scanner input = new Scanner(System.in);
-		String hostAdress, map;
-		VisualisationGui myVisu;
-		JFrame frame = new JFrame();
-		
-		System.out.println("Geben Sie die Adresse des Host-Servers ein:");
-		
-		hostAdress = input.nextLine();
-		
-		if(hostAdress == null || hostAdress.length() == 0)
-			hostAdress = "localhost";
-
-		System.out.println("Geben Sie Pfad und Name der Map-Datei ein:");
-		
-		map = input.nextLine();
-		
-		if(map == null || map.length() == 0)
-			map = "map.csv";
-
-		myVisu = new VisualisationGui(new ProcessMap(map, 25, 25), hostAdress);
-		
-		frame.getContentPane().add(myVisu.contentPanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Visualisation");
-		frame.setSize(420, 560);
-		frame.setLocation(0, 10);
-		frame.setResizable(true);
-		frame.setVisible(true);
-	}
+//	public static void main(String[] arg0)
+//	{
+//		Scanner input = new Scanner(System.in);
+//		String hostAdress, map;
+//		VisualisationGui myVisu;
+//		JFrame frame = new JFrame();
+//		
+//		System.out.println("Geben Sie die Adresse des Host-Servers ein:");
+//		
+//		hostAdress = input.nextLine();
+//		
+//		if(hostAdress == null || hostAdress.length() == 0)
+//			hostAdress = "localhost";
+//
+//		System.out.println("Geben Sie Pfad und Name der Map-Datei ein:");
+//		
+//		map = input.nextLine();
+//		
+//		if(map == null || map.length() == 0)
+//			map = "map.csv";
+//
+//		myVisu = new VisualisationGui(new ProcessMap(map, 25, 25), hostAdress);
+//		
+//		frame.getContentPane().add(myVisu.contentPanel);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setTitle("Visualisation");
+//		frame.setSize(420, 560);
+//		frame.setLocation(0, 10);
+//		frame.setResizable(true);
+//		frame.setVisible(true);
+//	}
 }
