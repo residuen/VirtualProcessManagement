@@ -1,5 +1,11 @@
 package de.virtualprocessmanagement.interfaces;
 
+/**
+ * Interface zum Festlegen Methoden
+ * zum manipulieren von Shape-Objekten
+ * @author bettray
+ *
+ */
 public interface ShapeHandler {
 	
 	public void moveObject(int objectGroup, int objectMapId, String direction);

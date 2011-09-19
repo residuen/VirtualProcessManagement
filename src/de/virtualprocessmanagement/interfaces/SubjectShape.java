@@ -6,6 +6,13 @@ import java.awt.Shape;
 
 import de.virtualprocessmanagement.processing.Mover;
 
+/**
+ * "Overall"-Interface fuer alle grafischen Objekte
+ * Beinhaltet alle Eigenschaften der Shapes,
+ * sowie die Bewegungsmethoden
+ * @author bettray
+ *
+ */
 public interface SubjectShape extends Shape {
 	
 	public Color getFillColor();

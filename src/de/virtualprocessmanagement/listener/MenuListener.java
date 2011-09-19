@@ -41,16 +41,10 @@ public class MenuListener implements ActionListener, MouseListener
 	private VisualisationGui visualisationGui = null;
 	
 	private ServerClientConnectionLayer serverClientConnector = null;
-	
-//	private ProcessManager processManager = null;
+
 	private ProcessMap processMap = null;
 	
 	private String lastOpenPath = "";
-	
-//	public MenuListener()
-//	{
-//		this.inputComponents = null;
-//	}
 	
 	public MenuListener(HashMap<String,Component> inputComponents)
 	{

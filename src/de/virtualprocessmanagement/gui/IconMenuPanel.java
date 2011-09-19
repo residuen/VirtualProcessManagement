@@ -19,32 +19,43 @@ import de.virtualprocessmanagement.listener.MenuListener;
 import de.virtualprocessmanagement.tools.Dialog;
 
 public class IconMenuPanel extends JPanel {
-
-//	private HashMap<String, Component> inputComponents = null;
 	
+	/**
+	 * Der Konstruktor erhaelt die HashMap, welche verschiedene
+	 * Komponenten Objekte beinhaltet (Textfelder, Checkboxen, usw.)
+	 * @param inputComponents
+	 */
 	public IconMenuPanel(HashMap<String, Component> inputComponents)
 	{
-//		this.inputComponents = inputComponents;
-		
 		initPanel(inputComponents);
 	}
 
+	/**
+	 * Initialisierung des Panels mit Buttons und Icons fuer das Menue 
+	 * @param inputComponents
+	 */
 	private void initPanel(HashMap<String, Component> inputComponents)
 	{
-		setBackground(new Color(215, 215, 215));
+		setBackground(new Color(215, 215, 215));	// Hintergrundfarbe festlegen
 		
-		int guiMode = new Integer(((JTextField)inputComponents.get("guimode")).getText());
-
-//		System.out.println("TEST");
-		
-		MenuListener menuListener = new MenuListener(inputComponents);
-
-		Box vBox = Box.createVerticalBox();
-		Dimension dim = new Dimension(100, 80);
 		JPanel panel = null;
-		Font font = new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12);
 		JButton button = null;
+		
+		// GUI-Modus aus COmponente lesen
+		int guiMode = new Integer(((JTextField)inputComponents.get("guimode")).getText());
+		
+		MenuListener menuListener = new MenuListener(inputComponents);	// neuen MenuListener initialisieren
 
+		Box vBox = Box.createVerticalBox();			// Box-Container fuer vertikales Layout anlegen
+		Dimension dim = new Dimension(100, 80);	// Dimensions-Objekt fuer Groesse der Buttons
+		Font font = new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12);	// Schriftart- und Grad festlegen
+
+		/*
+		 *  Erzeugen der Buttons
+		 *  und zusammensetzen
+		 *  des MenuPanels
+		 */
+		
 		// Laden einer Prozess-Anlage
 		if(guiMode==Dialog.SERVER_MODE || guiMode==Dialog.SERVER_CLIENT_MODE)
 		{
@@ -143,7 +154,7 @@ public class IconMenuPanel extends JPanel {
 		button = new JButton("<html>about</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/help-browser.png")));
 		button.setFont(font);
-		button.setToolTipText("<html>Infos about AVGui</html>");
+		button.setToolTipText("<html>Infos about VirtualProcessManagement</html>");
 		button.setName("about");
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
