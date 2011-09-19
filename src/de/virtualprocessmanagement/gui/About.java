@@ -30,8 +30,8 @@ public class About extends JFrame
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14)); 	// Monospace-Font setzen
 		
-		string.append("\n VirtualProcessManagement: Ein virtuelles Prozessleit-System\n");
-		string.append("\n Version: 0.1 beta\n");
+		string.append("\n VirtualProcessManagement: Eine virtuelle Prozess-Simulation\n");
+		string.append("\n Version: 0.5 beta\n");
 		string.append(" (c) Copyright K. Bettray 2011. All rights reserved.\n");
 		string.append(" Lizenz: GPL 3.0 (http://www.gnu.de/documents/gpl.de.html)\n");
 
@@ -45,21 +45,21 @@ public class About extends JFrame
 	/**
 	 * Setzen des Look&Feel
 	 */	
-	private void setLnF()
-	{
-		try {
-//			UIManager.setLookAndFeel(UIManager. getCrossPlatformLookAndFeelClassName());
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-//			UIManager.setLookAndFeel("javax.swing.plaf.mac.MacLookAndFeel");
-		} catch(Exception e) {
-			try {
-//				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName().toString());
-			} catch(Exception e2) {
-				System.out.println("Fehler beim Umschalten des Look&Feels/ Error while switching look&feel!");
-			}
-		}
-	}
+//	private void setLnF()
+//	{
+//		try {
+////			UIManager.setLookAndFeel(UIManager. getCrossPlatformLookAndFeelClassName());
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+////			UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+////			UIManager.setLookAndFeel("javax.swing.plaf.mac.MacLookAndFeel");
+//		} catch(Exception e) {
+//			try {
+////				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName().toString());
+//			} catch(Exception e2) {
+//				System.out.println("Fehler beim Umschalten des Look&Feels/ Error while switching look&feel!");
+//			}
+//		}
+//	}
 	
 	/**
 	 * <u>Erzeugen des Haupt-Frames</u><br>
@@ -70,7 +70,7 @@ public class About extends JFrame
 		Container cp = getContentPane();
 		cp.add(panel);
 		frame = new JFrame();
-		frame.setTitle("VirtualWarehouseManagement");
+		frame.setTitle("VirtualProcessManagement");
 		frame.setSize(505, 230);
 		frame.setContentPane(cp);
 		frame.setLayout(new GridLayout(1,1));
@@ -112,7 +112,7 @@ public class About extends JFrame
 					e.printStackTrace();
 				}	
 			}
-//			System.out.println("Thread ist zuende!");
+//			Thread ist zuende!
 		}
 	}
 }

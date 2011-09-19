@@ -1,6 +1,7 @@
 package de.virtualprocessmanagement.visu;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -34,7 +35,7 @@ public class VisuPanel extends JPanel {
 			
 			objectList = new ArrayList<SubjectShape>();
 			
-			objectReader = new IndependenceObjectReader(host, objectList, this);
+			objectReader = new IndependenceObjectReader(host, objectList, (Component)this);
 			objectReader.start();
 		}
 	}

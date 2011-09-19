@@ -13,23 +13,28 @@ import javax.swing.UnsupportedLookAndFeelException;
 import de.virtualprocessmanagement.tools.Dialog;
 import de.virtualprocessmanagement.tools.ServerInfos;
 
+/**
+ * Initialisiert wichtige Objekte
+ * setzt das Look&Feel und baut die GUI auf
+ * @author bettray
+ */
 public class GuiBuilder
 {
 	public GuiBuilder()
 	{
-		initLookAndFeel();
+		initLookAndFeel();	// Setzen des Look & Feels
 		
-		HashMap<String, Component> inputComponents = new HashMap<String,Component>();
+		HashMap<String, Component> inputComponents = new HashMap<String,Component>(); // Nimmt verschiedene Compontenten auf
 		
-		ServerInfos serverInfos = new ServerInfos();
+		ServerInfos serverInfos = new ServerInfos();	// Objekt, um Infos vom HTTP-Server zur Verfuegung zu stellen
 		
-		// Input the server/Client-mode an the server-ip
+		// Eingabe des GUI-Modus und der Server-IP, falls erforderlich
 		Dialog inputDialog = new Dialog();
 		
 //		System.out.println("GuiMode="+inputDialog.getGuiMode());
 		
-		inputComponents.put("guimode", new JTextField(""+inputDialog.getGuiMode()));
-		inputComponents.put("serveradress", inputDialog.getIpAdress());
+		inputComponents.put("guimode", new JTextField(""+inputDialog.getGuiMode()));	// Komponente mit GUI-Modus sichern
+		inputComponents.put("serveradress", inputDialog.getIpAdress());					// Komponente mit Serveradresse sichern
 		
 		JLabel status = new JLabel();
 		status.setOpaque(true);

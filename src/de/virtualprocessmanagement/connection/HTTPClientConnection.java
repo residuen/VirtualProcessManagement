@@ -15,51 +15,50 @@ import java.util.Scanner;
  */
 public class HTTPClientConnection {
 
-	private URL url = null;
-	private URLConnection con = null;
-	private Scanner scan = null;
-	private String hostname = "localhost";
-	private int port = 80;
-	private String cmd = null;
-	
-	public static int count = 0;
-	
-//	private String command = "?client=foo&cmd=info";
-	
+	private URL url = null;					// URL der Serververbindung
+	private URLConnection con = null;		// Verbindungsobjekt zum Server
+	private Scanner scan = null;			// Scanner-Objekt zum Einlesen der Server-Antworten
+	private String hostname = "localhost";	// Serveradresse, falls keine andere eingegeben wurde
+	private int port = 80;					// Port des HTTP-Servers
+
+	/**
+	 * Konstruktor mit Uebergabe der Serveradresse
+	 */
 	public HTTPClientConnection(String hostname)
 	{
 		this.hostname = hostname;
 	}
 	
+	/**
+	 * Vorbereitung der  Anfrage an den Server.
+	 * Gibt Antwort des Servers als String zurueck
+	 * @param cmd
+	 * @return
+	 */
 	public synchronized String sendRequest(String cmd) {
-		
-		this.cmd = cmd;
 		
 		String retV = "";
 		
-//		System.out.println("cmdCLIENTCONNECTOR="+cmd);
-		
 		try {
-			url = new URL(cmd);
-//			url = new URL("http://"+hostname+":"+port+"/"+cmd);
+			url = new URL(cmd);	// URL mit Anfrage-Zeichenkette anlegen
 			
-			retV = nextServerRequest();
+			retV = nextServerRequest(cmd);	// Anfrage-Methode aufrufen
 		}
 		catch (MalformedURLException e) { e.printStackTrace(); } 
 		
-		return retV;
+		return retV;	// Rueckgabe der Serverantwort
 	}
 	
-	private synchronized String nextServerRequest()
+	/**
+	 * Sendet Anfrage an den Server und gibt Antwort aus String zurueck
+	 * @param cmd
+	 * @return
+	 */
+	private synchronized String nextServerRequest(String cmd)
 	{
-		StringBuffer str = new StringBuffer();
+		StringBuffer str = new StringBuffer();	// Speichert die Serverantwort
 		
-		try {
-			url = new URL(cmd);
-//			url = new URL("http://"+hostname+":"+port+"/"+cmd);
-		}
-		catch (MalformedURLException e) { e.printStackTrace(); } 
-		
+		// Serververbindung herstellen & InputStream initialisieren
 		try {
 			con = url.openConnection();
 						
@@ -69,19 +68,19 @@ public class HTTPClientConnection {
 //			e.printStackTrace();
 		}
 		
-		if(scan!=null)	// WHATE TE HELL ... ????
+		if(scan!=null)	// Fehlermeldung durch Unterbrechung des Servers abfangen
 		{
 			while(scan.hasNext())
 			{
 				str.append(scan.nextLine());
 			}
 			
-			scan.close();
+			scan.close();	// InputStream schliessen
 		}
 		
-		con = null;
+		con = null;			// Verbindungsobjekt auf null setzen
 
-		return str.toString();
+		return str.toString();	// Rueckgabe der Serverantwort
 	}
 	
 //	public static void main(String[] arg0)
