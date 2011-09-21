@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -16,15 +14,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import de.virtualprocessmanagement.connection.HTTPClientConnection;
 import de.virtualprocessmanagement.connection.ServerClientConnectionLayer;
 import de.virtualprocessmanagement.gui.About;
-import de.virtualprocessmanagement.objects.RectShape;
-import de.virtualprocessmanagement.processing.ProcessManager;
 import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.server.WebserverGui;
 import de.virtualprocessmanagement.test.Client;
-import de.virtualprocessmanagement.test.TestVisu;
 import de.virtualprocessmanagement.tools.Dialog;
 import de.virtualprocessmanagement.visu.VisualisationGui;
 
@@ -44,16 +38,27 @@ public class MenuListener implements ActionListener, MouseListener
 
 	private ProcessMap processMap = null;
 	
-	private String lastOpenPath = "";
+	private String mapName = "map.csv";	// die Standard-Map, neue Map kann ueber FileChooser eingelsen werden
 	
+	private String lastSelectedPath = "";	// Speichert den Pfad der Map-Datei zwischen
+	
+	/**
+	 * Konstruktor bekommt HashMap mit Komponentenliste uebergeben
+	 * @param inputComponents
+	 */
 	public MenuListener(HashMap<String,Component> inputComponents)
 	{
 		this.inputComponents = inputComponents;
 	}
-
+	
+	/**
+	 * nimmt Auswahlereignisse entgegen
+	 * und leitet diese an die Methode event() weiter
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
+		// Name des gedrueckten Buttons wird an Zeichenkette uebergeben
 		String cmd = ((Component) arg0.getSource()).getName();
 
 		event(cmd, arg0);
@@ -61,81 +66,102 @@ public class MenuListener implements ActionListener, MouseListener
 	
 	private void event(String event, ActionEvent arg0)
 	{
-		System.out.println("cmd=" + event);
+		System.out.println("cmd=" + event);	// Zu Kontrollzwecken: Ausgabe des gedrueckten Buttons
 		
-		if(event.equals("loadwarehouse"))
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		hm.put("loadwarehouse", 0); hm.put("startserver", 1);
+		hm.put("startclient", 2); hm.put("connectvisu", 3);
+		hm.put("about", 4);
+		
+		switch(hm.get(event).intValue()) {
+		
+			case 0:	// "loadwarehouse"
+				loadWarehouse();
+				break;
+				
+			case 1:	// "startserver"
+				startServer(arg0);
+				break;
+				
+			case 2:	// "startclient"
+				if(client == null)
+					startClient((JButton)arg0.getSource());
+				else
+					stopClient((JButton)arg0.getSource());				
+				break;
+				
+			case 3:	// "connectvisu"
+				showVisu();
+				break;
+				
+			case 4:	// "about"
+				new About();				
+				break;				
+		}
+	}
+	
+	private void loadWarehouse() {
+		
+		String folder = lastSelectedPath.length()==0 ? System.getProperty("user.home") : lastSelectedPath;
+		
+		// Auswahldialog fuer eine Map-Datei 
+		JFileChooser fc = new JFileChooser(new File(folder));
+		fc.setCurrentDirectory(new File(lastSelectedPath));
+		fc.setDialogType(JFileChooser.OPEN_DIALOG);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.showDialog(null, "Open map-file");
+		
+		// Map erzeugen
+		if(fc.getSelectedFile() !=null && fc.getSelectedFile().isFile())
 		{
-			JFileChooser fc = new JFileChooser(new File(System.getProperty("user.home")));
-			fc.setCurrentDirectory(new File(lastOpenPath));
-			fc.setDialogType(JFileChooser.OPEN_DIALOG);
-			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			fc.showDialog(null, "Open map-file");
-			
-			if(fc.getSelectedFile() !=null && fc.getSelectedFile().isFile())
+			// Einlesen einer MapDatei, insofern sie die Endung .csv beinhaltet
+			if(fc.getSelectedFile().getName().toLowerCase().contains(".csv"))
 			{
-				if(fc.getSelectedFile().getName().toLowerCase().contains(".csv"))
-				{
-//					processManager = new ProcessManager(fc.getSelectedFile().getName());
-					processMap = new ProcessMap(fc.getSelectedFile().getName(), CELL_WIDTH, CELL_HEIGHT);
-					
-					lastOpenPath = fc.getSelectedFile().getPath();
-				}
+				mapName = fc.getSelectedFile().getName();
+				
+				// Erzeugen des ProcessMap-Objektes
+				processMap = new ProcessMap(mapName, CELL_WIDTH, CELL_HEIGHT);
+				
+				// Sichern des ausgewaehlten Dateipfades
+				lastSelectedPath = fc.getSelectedFile().getPath();
 			}
-			else
-				JOptionPane.showMessageDialog(null, "Bitte ein korrekt formatiertes Map-File importieren!");
-			
 		}
 		else
-			if(event.equals("startserver"))
-				if(webserverGui == null)
-				{
-					initClientEnvironment();
-					connectVisu();
-					
-					webserverGui = new WebserverGui(serverClientConnector, processMap, visualisationGui.getVisuPanel());
-					((JDesktopPane)inputComponents.get("mdiframe")).add(webserverGui);
-					((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
-				}
-				else {
-					webserverGui.setVisible(false);
-					webserverGui.dispose();
-					webserverGui = null;
-					
-					clearClientEnvironment();
-					
-					if(client != null)
-						stopClient((JButton)arg0.getSource());
-					
-					((JButton)arg0.getSource()).setText("<html>start<br/>server</html>");
-				}
-				else
-					if(event.equals("startclient"))
-					{
-						if(client == null)
-							startClient((JButton)arg0.getSource());
-						else
-							stopClient((JButton)arg0.getSource());
-					}
-					else
-						if(event.equals("connectvisu"))
-						{
-							if(visualisationGui == null)
-								connectVisu();
-							else
-								visualisationGui.setVisible(true);
-								
-						}
-						else
-							if(event.equals("about"))
-								new About();
+			JOptionPane.showMessageDialog(null, "Bitte ein korrekt formatiertes Map-File importieren!");
+		
+	}
+	
+	private void startServer(ActionEvent arg0) {
+		
+		if(webserverGui == null)
+		{
+			initClientEnvironment();
+			connectVisu();
+			
+			webserverGui = new WebserverGui(serverClientConnector, processMap, visualisationGui.getVisuPanel());
+			((JDesktopPane)inputComponents.get("mdiframe")).add(webserverGui);
+			((JButton)arg0.getSource()).setText("<html>stop<br/>server</html>");
+		}
+		else {
+			webserverGui.setVisible(false);
+			webserverGui.dispose();
+			webserverGui = null;
+			
+			clearClientEnvironment();
+			
+			if(client != null)
+				stopClient((JButton)arg0.getSource());
+			
+			((JButton)arg0.getSource()).setText("<html>start<br/>server</html>");
+		}
 	}
 	
 	private void connectVisu() {
 		
+		System.out.println(((JButton)inputComponents.get("connectvisu")).getText());
+			
 		if(visualisationGui == null)
 		{
-//			System.out.println(objectList);
-			
 			 initClientEnvironment();
 			
 			// get new visuGui and add the map and the hostname
@@ -143,20 +169,33 @@ public class MenuListener implements ActionListener, MouseListener
 				 visualisationGui = new VisualisationGui(null, ((JTextField)inputComponents.get("serveradress")).getText());
 			 else
 				 visualisationGui = new VisualisationGui(processMap, ((JTextField)inputComponents.get("serveradress")).getText());
-			 
-//			 processManager.setVisuComponent(visualisationGui.getVisuPanel());
+			
 			 ((JDesktopPane)inputComponents.get("mdiframe")).add(visualisationGui);
-			 visualisationGui.getReadServerData().start();
+//			 visualisationGui.getReadServerData().start();
+		}
+	}
+	
+	private void showVisu() {
+		
+		String visuButtonText = ((JButton)inputComponents.get("connectvisu")).getText();
+		System.out.println("showVisu "+visualisationGui);
+		if(visualisationGui == null)
+			connectVisu();
+		
+//		visualisationGui.setVisible(true);
+		if( visualisationGui != null && visuButtonText.equals("<html>connect<br/>visualisation</html>") ) {
+		
+			webserverGui.setComponent(visualisationGui.getVisuPanel());
 			
 			 ((JButton)inputComponents.get("connectvisu")).setText("<html>disconnect<br/>visualisation</html>");
+			 visualisationGui.setVisible(true);
 		}
-//		else {
-//			visualisationGui.setVisible(false);
-//			visualisationGui.dispose();
-//			visualisationGui = null;
-//			
-//			((JButton)inputComponents.get("connectvisu")).setText("<html>connect to<br/>visualisation</html>");
-//		}
+		else {
+			visualisationGui.setVisible(false);
+			visualisationGui.dispose();
+			visualisationGui = null;
+			 ((JButton)inputComponents.get("connectvisu")).setText("<html>connect<br/>visualisation</html>");
+		}
 	}
 	
 	public void startClient(JButton button) {
@@ -183,10 +222,7 @@ public class MenuListener implements ActionListener, MouseListener
 		client.setRunMode(false);
 		client.interrupt();
 		client = null;
-		
-		if(serverClientConnector!=null && serverClientConnector.isClient())
-			serverClientConnector.closeClient();
-		
+
 		((JButton)inputComponents.get("startclient")).setText("<html>start<br/>client</html>");
 	}
 	
@@ -197,13 +233,12 @@ public class MenuListener implements ActionListener, MouseListener
 		
 		if(processMap == null)
 		{
-			processMap = new ProcessMap("map.csv", CELL_WIDTH, CELL_HEIGHT);
+			processMap = new ProcessMap(mapName, CELL_WIDTH, CELL_HEIGHT);
 		}
 		
 		if(serverClientConnector == null)
 		{
 			serverClientConnector = new ServerClientConnectionLayer(processMap);
-//			processManager.setConnectionLayer(serverClientConnector);
 		}
 	}
 	

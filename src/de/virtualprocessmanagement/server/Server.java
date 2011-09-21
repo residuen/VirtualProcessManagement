@@ -50,7 +50,7 @@ public class Server extends Thread implements HTTPServer {
     
     private Component component = null; // Das Panel in dem gezeichnet wird
     
-    private ServerInfos serverInfos = new ServerInfos();
+ 	private ServerInfos serverInfos = new ServerInfos();
     
 	private Message message_to; //the starter class, needed for gui
 	private int port; //port we are going to listen to
@@ -313,6 +313,10 @@ public class Server extends Thread implements HTTPServer {
 	@Override
 	public String getRequestText() {
 		return requestText;
+	}
+	
+	public void setComponent(Component component) {
+		this.component = component;
 	}
 
 //	public void setConnectionLayer( ServerClientConnectionLayer connectionLayer) {

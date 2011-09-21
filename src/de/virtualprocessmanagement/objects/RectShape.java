@@ -199,8 +199,8 @@ public class RectShape extends MainObject implements SubjectShape {
 	@Override
 	public void setAdditionalShape(SubjectShape shape) { }
 
-	@Override
-	public void chargeLoad() { }
+//	@Override
+//	public void chargeLoad() { }
 
 	@Override
 	public void dischargeLoad(int direction, Component component) { }

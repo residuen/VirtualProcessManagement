@@ -318,10 +318,10 @@ public class SimplePath extends MainObject implements SubjectShape {
 		// TODO Auto-generated method stub		
 	}
 
-	@Override
-	public void chargeLoad() {
-		// TODO Auto-generated method stub		
-	}
+//	@Override
+//	public void chargeLoad() {
+//		// TODO Auto-generated method stub		
+//	}
 
 	public void reset() {
 		path.reset();

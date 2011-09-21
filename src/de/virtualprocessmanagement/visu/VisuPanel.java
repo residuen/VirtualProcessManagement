@@ -24,21 +24,8 @@ public class VisuPanel extends JPanel {
 	private IndependenceObjectReader objectReader = null;
 	
 	private String host = null;
-
-	public void setProcessMap(ProcessMap processMap, String host) {
-		
-		this.processMap = processMap;
-		this.host = host;
-		
-		if(processMap == null) {
-			hasMap = false;
-			
-			objectList = new ArrayList<SubjectShape>();
-			
-			objectReader = new IndependenceObjectReader(host, objectList, (Component)this);
-			objectReader.start();
-		}
-	}
+	
+	private double zoomFactor = 1.5;
 
 	public void paint(Graphics g) {
 		
@@ -46,7 +33,7 @@ public class VisuPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.scale(1.5, 1.5);
+		g2d.scale(zoomFactor, zoomFactor);
 		
 		g2d.clearRect(0, 0, getWidth(), getHeight());
 		
@@ -113,5 +100,28 @@ public class VisuPanel extends JPanel {
 		g2d.drawString(str,
 					  (int)(shape).getCenterX() - fontMetrics.stringWidth(str)/2,
 					  (int)(shape).getCenterY() + fontMetrics.getHeight()/2);
+	}
+	
+	public double getZoomFactor() {
+		return zoomFactor;
+	}
+
+	public void setZoomFactor(double zoomFactor) {
+		this.zoomFactor = zoomFactor;
+	}
+
+	public void setProcessMap(ProcessMap processMap, String host) {
+		
+		this.processMap = processMap;
+		this.host = host;
+		
+		if(processMap == null) {
+			hasMap = false;
+			
+			objectList = new ArrayList<SubjectShape>();
+			
+			objectReader = new IndependenceObjectReader(host, objectList, (Component)this);
+			objectReader.start();
+		}
 	}
 }

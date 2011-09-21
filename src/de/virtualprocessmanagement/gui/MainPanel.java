@@ -19,7 +19,7 @@ public class MainPanel extends JPanel
 	public MainPanel(HashMap<String, Component> inputComponents)
 	{		
 		initPanel(inputComponents);
-		
+
 //		JOptionPane.showMessageDialog(this, "Fehlerhafter Funktionsausdruck!");
 	}
 

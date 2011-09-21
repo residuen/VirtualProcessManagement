@@ -53,7 +53,7 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	
 	private Component component = null;
 	
-    private ServerInfos serverInfos = new ServerInfos();
+ 	private ServerInfos serverInfos = new ServerInfos();
 
 	   //declare some panel, scrollpanel, textarea for gui
     private JPanel jPanel1 = new JPanel();
@@ -147,6 +147,12 @@ public class WebserverGui extends JInternalFrame implements Message, ActionListe
 	
 	public HTTPServer getServer() {
 		return server;
+	}
+
+	public void setComponent(Component component) {
+		this.component = component;
+		
+		server.setComponent(component);
 	}
 
 	@Override

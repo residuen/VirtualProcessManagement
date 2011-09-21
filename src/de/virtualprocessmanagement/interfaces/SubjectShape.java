@@ -66,10 +66,9 @@ public interface SubjectShape extends Shape {
 
 	public void setShowId(boolean showId);
 	
+	// Verriegelungs-Methoden um Shape vor Manipulation zu schuetzen
 	public void lockShape();
-	
 	public void unlockShape();
-	
 	public boolean isShapeLocked();
 	
 	public double getX();
@@ -86,13 +85,13 @@ public interface SubjectShape extends Shape {
 	
 	public void setAdditionalShape(SubjectShape shape);
 	
-	public boolean hasLifterCharge();
+	public boolean hasLifterCharge();	// Stapler beladen?
 	
-	public void chargeLoad(int direction, SubjectShape load, Component component);
+	public void chargeLoad(int direction, SubjectShape load, Component component);	// Objekt beladen
 	
-	public void dischargeLoad(int direction, Component component);
+	public void dischargeLoad(int direction, Component component);	// Objekt entladen
 	
-	public void chargeLoad();
+//	public void chargeLoad();
 	
 	public void updateObject();
 	

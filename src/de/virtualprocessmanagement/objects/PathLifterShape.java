@@ -502,9 +502,9 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void chargeLoad() {
-		// TODO Auto-generated method stub
-	}
+//	@Override
+//	public void chargeLoad() {
+//		// TODO Auto-generated method stub
+//	}
 
 }

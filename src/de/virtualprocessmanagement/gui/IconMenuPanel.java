@@ -41,7 +41,7 @@ public class IconMenuPanel extends JPanel {
 		JPanel panel = null;
 		JButton button = null;
 		
-		// GUI-Modus aus COmponente lesen
+		// GUI-Modus aus Componente lesen
 		int guiMode = new Integer(((JTextField)inputComponents.get("guimode")).getText());
 		
 		MenuListener menuListener = new MenuListener(inputComponents);	// neuen MenuListener initialisieren
@@ -118,7 +118,7 @@ public class IconMenuPanel extends JPanel {
 		
 		// Starten der Visualisierung
 		panel = new JPanel(new GridLayout(1, 1));
-		button = new JButton("<html>connect to<br/>visualisation</html>",
+		button = new JButton("<html>connect<br/>visualisation</html>",
 				new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/icons/x-office-presentation.png")));
 		button.setFont(font);
 		button.setToolTipText("Connect to the visualisation by IP-adress");

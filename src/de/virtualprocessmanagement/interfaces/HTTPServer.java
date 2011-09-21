@@ -1,5 +1,6 @@
 package de.virtualprocessmanagement.interfaces;
 
+import java.awt.Component;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 
@@ -17,5 +18,6 @@ public interface HTTPServer {
 	public String getRequestPath();
 	public String getRequestText();
 	public void sendResponseText(String[] text, OutputStreamWriter output);
+	public void setComponent(Component component);
 	public void interrupt();
 }

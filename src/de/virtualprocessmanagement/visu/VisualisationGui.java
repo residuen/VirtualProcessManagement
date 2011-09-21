@@ -2,16 +2,16 @@ package de.virtualprocessmanagement.visu;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -28,13 +28,15 @@ import de.virtualprocessmanagement.processing.ProcessMap;
 
 //file: webserver_starter.java
 //declare a class wich inherit JFrame
-public class VisualisationGui extends JInternalFrame implements Message, ActionListener, InternalFrameListener {
+public class VisualisationGui extends JInternalFrame implements Message, InternalFrameListener, ChangeListener {	// ActionListener
 	
 	static Integer listen_port = null;
 
 //	private HTTPServer server = null;
 	
 //	private ServerClientConnectionLayer serverClientConnector = null;
+	
+	private final double[] zoomFactors= new double[] { 1, 1.5, 2, 2.5, 3, 3.5, 4 };
 
 	   //declare some panel, scrollpanel, textarea for gui
 	private JPanel contentPanel = new JPanel(new BorderLayout());
@@ -42,6 +44,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 	private JScrollPane jScrollPane1 = new JScrollPane();
 	private JTextArea jTextArea2 = new JTextArea();
 	private VisuPanel visuPanel = new VisuPanel();
+	private JSlider zoomSlider = null;
 	
 	private ReadServerData readServerData = null;
 	
@@ -87,8 +90,15 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 //		JPanel centerPanel = new JPanel(new GridLayout(2,1));
 		JPanel centerPanel = new JPanel(new GridLayout(1,1));
 		
-		JButton button = new JButton("Clear");
-		button.addActionListener(this);
+		zoomSlider = new JSlider( 0, zoomFactors.length-1, 2 );
+		zoomSlider.addChangeListener(this);
+		zoomSlider.setToolTipText("Zoomfactor "+2);
+		zoomSlider.setPaintTicks( true );
+		zoomSlider.setMinorTickSpacing( 1 );
+
+		
+//		JButton button = new JButton("Clear");
+//		button.addActionListener(this);
 	  
 		visuPanel.setProcessMap(processMap, host);
 		
@@ -109,7 +119,7 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 //		centerPanel.add(jPanel1);
 		centerPanel.add(visuPanel);
 		contentPanel.add(centerPanel, BorderLayout.CENTER);
-		contentPanel.add(button, BorderLayout.SOUTH);
+		contentPanel.add(zoomSlider, BorderLayout.SOUTH);
 		
 		this.getContentPane().add(contentPanel);
 		
@@ -144,10 +154,10 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 		return visuPanel;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		jTextArea2.setText("<VirtualProcessManagement-Client>\n<Type http://localhost/test.txt in browser to test>\n\n");
-	}
+//	@Override
+//	public void actionPerformed(ActionEvent arg0) {
+//		jTextArea2.setText("<VirtualProcessManagement-Client>\n<Type http://localhost/test.txt in browser to test>\n\n");
+//	}
 	
 	@Override
 	public void internalFrameClosed(InternalFrameEvent e) {
@@ -173,6 +183,12 @@ public class VisualisationGui extends JInternalFrame implements Message, ActionL
 
 	@Override
 	public void internalFrameOpened(InternalFrameEvent e) { }
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		visuPanel.setZoomFactor(zoomFactors[zoomSlider.getValue()]);
+		visuPanel.repaint();
+	}
 	
 	
 //	public static void main(String[] arg0)
