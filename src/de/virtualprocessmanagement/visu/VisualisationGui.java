@@ -32,12 +32,6 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 	
 	static Integer listen_port = null;
 
-//	private HTTPServer server = null;
-	
-//	private ServerClientConnectionLayer serverClientConnector = null;
-	
-	private final double[] zoomFactors= new double[] { 1, 1.5, 2, 2.5, 3, 3.5, 4 };
-
 	   //declare some panel, scrollpanel, textarea for gui
 	private JPanel contentPanel = new JPanel(new BorderLayout());
 	private JPanel jPanel1 = new JPanel();
@@ -90,15 +84,11 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 //		JPanel centerPanel = new JPanel(new GridLayout(2,1));
 		JPanel centerPanel = new JPanel(new GridLayout(1,1));
 		
-		zoomSlider = new JSlider( 0, zoomFactors.length-1, 2 );
+		zoomSlider = new JSlider( 10, 40, 20 );
 		zoomSlider.addChangeListener(this);
 		zoomSlider.setToolTipText("Zoomfactor "+2);
 		zoomSlider.setPaintTicks( true );
 		zoomSlider.setMinorTickSpacing( 1 );
-
-		
-//		JButton button = new JButton("Clear");
-//		button.addActionListener(this);
 	  
 		visuPanel.setProcessMap(processMap, host);
 		
@@ -153,11 +143,6 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 	public VisuPanel getVisuPanel() {
 		return visuPanel;
 	}
-
-//	@Override
-//	public void actionPerformed(ActionEvent arg0) {
-//		jTextArea2.setText("<VirtualProcessManagement-Client>\n<Type http://localhost/test.txt in browser to test>\n\n");
-//	}
 	
 	@Override
 	public void internalFrameClosed(InternalFrameEvent e) {
@@ -186,7 +171,7 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		visuPanel.setZoomFactor(zoomFactors[zoomSlider.getValue()]);
+		visuPanel.setZoomFactor((double)zoomSlider.getValue()/10);
 		visuPanel.repaint();
 	}
 	
