@@ -18,16 +18,16 @@ public class HTTPClientConnection {
 	private URL url = null;					// URL der Serververbindung
 	private URLConnection con = null;		// Verbindungsobjekt zum Server
 	private Scanner scan = null;			// Scanner-Objekt zum Einlesen der Server-Antworten
-	private String hostname = "localhost";	// Serveradresse, falls keine andere eingegeben wurde
+//	private String hostname = "localhost";	// Serveradresse, falls keine andere eingegeben wurde
 	private int port = 80;					// Port des HTTP-Servers
 
 	/**
 	 * Konstruktor mit Uebergabe der Serveradresse
 	 */
-	public HTTPClientConnection(String hostname)
-	{
-		this.hostname = hostname;
-	}
+//	public HTTPClientConnection(String hostname)
+//	{
+//		this.hostname = hostname;
+//	}
 	
 	/**
 	 * Vorbereitung der  Anfrage an den Server.

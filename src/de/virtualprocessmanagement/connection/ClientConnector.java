@@ -16,7 +16,7 @@ import de.virtualprocessmanagement.interfaces.HTTPClient;
  *  Beispiel: chargeobjectbyid=43,51,left -> Laedt auf Objekt 43 die Ladung/Objekt 51 welches links liegt (Richtungen: up, down, left, right)
  *  
  *  dischargeobjectbyid=<lifterId>,<richtung>
- *  Beispiel: dischargeobjectbyid=43,up -> Laedt auf Objekt 43 die Ladung/Objekt 51 welches links liegt (Richtungen: up, down, left, right)
+ *  Beispiel: dischargeobjectbyid=43,up -> entlaedt das Objekt 52 das auf Objekt 43 links nach oben (Richtungen: up, down, left, right)
  *
  *	objectinfo=<keyWord>
  *	Beispiel: objectinfo=getall -> Gibt die Daten ALLER Objekte zurueck
@@ -193,7 +193,7 @@ public class ClientConnector extends Thread implements HTTPClient {
 	    		// Ueberpruefen, ob sich HTTP-Anfragen im Queue befinden
 	    		if(commandList.size() > 0)
 	    		{
-	    			connection = new HTTPClientConnection(hostAdress);	// Neues Anfrageobjekt initialisieren
+	    			connection = new HTTPClientConnection(); //hostAdress);	// Neues Anfrageobjekt initialisieren
 	    			
 	    			// FIFO: Das oberste Kommando im Befehls-Queue wird ausgelesen und anschliessend geloescht
 //	    			System.out.println("WorkerThread: http://"+hostAdress+"/"+commandList.get(0));

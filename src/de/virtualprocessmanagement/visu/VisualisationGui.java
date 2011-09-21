@@ -84,7 +84,7 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 //		JPanel centerPanel = new JPanel(new GridLayout(2,1));
 		JPanel centerPanel = new JPanel(new GridLayout(1,1));
 		
-		zoomSlider = new JSlider( 1000, 4000, 2000 );
+		zoomSlider = new JSlider( 1000, 4000, 1500 );
 		zoomSlider.addChangeListener(this);
 		zoomSlider.setToolTipText("Zoomfactor "+2);
 		zoomSlider.setPaintTicks(true);
@@ -176,7 +176,6 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 		visuPanel.setZoomFactor((double)zoomSlider.getValue()/1000);
 		visuPanel.repaint();
 	}
-	
 	
 //	public static void main(String[] arg0)
 //	{

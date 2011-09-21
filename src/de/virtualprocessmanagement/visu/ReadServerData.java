@@ -30,7 +30,7 @@ public class ReadServerData extends Thread {
 		
 		command = "";
 		
-		connection = new HTTPClientConnection(host);
+		connection = new HTTPClientConnection(); //host);
 	}
 	
 	public void run() {
@@ -53,7 +53,7 @@ public class ReadServerData extends Thread {
     		}
         }
     }
-	
+
 	public void setRunMode(boolean runMode) {
 		this.runMode = runMode;
 	}

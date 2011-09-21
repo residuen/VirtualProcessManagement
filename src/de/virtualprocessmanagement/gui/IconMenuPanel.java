@@ -97,7 +97,7 @@ public class IconMenuPanel extends JPanel {
 		}
 		
 		// Starten des Client/Client-Algorithmus
-		if(guiMode==Dialog.CLIENT_MODE || guiMode==Dialog.SERVER_CLIENT_MODE)
+		if(guiMode==Dialog.SERVER_CLIENT_MODE)	// if(guiMode==Dialog.CLIENT_MODE || guiMode==Dialog.SERVER_CLIENT_MODE)
 		{
 			panel = new JPanel(new GridLayout(1, 1));
 			button = new JButton("<html>start<br/>client</html>",

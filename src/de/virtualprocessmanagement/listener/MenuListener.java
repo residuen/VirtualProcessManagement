@@ -181,8 +181,7 @@ public class MenuListener implements ActionListener, MouseListener
 		System.out.println("showVisu "+visualisationGui);
 		if(visualisationGui == null)
 			connectVisu();
-		
-//		visualisationGui.setVisible(true);
+
 		if( visualisationGui != null && visuButtonText.equals("<html>connect<br/>visualisation</html>") ) {
 		
 			webserverGui.setComponent(visualisationGui.getVisuPanel());

@@ -28,8 +28,8 @@ import de.virtualprocessmanagement.processing.ProcessMap;
 import de.virtualprocessmanagement.tools.ServerInfos;
 
 /**
- * The Server ist based on the webserver coded by "Jon Berg"
- * You find ist at http://fragments.turtlemeat.com/javawebserver.php
+ * The Server is based on the webserver coded by "Jon Berg"
+ * You find it at http://fragments.turtlemeat.com/javawebserver.php
  * I added some interfaces and extensions
  * Thanks to Jon for the basic-works
  * 
@@ -138,7 +138,7 @@ public class Server extends Thread implements HTTPServer {
 			}
 			catch (Exception e) { //catch any errors, and print them
 				if(DO_MESSAGE)
-					serverMessage("\n1: Error:" + e.getMessage());
+					serverMessage("\nError:" + e.getMessage());
 			}
 
 		} //go back in loop, wait for next request
@@ -146,6 +146,8 @@ public class Server extends Thread implements HTTPServer {
 
 	private void http_handler(BufferedReader input, OutputStreamWriter output) {
 	  
+		ServerClientConnectionLayer connectionLayer = null;
+		
 		int method = 0; //1 get, 2 head, 0 not supported
 
 		String path = new String(); //the various things, what http v, what path,
@@ -177,7 +179,7 @@ public class Server extends Thread implements HTTPServer {
 				}
 				catch (Exception e3) { //if some error happened catch it
 					if(DO_MESSAGE)
-						serverMessage("2: error:" + e3.getMessage());
+						serverMessage("error:" + e3.getMessage());
 				} //and display error
 			}
 	
@@ -204,7 +206,7 @@ public class Server extends Thread implements HTTPServer {
 		}
 		catch (Exception e) {
 			if(DO_MESSAGE) {
-				serverMessage("3: error " + e.getMessage());
+				serverMessage("error " + e.getMessage());
 				serverMessage(e.getLocalizedMessage());
 			}
 		} //catch any exception
@@ -217,7 +219,7 @@ public class Server extends Thread implements HTTPServer {
     
 		//happy day scenario
 		
-		ServerClientConnectionLayer connectionLayer = new ServerClientConnectionLayer(processMap);
+		connectionLayer = new ServerClientConnectionLayer(processMap);
 		connectionLayer.clientRequest(requestText, this, output, component);
 	}
   
@@ -271,7 +273,6 @@ public class Server extends Thread implements HTTPServer {
     	
 			// Die Server-Antwort an den Client 
 //			output.write(construct_http_header(200, 5));
-//			output.writeBytes(construct_http_header(200, 5));
 			
 			for(String s : text)
 			{

@@ -33,7 +33,7 @@ public class IndependenceObjectReader extends Thread {
 		this.objectList = objectList;
 		this.component = component;
 		
-		clientConnection = new HTTPClientConnection(host);
+		clientConnection = new HTTPClientConnection(); //host);
 	}
 	
 	public void getObjectsFromServer()

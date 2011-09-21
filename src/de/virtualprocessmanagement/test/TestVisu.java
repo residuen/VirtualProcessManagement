@@ -8,7 +8,7 @@ public class TestVisu extends Thread {
 	
 	private int sleepTime = 1000;
 	
-	private HTTPClientConnection connection = new HTTPClientConnection("127.0.0.1");
+	private HTTPClientConnection connection = new HTTPClientConnection(); //"127.0.0.1");
 		
     public void setRunMode(boolean runMode) {
 		this.runMode = runMode;
@@ -24,8 +24,7 @@ public class TestVisu extends Thread {
     			connection.sendRequest("?client=foo&cmd=info");
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				System.out.println(e.getMessage()); // e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
         }
     }

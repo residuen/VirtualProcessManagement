@@ -34,45 +34,45 @@
 </head>
 
 <body>
-  <a href="http://github.com/residuen/VirtualProcessManagement"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  <a href="http://github.com/resid&uuml;n/VirtualProcessManagement"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkbl&uuml;_121621.png" alt="Fork me on GitHub" /></a>
 
   <div id="container">
 
     <div class="download">
-      <a href="http://github.com/residuen/VirtualProcessManagement/zipball/master">
+      <a href="http://github.com/resid&uuml;n/VirtualProcessManagement/zipball/master">
         <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/residuen/VirtualProcessManagement/tarball/master">
+      <a href="http://github.com/resid&uuml;n/VirtualProcessManagement/tarball/master">
         <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
     </div>
 
-    <h1><a href="http://github.com/residuen/VirtualProcessManagement">OpenEdu-VirtualProcessManagement</a>
-      <span class="small"><i>(version v 0.5 beta)</i>
-      by <a href="http://github.com/residuen">residuen</a></span></h1>
+    <h1><a href="http://github.com/resid&uuml;n/VirtualProcessManagement">OpenEdu-VirtualProcessManagement</a>
+      <span class="small"><i>(version v 0.5.5 beta)</i>
+      by <a href="http://github.com/resid&uuml;n">residuen</a></span></h1>
 	
    <p>
     	<br/>
     	<h2>Das Programm</h2>
-		OpenEdu-VirtualProcessManagement ist ein OpenSource-Tool, welches die Simulation einer automatisierten Anlage ermoeglicht.
+		OpenEdu-VirtualProcessManagement ist ein OpenSource-Tool, welches die Simulation einer automatisierten Anlage erm&ouml;glicht.
 		Dies kann z.B. ein Lager- oder ein Warenhaus mit Wareneingang und Ausgang sein, oder aber auch eine Fertigungsstraße mit Robotern.
 		<br/>
-		Derzeit besteht die Moeglichkeit, Hallen mittels eine CSV-Datei zu generieren, welche Wege fuer Maschinen und Menschen, Stapler,
-		einfache Fahrzeuge, Ladung bzw. Ware und Lagerflaechen beinhalten.
+		Derzeit besteht die M&ouml;glichkeit, Hallen mittels eine CSV-Datei zu generieren, welche Wege f&uuml;r Maschinen und Menschen, Stapler,
+		einfache Fahrzeuge, Ladung bzw. Ware und Lagerfl&auml;chen beinhalten.
 		<br/>
  
    	 	<h2>Der HTTP-Server</h2>
     	Eine einfache HTTP-Anfrage an den Server veranlasst z.B. Bewegungen oder Lade-Entladevorgänge:<br/>
 		<i>http://192.168.1.2/client?chargeobjectbyid=43,51,left</i>  z.B. veranlasst den Stapler mit der ID <b>43</b>
 		Objekt <b>51</b> aufzuladen.<br/>
-		Der in Java geschriebene Server laeuft entweder auf dem lokalen Rechner, oder man startet den Server auf einem Server-PC
+		Der in Java geschriebene Server l&auml;uft entweder auf dem lokalen Rechner, oder man startet den Server auf einem Server-PC
 		auf den dann verschiedene Clients Zugriff haben.
 		<br/>
  
    	 	<h2>Intention</h2>
-		Ziel ist das Planen und Entwickeln von simulierten Steuerungs- bzw. Warenmanagementanlagen. Aufgaben koennen sowohl selbststaendig,
-		als auch in Teams in kooperativen Projektaufgaben durchgefuehrt werden.<br/>
-		Ein wesentlicher Vorteil bei der Implementierung per HTTP-Server ist, das die Loesung von Aufgaben <b>Programmiersprachenunabhaengig</b> ist.
-		Auch die Anbindung einer Datenbank für eine Lagerverwaltung ist als Aufgabe moeglich, sowie die Eigenentwicklung einer textbasierten
-		oder auch grafischen Benutzeroberflaeche fuer Steuerungs- und/oder Lagerlogistikaufgaben.
+		Ziel ist das Planen und Entwickeln von simulierten Ste&uuml;rungs- bzw. Warenmanagementanlagen. Aufgaben k&ouml;nnen sowohl selbstst&auml;ndig,
+		als auch in Teams in kooperativen Projektaufgaben durchgef&uuml;hrt werden.<br/>
+		Ein wesentlicher Vorteil bei der Implementierung per HTTP-Server ist, das die L&ouml;sung von Aufgaben <b>Programmiersprachenunabh&auml;ngig</b> ist.
+		Auch die Anbindung einer Datenbank für eine Lagerverwaltung ist als Aufgabe m&ouml;glich, sowie die Eigenentwicklung einer textbasierten
+		oder auch grafischen Benutzeroberfl&auml;che f&uuml;r Ste&uuml;rungs- und/oder Lagerlogistikaufgaben.
 	</p>
 
 	<h2>Gallerie</h2>
@@ -90,6 +90,7 @@
 
 	<h2>Befehls&uuml;bersicht</h2>
 	<p>
+	Neben der M&ouml;glichkeit, den Server per HTTP zu steuern, existiert eine rudiment&auml;re API, um die gleichen Befehle mittels einfacher Methoden zu &uuml;bermitteln.<br/><br/>
 	<table border="0" style="border-collapse: collapse; border-style: solid; border-width: 1px; border-color: black">
 	<tr>
 		<th style="border-style: solid; border-width: 1px; border-color: black; background: white">API-Befehl</th><th style="border-style: solid; border-width: 1px; border-color: black; background: white">HTTP-Befehl</th><th style="border-style: solid; border-width: 1px; border-color: black; background: white">Funktion</th><th style="border-style: solid; border-width: 1px; border-color: black; background: white">Server-Antwort</th>
@@ -107,45 +108,54 @@
 		<td style="border-style: solid; border-width: 1px; border-color: black">getObjectInfoByGroup(2)</td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getbygroup:2"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach allen Objekten einer Gruppe</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu allen Objekten einer Gruppe</td>
 	</tr>
 	<tr>
-		<td style="border-style: solid; border-width: 1px; border-color: black"><nobr>getObjectInfoByGroup(2, 0)</nobr></td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getbygroup:2,0"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach einem Objekt ueber Gruppe und ID</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu einem Objekt</td>
+		<td style="border-style: solid; border-width: 1px; border-color: black"><nobr>getObjectInfoByGroup(2, 0)</nobr></td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?objectinfo=getbygroup:2,0"</td><td style="border-style: solid; border-width: 1px; border-color: black">Anfrage nach einem Objekt &uuml;ber Gruppe und ID</td><td style="border-style: solid; border-width: 1px; border-color: black">Details zu einem Objekt</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black">moveObject(43, "down")</td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?moveobject=43,down"</td><td style="border-style: solid; border-width: 1px; border-color: black">Bewegt Objekt 43 um eine Zelle nach unten</td><td style="border-style: solid; border-width: 1px; border-color: black">Best&auml;tigung des Ste&uuml;rbefehls</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black"><nobr>chargeObjectById(43, 51, "left")</nobr></td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?chargeobjectbyid=43,51,left"</td><td style="border-style: solid; border-width: 1px; border-color: black">L&auml;dt auf Objekt 43 die Ladung/Objekt 51 welches links liegt</td><td style="border-style: solid; border-width: 1px; border-color: black">Best&auml;tigung des Ste&uuml;rbefehls</td>
+	</tr>
+	<tr>
+		<td style="border-style: solid; border-width: 1px; border-color: black"><nobr>dischargeObjectById(43, "up")</nobr></td><td style="border-style: solid; border-width: 1px; border-color: black">"http://localhost/client?dischargeobjectbyid=43,up"</td><td style="border-style: solid; border-width: 1px; border-color: black">entl&auml;dt das Objekt 52 das auf Objekt 43 links nach oben</td><td style="border-style: solid; border-width: 1px; border-color: black">Best&auml;tigung des Ste&uuml;rbefehls</td>
 	</tr>
 	</table>
 	</p>
 	
 	<h2>Download</h2>
-	<p>Eine ausfuehrbare Version liegt in der folgenden Jar-Datei bereit (letztes Update 19.09.2011): <a href="https://github.com/residuen/VirtualProcessManagement/blob/master/VirtualProcessManagement.jar?raw=true"><b>VirtualProcessManagement.zip</b></a><br />
-	Die Map-Datei <a href="https://raw.github.com/residuen/VirtualProcessManagement/master/map.csv">map.csv</a> muss ebenfalls aus geladen werden.<br /> <i>(Getested mit Windows XP und Windows 7)</i>
+	<p>Eine ausf&uuml;hrbare Version liegt in der folgenden Jar-Datei bereit (letztes Update 21.09.2011): <a href="https://github.com/resid&uuml;n/VirtualProcessManagement/blob/master/VirtualProcessManagement.jar?raw=tr&uuml;"><b>VirtualProcessManagement.zip</b></a><br />
+	Die Map-Datei <a href="https://raw.github.com/resid&uuml;n/VirtualProcessManagement/master/map.csv">map.csv</a> muss ebenfalls geladen werden.<br /> <i>(Getested mit Windows XP und Windows 7)</i>
 	</p>
 	
-	<h2>Abhaengigkeiten</h2>
+	<h2>Abh&auml;ngigkeiten</h2>
 	<p>
-	Java Runtime - Erhaeltlich unter <a href="http://www.java.com/de/download/" target="_blank"><b>Java&trade;</b></a><br />
+	Java Runtime - Erh&auml;ltlich unter <a href="http://www.java.com/de/download/" target="_blank"><b>Java&trade;</b></a><br />
 	</p>
 	
 	<h2>Lizenz</h2>
 	<p>GPL 3.0, mehr dazu unter <a href="http://www.gnu.de/documents/gpl.de.html" target="_blank">http://www.gnu.de/documents/gpl.de.html</a></p>
 	<h2>Author</h2>
-	<p>residuen (k.bettray@uni-duisburg.de)
+	<p>resid&uuml;n (k.bettray@uni-duisburg.de)
 	<br/>
 	<br/>      </p>
 	<h2>Kontakt</h2>
-	<p>residuen (k.bettray@uni-duisburg.de)
+	<p>resid&uuml;n (k.bettray@uni-duisburg.de)
 	<br/>      </p>
 
 
     <h2>Download</h2>
     <p>
       You can download this project in either
-      <a href="http://github.com/residuen/VirtualProcessManagement/zipball/master">zip</a> or
-      <a href="http://github.com/residuen/VirtualProcessManagement/tarball/master">tar</a> formats.
+      <a href="http://github.com/resid&uuml;n/VirtualProcessManagement/zipball/master">zip</a> or
+      <a href="http://github.com/resid&uuml;n/VirtualProcessManagement/tarball/master">tar</a> formats.
     </p>
     <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
       by running:
-      <pre>$ git clone git://github.com/residuen/VirtualProcessManagement</pre>
+      <pre>$ git clone git://github.com/resid&uuml;n/VirtualProcessManagement</pre>
     </p>
 
     <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/residuen/VirtualProcessManagement">residuen/VirtualProcessManagement</a>
+      get the source code on GitHub : <a href="http://github.com/resid&uuml;n/VirtualProcessManagement">resid&uuml;n/VirtualProcessManagement</a>
     </div>
 
   </div>
