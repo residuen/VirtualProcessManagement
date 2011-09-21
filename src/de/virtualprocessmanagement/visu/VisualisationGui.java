@@ -84,11 +84,11 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 //		JPanel centerPanel = new JPanel(new GridLayout(2,1));
 		JPanel centerPanel = new JPanel(new GridLayout(1,1));
 		
-		zoomSlider = new JSlider( 10, 40, 20 );
+		zoomSlider = new JSlider( 1000, 4000, 2000 );
 		zoomSlider.addChangeListener(this);
 		zoomSlider.setToolTipText("Zoomfactor "+2);
-		zoomSlider.setPaintTicks( true );
-		zoomSlider.setMinorTickSpacing( 1 );
+		zoomSlider.setPaintTicks(true);
+		zoomSlider.setMinorTickSpacing( 100 );
 	  
 		visuPanel.setProcessMap(processMap, host);
 		
@@ -171,7 +171,9 @@ public class VisualisationGui extends JInternalFrame implements Message, Interna
 
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		visuPanel.setZoomFactor((double)zoomSlider.getValue()/10);
+		
+		zoomSlider.setToolTipText("Zoomfactor "+(double)zoomSlider.getValue()/1000);
+		visuPanel.setZoomFactor((double)zoomSlider.getValue()/1000);
 		visuPanel.repaint();
 	}
 	
