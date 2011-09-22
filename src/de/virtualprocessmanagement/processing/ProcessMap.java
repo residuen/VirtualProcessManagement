@@ -99,8 +99,6 @@ public class ProcessMap {
 			objectList.get(i).setId(i);
 			addToObjectMap(Integer.toString(objectList.get(i).getGroup()), objectList.get(i));
 		}
-		
-//		return al;
 	}
 	
 	/**
@@ -124,8 +122,7 @@ public class ProcessMap {
 		
 //		System.out.println(shape.toString());
 		
-		return shape;
-		
+		return shape;		
 	}
 	
 	/**
@@ -139,54 +136,46 @@ public class ProcessMap {
 		
 		SubjectShape shape = null;
 		
-//		System.out.println("entry="+entry);
-		
-//		String typ = null;
-		
 		if(entry.equals("s"))
 		{
-//			typ = Integer.toString(RectShape.STORAGE_OBJECT);
-			
 			shape = new StorageObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
 			shape.setGroup(RectShape.STORAGE_OBJECT);
 			shape.setName("storage");
 		}
 		else
-			if(entry.equals("mo"))
-			{
-//				typ = Integer.toString(RectShape.MOVEABLE_OBJECT);
-				
-				shape = new MoveableObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-				shape.setGroup(RectShape.MOVEABLE_OBJECT);
-				shape.setName("moveable");
-			}
-			else
-				if(entry.equals("fl"))
-				{
-					shape = new ForkliftObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-					shape.setGroup(RectShape.FORKLIFT);
-					shape.setName("forklift");
-				}
-				else
-					if(entry.equals("cl"))
-					{
-						shape = new ChargeObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-						shape.setGroup(RectShape.CHARGE_OBJECT);
-						shape.setName("charge");
-					}
-					else
-						if(entry.equals("m"))
-						{
-							shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-							shape.setGroup(RectShape.MACHINE_WAY_OBJECT);
-							shape.setName("machineway");
-						}
-						else
-						{
-							shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
-							shape.setGroup(RectShape.HUMAN_WAY_OBJECT);
-							shape.setName("humanway");
-						}
+		if(entry.equals("mo"))
+		{
+			shape = new MoveableObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setGroup(RectShape.MOVEABLE_OBJECT);
+			shape.setName("moveable");
+		}
+		else
+		if(entry.equals("fl"))
+		{
+			shape = new ForkliftObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setGroup(RectShape.FORKLIFT);
+			shape.setName("forklift");
+		}
+		else
+		if(entry.equals("cl"))
+		{
+			shape = new ChargeObject(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setGroup(RectShape.CHARGE_OBJECT);
+			shape.setName("charge");
+		}
+		else
+		if(entry.equals("m"))
+		{
+			shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setGroup(RectShape.MACHINE_WAY_OBJECT);
+			shape.setName("machineway");
+		}
+		else
+		{
+			shape = new RectShape(OFFSET_X + RectShape.DEFAULT_WIDTH*j, OFFSET_Y + RectShape.DEFAULT_HEIGHT*i, RectShape.DEFAULT_WIDTH, RectShape.DEFAULT_HEIGHT, j, i);
+			shape.setGroup(RectShape.HUMAN_WAY_OBJECT);
+			shape.setName("humanway");
+		}
 		
 		return shape;
 	}

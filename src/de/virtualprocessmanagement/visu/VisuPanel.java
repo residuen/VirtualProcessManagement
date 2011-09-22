@@ -23,20 +23,22 @@ public class VisuPanel extends JPanel {
 
 	private ArrayList<SubjectShape> objectList = null;
 	
-	private ProcessMap processMap = null;
+	private ProcessMap processMap = null;	// beinhaltet die Map
 	
-	private boolean hasMap = true;
+	private boolean hasMap = true;			// Flag zur Kontrolle existenz der Map
 	
-	private IndependenceObjectReader objectReader = null;
+	// liest die Objektinfos vom Server, falls Clientmodus aktiv ist
+	private IndependenceObjectReader objectReader = null;	
 	
-	private String host = null;
+//	private String host = null;
 	
-	private double zoomFactor = 1.5;
+	private double zoomFactor = 1.5;	// Variable fuer Zoom-Faktor  
 	
-	private Image palette = null; // Toolkit.getDefaultToolkit().getImage( getClass().getResource("/de/virtualprocessmanagement/images/objects/palette.png") );
+	private Image palette = null; // Image mit Palettenbild
 
 	public VisuPanel() {
 		
+		// Palette initialisieren
 		palette = new ImageIcon(getClass().getResource("/de/virtualprocessmanagement/images/objects/palette.png")).getImage();
 	}
 	
@@ -44,16 +46,13 @@ public class VisuPanel extends JPanel {
 		
 		super.paintComponents(g);
 		
-//		System.out.println(palette);
-		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.scale(zoomFactor, zoomFactor);
+		g2d.scale(zoomFactor, zoomFactor);	// Zoom in Visualisierung
 		
-		g2d.clearRect(0, 0, getWidth(), getHeight());
+		g2d.clearRect(0, 0, getWidth(), getHeight());	// Loeschen des Zeichenbereichs
 		
-//		g2d.drawImage(palette, 0, 0, null);
-		
+		// Zeichen wenn Server Map uebergeben hat ...
 		if(hasMap) {
 			// Zuerst die statischen Objekte zeichnen
 			for(String key : RectShape.staticShapeKeys)
@@ -73,7 +72,7 @@ public class VisuPanel extends JPanel {
 					paintShapes(g2d);
 			}
 		}
-		else
+		else // ... ansonsten die Objekte aus dem IndependenceObjectReader zeichnen
 			paintShapes(g2d);
 			
 	}
@@ -86,26 +85,31 @@ public class VisuPanel extends JPanel {
 		
 		for(SubjectShape shape : objectList) {
 			
+			// Shape eine STellflaeche ist, dann die Palette zeichnen
 			if(shape.getGroup()==MainObject.STORAGE_OBJECT)
+			{
 				g2d.drawImage(palette, (int)shape.getX(), (int)shape.getY(), (int)MainObject.DEFAULT_WIDTH, (int)MainObject.DEFAULT_HEIGHT, null);
+			}
 			else
 			{
+				// Zeichne ie Objektflaechen
 				g2d.setColor(shape.getFillColor());
-				g2d.fill(shape);
+				g2d.fill(shape);	// Objektflaeche zeichnen
 				
+				// Wenn Objekt ein Stapler oder Ladung ist, dann Rahmenfarbe schwarz ...
 				if(shape.getGroup() == MainObject.FORKLIFT || shape.getGroup() == MainObject.CHARGE_OBJECT)
 					g2d.setColor(Color.BLACK);
-				else
+				else	// ... ansonsten ist die Rahmenfarbe grau
 					g2d.setColor(Color.LIGHT_GRAY);
-//				g2d.setColor(shape.getFrameColor());
-				g2d.draw(shape);
+
+				g2d.draw(shape);	// Objektrahmen zeichnen
 			}
 			
 			// Zeichne die Object-Id, wenn showId  = true ist
 			if(shape.isShowId())
 				paintId(g2d, shape);
 			
-			
+			// Aeusseren Rahmen zeichnen, wenn Servermodus
 			if(hasMap) {
 				g2d.setColor(Color.BLACK);
 				g2d.draw(processMap.getBoundary());
@@ -120,10 +124,14 @@ public class VisuPanel extends JPanel {
 	 */
 	private void paintId(Graphics2D g2d, SubjectShape shape) {
 		
-		String str = Integer.toString(shape.getId());
+		String str = Integer.toString(shape.getId()); // ID in Zeichenkette umwandeln
+		
+		// Fontmetric-Objekt um grafikeigenschaften des Textes zu ermittelt
 		FontMetrics fontMetrics = g2d.getFontMetrics();
 		
 		g2d.setColor(Color.BLACK);
+		
+		// Text in die Objektmitte schieben
 		g2d.drawString(str,
 					  (float)(shape).getCenterX() - (float)fontMetrics.stringWidth(str)/2,
 					  (float)(shape).getCenterY() + (float)fontMetrics.getHeight()/2);
@@ -140,7 +148,7 @@ public class VisuPanel extends JPanel {
 	public void setProcessMap(ProcessMap processMap, String host) {
 		
 		this.processMap = processMap;
-		this.host = host;
+//		this.host = host;
 		
 		if(processMap == null) {
 			hasMap = false;

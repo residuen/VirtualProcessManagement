@@ -7,12 +7,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
 
 import de.virtualprocessmanagement.interfaces.SubjectShape;
 import de.virtualprocessmanagement.processing.ForkMover;
 import de.virtualprocessmanagement.processing.Mover;
-import de.virtualprocessmanagement.processing.ShapeMover;
 
 public class PathLifterShape extends MainObject implements SubjectShape {
 	
@@ -385,12 +383,10 @@ public class PathLifterShape extends MainObject implements SubjectShape {
 			
 			hasCharge = false;
 		}
-		
 	}
 
 	@Override
 	public void updateObject() {
-
 		init(x_vehicle, y_vehicle, width, height, x_index, y_index);
 	}
 	
