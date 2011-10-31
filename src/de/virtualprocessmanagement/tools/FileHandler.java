@@ -5,8 +5,18 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+ * Klasse mit diversen Datei-Funktionen
+ * @author bettray
+ *
+ */
 public class FileHandler
 {
+	/**
+	 * Gibt den Inhalt einer Datei als String zurueck
+	 * @param file
+	 * @return
+	 */
 	public String getTextFile(File file)
 	{
 		StringBuffer str = new StringBuffer();
@@ -27,6 +37,11 @@ public class FileHandler
 
 	}
 	
+	/**
+	 * Gibt den Inhalt einer Datei zeilenweise als String-Array zurueck
+	 * @param file
+	 * @return
+	 */
 	public String[] getTextLines(File file)
 	{
 		return getTextFile(file).split("\n");

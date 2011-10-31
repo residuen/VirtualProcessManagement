@@ -11,7 +11,7 @@ Copyright (C) 2010 Karsten Bettray
 Version: v0.1f
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License
-as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+as published by the Free Software Foundation; either version 2.0 of the License, or (at your option) any later version.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU Lesser General Public License for more details.
@@ -25,9 +25,9 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
  * <b>Class:</b> MD5<br><br>
  * <b>Java-Version:</b> 1.5x<br><br>
  * <b>&copy; Copyright:</b> Karsten Bettray - 2010<br><br>
- * <b>License:</b> GPL2.0<br>
+ * <b>License:</b> GPL2.0 or GPL3.0 as you need<br>
   * @author Karsten Bettray (Universit&auml;t Duisburg-Essen)<br><br>
- * @version 0.1<br>
+ * @version 0.2<br>
  *
  */
 public class MD5

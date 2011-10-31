@@ -17,6 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+/**
+ * Eine Dialogklasse, dient der Auswahl des Betriebsmodus.
+ * Moegliche Modi: Server, CLient/Server, Client
+ * @author bettray
+ *
+ */
 public class Dialog extends JDialog implements ItemListener {
 	
 	public static final int SERVER_MODE = 0;
@@ -33,6 +39,7 @@ public class Dialog extends JDialog implements ItemListener {
 
 	public Dialog() {
 	
+		// JFrame Eigenschaften Setzen
 		setTitle("Set mode");
 		
 		setLayout(new BorderLayout());
@@ -42,7 +49,8 @@ public class Dialog extends JDialog implements ItemListener {
 		setModal(true);
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			
+		
+		// Box fuer die horizontale Anordnung der Elemente
 		Box hBox = Box.createHorizontalBox();
 		
 		JPanel mainPanel = new JPanel();
@@ -64,6 +72,7 @@ public class Dialog extends JDialog implements ItemListener {
 		ipAdress.setColumns(15);
 		textfieldPanel.add(ipAdress, BorderLayout.WEST);
 		
+		// RadioButtons in Gruppe zusammen fassen
 		ButtonGroup bg = new ButtonGroup();
 		
 		rb.addItemListener(this);
@@ -99,10 +108,18 @@ public class Dialog extends JDialog implements ItemListener {
 		setVisible(true);
 	}
 	
+	/**
+	 * IP-Adresse zurueckliefern
+	 * @return
+	 */
 	public JTextField getIpAdress() {
 		return ipAdress;
 	}
 
+	/**
+	 * ausgewaehlten Modus zurueckgeben
+	 * @return
+	 */
 	public int getGuiMode() {
 		
 		if(rb.isSelected())
@@ -131,6 +148,4 @@ public class Dialog extends JDialog implements ItemListener {
 			labelPanel2.setVisible(false);
 		}
 	}
-
-
 }

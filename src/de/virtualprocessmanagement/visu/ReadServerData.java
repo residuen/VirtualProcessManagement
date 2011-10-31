@@ -41,8 +41,6 @@ public class ReadServerData extends Thread {
     		{
     			data = connection.sendRequest(command);
     		
-//	    		System.out.println("ReadServerData: data="+data);
-	    		
 	    		to_send_message_to.message(data+"\n");
 	    		
 	    		try {

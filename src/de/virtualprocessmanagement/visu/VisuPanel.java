@@ -28,9 +28,7 @@ public class VisuPanel extends JPanel {
 	private boolean hasMap = true;			// Flag zur Kontrolle existenz der Map
 	
 	// liest die Objektinfos vom Server, falls Clientmodus aktiv ist
-	private IndependenceObjectReader objectReader = null;	
-	
-//	private String host = null;
+	private IndependenceObjectReader objectReader = null;
 	
 	private double zoomFactor = 1.5;	// Variable fuer Zoom-Faktor  
 	
